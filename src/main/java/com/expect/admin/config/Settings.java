@@ -3,6 +3,9 @@ package com.expect.admin.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * 基本配置类
+ */
 @Component
 @ConfigurationProperties(prefix = "custom")
 public class Settings {
