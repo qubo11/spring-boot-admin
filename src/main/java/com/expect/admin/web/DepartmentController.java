@@ -83,10 +83,10 @@ public class DepartmentController {
 	/**
 	 * 部门-批量删除
 	 */
-	@RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo batchDelete(String ids) {
-		return departmentService.batchDelete(ids);
+	public ResultVo deleteBatch(String ids) {
+		return departmentService.deleteBatch(ids);
 	}
 
 	/**

@@ -105,10 +105,10 @@ public class UserController {
 	/**
 	 * 用户-批量删除
 	 */
-	@RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo batchDelete(String ids) {
-		return userService.batchDelete(ids);
+	public ResultVo deleteBatch(String ids) {
+		return userService.deleteBatch(ids);
 	}
 
 	/**

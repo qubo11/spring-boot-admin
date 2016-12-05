@@ -80,9 +80,9 @@ public class FunctionController {
 	/**
 	 * 功能-批量删除
 	 */
-	@RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo batchDelete(String ids) {
-		return functionService.batchDelete(ids);
+	public ResultVo deleteBatch(String ids) {
+		return functionService.deleteBatch(ids);
 	}
 }

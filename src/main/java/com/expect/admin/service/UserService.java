@@ -144,7 +144,7 @@ public class UserService implements UserDetailsService {
 	 *            用,号隔开
 	 */
 	@Transactional
-	public ResultVo batchDelete(String ids) {
+	public ResultVo deleteBatch(String ids) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("删除失败");
 		if (StringUtils.isEmpty(ids)) {

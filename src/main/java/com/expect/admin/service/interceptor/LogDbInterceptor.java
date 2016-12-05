@@ -30,7 +30,7 @@ public class LogDbInterceptor {
 	@Autowired
 	private LogDbParamRepository logDbParamRepository;
 
-	@Pointcut(value = "execution(* *..service.*.save*(..)) || execution(* *..service.*.update*(..)) || execution(* *..service.*.delete*(..)) || execution(* *..service.*.batchDelete(..))")
+	@Pointcut(value = "execution(* *..service.*.save*(..)) || execution(* *..service.*.update*(..)) || execution(* *..service.*.delete*(..))")
 	public void pointCut() {
 	}
 
