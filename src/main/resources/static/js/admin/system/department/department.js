@@ -35,7 +35,7 @@ var Department = {
 		},function(id){
 			DatatableTool.deleteRow("department-table","department/delete",id);
 		},function(ids){
-			DatatableTool.deleteRows("department-table","department/batchDelete",ids);
+			DatatableTool.deleteRows("department-table","department/deleteBatch",ids);
 		});
 	},
 	initSaveUpdate:function(){

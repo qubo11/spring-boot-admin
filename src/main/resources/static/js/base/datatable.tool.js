@@ -142,7 +142,7 @@ var DatatableTool = function() {
 					for (var i = 0; i < data.length; i++) {
 						oriData[i] = data[i];
 					}
-					mTable.row("#" + response.obj.id).data(oriData);
+					mTable.row("#" + response.obj.id).data(oriData).draw();
 					var rowNode = mTable.row("#" + response.obj.id).node();
 					if (successFunction != null) {
 						successFunction(rowNode, response);
@@ -304,18 +304,19 @@ var DatatableTool = function() {
 	}
 	
 	//初始化modal:增加,修改,删除,批量删除modal
-	var initModal = function(saveFunction,updateFunction,deleteFunction,batchDeleteFunction){
+	var initModal = function(saveFunction,updateFunction,deleteFunction,deleteBatchFunction){
 		initSaveModal(saveFunction);
 		initUpdateModal(updateFunction);
 		initDeleteModal(deleteFunction);
-		initBatchDeleteModal(batchDeleteFunction);
+		initdeleteBatchModal(deleteBatchFunction);
 	}
 	
 	//初始化附加的modal:green,purple,yellow Modal
-	var initAddModal = function(greenFunction,purpleFunction,yellowFunction){
+	var initAddModal = function(greenFunction,purpleFunction,yellowFunction,greenSharpFunction){
 		initGreenModal(greenFunction);
 		initPurpleModal(purpleFunction);
 		initYellowModal(yellowFunction);
+		initGreenSharpModal(greenSharpFunction);
 	}
 	
 	var initSaveModal = function(saveFunction){
@@ -367,6 +368,16 @@ var DatatableTool = function() {
 		});
 	}
 	
+	var initGreenSharpModal = function(greenSharpFunction){
+		$(".green-sharp-button").unbind("click");
+		$(".green-sharp-button").bind("click",function(){
+			if(greenSharpFunction){
+				var id=$(this).data("id");
+				greenSharpFunction(id);
+			}
+		});
+	}
+	
 	var initDeleteModal = function(deleteFunction){
 		$(".delete-button").unbind("click");
 		$(".delete-button").bind("click",function(){
@@ -377,7 +388,7 @@ var DatatableTool = function() {
 		});
 	}
 	
-	var initBatchDeleteModal = function(batchDeleteFunction){
+	var initdeleteBatchModal = function(deleteBatchFunction){
 		$(".batch-delete-button").unbind("click");
 		$(".batch-delete-button").bind("click",function(){
 			var ids="";
@@ -390,8 +401,8 @@ var DatatableTool = function() {
 				}
 			});
 			if(ids!=''){
-				if(batchDeleteFunction){
-					batchDeleteFunction(ids);
+				if(deleteBatchFunction){
+					deleteBatchFunction(ids);
 				}
 			}
 		});
@@ -431,11 +442,11 @@ var DatatableTool = function() {
 		initEditorDatatable : function(tableId,columnDefs){
 			return initEditorDatatable(tableId,columnDefs);
 		},
-		initModal : function(saveFunction,updateFunction,deleteFunction,batchDeleteFunction){
-			initModal(saveFunction,updateFunction,deleteFunction,batchDeleteFunction);
+		initModal : function(saveFunction,updateFunction,deleteFunction,deleteBatchFunction){
+			initModal(saveFunction,updateFunction,deleteFunction,deleteBatchFunction);
 		},
-		initAddModal : function(greenFunction,purpleFunction,yellowFunction){
-			initAddModal(greenFunction,purpleFunction,yellowFunction);
+		initAddModal : function(greenFunction,purpleFunction,yellowFunction,greenSharpFunction){
+			initAddModal(greenFunction,purpleFunction,yellowFunction,greenSharpFunction);
 		},
 		bindSaveAndUpdate : function(saveFunction,updateFunction){
 			bindSave(saveFunction);

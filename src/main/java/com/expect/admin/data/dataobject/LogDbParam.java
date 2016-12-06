@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 /**
  * 数据库日志参数
@@ -33,7 +34,8 @@ public class LogDbParam {
 		this.id = id;
 	}
 
-	@Column(name = "param", length = 1023)
+	@Type(type = "text")
+	@Column(name = "param")
 	public String getParam() {
 		return param;
 	}

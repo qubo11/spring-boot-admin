@@ -19,8 +19,8 @@ import com.expect.admin.data.dataobject.LogDbParam;
 /**
  * 增删改的数据库操作记录
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class LogDbInterceptor {
 
 	private Logger logger = LoggerFactory.getLogger(LogDbInterceptor.class);

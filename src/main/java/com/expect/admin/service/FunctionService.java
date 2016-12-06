@@ -2,6 +2,7 @@ package com.expect.admin.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,27 +36,32 @@ public class FunctionService {
 	public List<FunctionVo> getFunctionsByUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Set<Role> roles = user.getRoles();
-		List<Function> functions = new ArrayList<>();
+		Set<Function> functions = new HashSet<>();
 		for (Role role : roles) {
 			functions.addAll(role.getFunctions());
 		}
 		// 先把不同角色相同功能去除
-		for (int i = 0; i < functions.size(); i++) {
-			Function function = functions.get(i);
-			for (int j = functions.size() - 1; j >= 0; j--) {
-				Function judgeFunction = functions.get(j);
-				if (i != j && function.getId() == judgeFunction.getId()) {
-					functions.remove(j);
-				}
-			}
-		}
+		// for (int i = 0; i < functions.size(); i++) {
+		// Function function = functions.get(i);
+		// for (int j = functions.size() - 1; j >= 0; j--) {
+		// Function judgeFunction = functions.get(j);
+		// if (i != j && function.getId() == judgeFunction.getId()) {
+		// functions.remove(j);
+		// }
+		// }
+		// }
 		// 把相应功能归类到同一顶级功能下
 		List<FunctionVo> resultFunctions = new ArrayList<>();
 		for (Function function : functions) {
+			// System.out.println("function:" + function.getName());
 			Function parentFunction = function.getParentFunction();
 			if (parentFunction != null) {
+				// System.out.println("parentFunction:" +
+				// parentFunction.getName());
 				Function parentParentFunction = parentFunction.getParentFunction();
 				if (parentParentFunction != null) {
+					// System.out.println("parentParentFunction:" +
+					// parentParentFunction.getName());
 					boolean flag = false;
 					for (int i = 0; i < resultFunctions.size(); i++) {
 						FunctionVo resultFunction = resultFunctions.get(i);
@@ -75,7 +81,11 @@ public class FunctionService {
 								FunctionVo functionVo = FunctionConvertor.convert(function);
 								FunctionVo parentFunctionVo = FunctionConvertor.convert(parentFunction);
 								parentFunctionVo.addChildFunction(functionVo);
-								resultFunctions.add(parentFunctionVo);
+								for (FunctionVo functionTmpVo : resultFunctions) {
+									if (functionTmpVo.getName().equals(parentParentFunction.getName())) {
+										functionTmpVo.addChildFunction(parentFunctionVo);
+									}
+								}
 							}
 							flag = true;
 							break;
@@ -129,22 +139,23 @@ public class FunctionService {
 			}
 		}
 
-		for (FunctionVo fFunction : resultFunctions) {
-			System.out.println("first:" + fFunction.getName());
-			List<FunctionVo> sFunctions = fFunction.getChildFunctionVos();
-			if (sFunctions != null) {
-				for (int j = 0; j < sFunctions.size(); j++) {
-					System.out.println("second:" + sFunctions.get(j).getName());
-					List<FunctionVo> tFunctions = sFunctions.get(j).getChildFunctionVos();
-					if (tFunctions != null) {
-						for (int k = 0; k < tFunctions.size(); k++) {
-							System.out.println("third:" + tFunctions.get(k).getName());
-
-						}
-					}
-				}
-			}
-		}
+		// System.out.println("***************************************");
+		// for (FunctionVo fFunction : resultFunctions) {
+		// System.out.println("first:" + fFunction.getName());
+		// List<FunctionVo> sFunctions = fFunction.getChildFunctionVos();
+		// if (sFunctions != null) {
+		// for (int j = 0; j < sFunctions.size(); j++) {
+		// System.out.println("second:" + sFunctions.get(j).getName());
+		// List<FunctionVo> tFunctions =
+		// sFunctions.get(j).getChildFunctionVos();
+		// if (tFunctions != null) {
+		// for (int k = 0; k < tFunctions.size(); k++) {
+		// System.out.println("third:" + tFunctions.get(k).getName());
+		// }
+		// }
+		// }
+		// }
+		// }
 		return resultFunctions;
 	}
 
@@ -175,9 +186,9 @@ public class FunctionService {
 		FunctionVo functionVo = null;
 		if (!StringUtils.isEmpty(id)) {
 			Function function = functionRepository.findOne(id);
-			if(function==null){
+			if (function == null) {
 				functionVo = new FunctionVo();
-			}else{
+			} else {
 				functionVo = FunctionConvertor.convert(function);
 			}
 		} else {

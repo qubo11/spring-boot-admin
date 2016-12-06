@@ -64,9 +64,7 @@
         	//设置默认名称
         	var fileNames=$(templateSelector).data("filenames");
         	if(fileNames){
-        		console.info(fileNames);
         		var fileNamesArr=fileNames.split(",");
-        		console.info(fileNamesArr);
         		if(fileNamesArr.length>1){
         			$(templateSelector + " .fileinput span").eq(0).text(fileNamesArr.length+"个文件");
         		}else if(fileNamesArr.length==1){

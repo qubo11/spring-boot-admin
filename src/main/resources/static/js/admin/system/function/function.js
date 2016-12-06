@@ -37,7 +37,7 @@ var Function = {
 		},function(id){
 			DatatableTool.deleteRow("function-table","function/delete",id);
 		},function(ids){
-			DatatableTool.deleteRows("function-table","function/batchDelete",ids);
+			DatatableTool.deleteRows("function-table","function/deleteBatch",ids);
 		});
 	},
 	initSaveUpdate:function(){

@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 /**
  * 数据库日志
@@ -65,7 +66,8 @@ public class LogDb {
 		this.dateTime = dateTime;
 	}
 
-	@Column(name = "result", length = 1023)
+	@Type(type = "text")
+	@Column(name = "result")
 	public String getResult() {
 		return result;
 	}
