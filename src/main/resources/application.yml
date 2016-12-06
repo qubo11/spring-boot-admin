@@ -22,5 +22,5 @@ spring:
 custom:
   root-path: E:\\spring-boot-admin
   avatar-path: E:\\spring-boot-admin\\avatar
-  attachment-path: E:\\spring-boot-admin
+  attachment-path: E:\\spring-boot-admin\\attachment
   ueditor-path: E:\\spring-boot-admin\\ueditor

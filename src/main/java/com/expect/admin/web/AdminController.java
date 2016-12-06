@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.expect.admin.service.FunctionService;
 import com.expect.admin.service.vo.FunctionVo;
 
-@Controller
-@RequestMapping("/admin")
+//@Controller
+//@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
