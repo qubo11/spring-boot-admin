@@ -14,10 +14,15 @@
         	dataType : "json",
             formData : function(form){
             	var array=form.serializeArray();
-            	if($("input[name='path']").length>0){
-            		var path=$("input[name='path']").val();
+            	var templateSelector =options.templateSelector;
+            	var pathName=$(templateSelector).data("pathname");
+            	var path=$(templateSelector).data("path");
+            	if(path){
+            		if(!pathName){
+            			pathName="path";
+            		}
     				array.push({
-    					name:"path",
+    					name:pathName,
     					value:path
     				});
             	}

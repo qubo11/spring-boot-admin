@@ -22,6 +22,8 @@ public class LogDb {
 
 	private String id;
 	private String methodName;// 方法名（类名+方法名）
+	private String operationType;// 操作类型
+	private String description;// 方法描述
 	private Long executeTime;// 执行一次操作时间
 	private Date dateTime;// 执行的时间
 	private String result;// 返回的结果
@@ -46,6 +48,24 @@ public class LogDb {
 
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
+	}
+
+	@Column(name = "operation_type", length = 15)
+	public String getOperationType() {
+		return operationType;
+	}
+
+	public void setOperationType(String operationType) {
+		this.operationType = operationType;
+	}
+
+	@Column(name = "description", length = 1023)
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Column(name = "execute_time", length = 255)

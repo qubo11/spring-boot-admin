@@ -154,24 +154,6 @@ public class JodaTimeUtil {
 	}
 
 	/**
-	 * 相差的天数
-	 */
-	public static int diffDay(String startTime, String endTime, String format) {
-		DateTime startDateTime = parse(startTime, format);
-		DateTime endDateTime = parse(endTime, format);
-		Days days = Days.daysBetween(startDateTime, endDateTime);
-		return days.getDays();
-	}
-
-	/**
-	 * 相差的天数
-	 */
-	public static int diffDay(DateTime startDateTime, DateTime endDateTime) {
-		Days days = Days.daysBetween(startDateTime, endDateTime);
-		return days.getDays();
-	}
-
-	/**
 	 * 得到未来某一天的日期
 	 */
 	public static String getNextDayByDateTime(String dateTimeStr, int plusDays, String format) {
@@ -196,6 +178,24 @@ public class JodaTimeUtil {
 	public static DateTime getNextDayByDateTime(DateTime dateTime, int plusDays) {
 		DateTime result = dateTime.plusDays(plusDays);
 		return result;
+	}
+
+	/**
+	 * 相差的天数
+	 */
+	public static int diffDay(String startTime, String endTime, String format) {
+		DateTime startDateTime = parse(startTime, format);
+		DateTime endDateTime = parse(endTime, format);
+		Days days = Days.daysBetween(startDateTime, endDateTime);
+		return days.getDays();
+	}
+
+	/**
+	 * 相差的天数
+	 */
+	public static int diffDay(DateTime startDateTime, DateTime endDateTime) {
+		Days days = Days.daysBetween(startDateTime, endDateTime);
+		return days.getDays();
 	}
 
 	/**

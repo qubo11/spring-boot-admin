@@ -162,12 +162,14 @@ public class UserController {
 			AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
 			if (avatar != null) {
 				byte[] avatarByte = IOUtil.inputDataFromFile(avatar.getPath() + File.separator + avatar.getName());
-				try {
-					response.getOutputStream().write(avatarByte);
-					response.getOutputStream().flush();
-					response.getOutputStream().close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (avatarByte != null) {
+					try {
+						response.getOutputStream().write(avatarByte);
+						response.getOutputStream().flush();
+						response.getOutputStream().close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

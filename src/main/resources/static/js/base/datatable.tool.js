@@ -94,7 +94,12 @@ var DatatableTool = function() {
 		});
 		return mTable;
 	}
-
+	
+	function clear(tableId){
+		var mTable=$("#"+tableId).DataTable();
+		mTable.clear().draw();
+	}
+	
 	var saveRow = function(url, data, tableId, successFunction,completeFunction) {
 		var promise = $.ajax({
 			url : url,
@@ -441,6 +446,10 @@ var DatatableTool = function() {
 		},
 		initEditorDatatable : function(tableId,columnDefs){
 			return initEditorDatatable(tableId,columnDefs);
+		},
+		clear : function(tableId){
+			var mTable=$("#"+tableId).DataTable();
+			mTable.clear().draw();
 		},
 		initModal : function(saveFunction,updateFunction,deleteFunction,deleteBatchFunction){
 			initModal(saveFunction,updateFunction,deleteFunction,deleteBatchFunction);
