@@ -9,12 +9,15 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.expect.admin.data.dao.LogDbParamRepository;
 import com.expect.admin.data.dao.LogDbRepository;
 import com.expect.admin.data.dataobject.LogDb;
 import com.expect.admin.data.dataobject.LogDbParam;
+import com.expect.admin.data.dataobject.User;
 import com.expect.admin.utils.log.utils.LogDescriptor;
 import com.expect.admin.utils.log.utils.LogDescriptorI;
 import com.expect.admin.utils.log.utils.LogUtils;
@@ -50,6 +53,11 @@ public class LogDbInterceptor {
 		logger.info("增删改开始");
 		try {
 			LogDb logDb = new LogDb();
+			// 用户信息
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) auth.getPrincipal();
+			String userId = user.getId();
+			String username = user.getUsername();
 			// 执行时间
 			long executeTime = System.currentTimeMillis();
 			Object object = pjp.proceed();
@@ -68,6 +76,8 @@ public class LogDbInterceptor {
 			logDb.setExecuteTime(executeTime);
 			logDb.setDateTime(new Date());
 			logDb.setResult(object + "");
+			logDb.setUserId(userId);
+			logDb.setUsername(username);
 			LogDb result = logDbRepository.save(logDb);
 
 			if (result != null) {
@@ -98,6 +108,11 @@ public class LogDbInterceptor {
 		logger.info("增删改开始");
 		try {
 			LogDb logDb = new LogDb();
+			// 用户信息
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) auth.getPrincipal();
+			String userId = user.getId();
+			String username = user.getUsername();
 			// 执行时间
 			long executeTime = System.currentTimeMillis();
 			Object object = pjp.proceed();
@@ -123,6 +138,8 @@ public class LogDbInterceptor {
 			logDb.setExecuteTime(executeTime);
 			logDb.setDateTime(new Date());
 			logDb.setResult(object + "");
+			logDb.setUserId(userId);
+			logDb.setUsername(username);
 			LogDb result = logDbRepository.save(logDb);
 
 			if (result != null) {

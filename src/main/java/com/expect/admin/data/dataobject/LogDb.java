@@ -27,6 +27,8 @@ public class LogDb {
 	private Long executeTime;// 执行一次操作时间
 	private Date dateTime;// 执行的时间
 	private String result;// 返回的结果
+	private String userId;// 用户id
+	private String username;// 用户名
 	private Set<LogDbParam> params;// 传入的参数
 
 	@Id
@@ -94,6 +96,24 @@ public class LogDb {
 
 	public void setResult(String result) {
 		this.result = result;
+	}
+
+	@Column(name = "user_id")
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	@Column(name = "username")
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@OneToMany(mappedBy = "logDb")
