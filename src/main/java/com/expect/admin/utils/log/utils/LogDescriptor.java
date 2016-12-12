@@ -17,6 +17,7 @@ public @interface LogDescriptor {
 	public final String OperationType_Insert = "Insert";
 	public final String OperationType_Update = "Update";
 	public final String OperationType_Delete = "Delete";
+	public final String OperationType_InsertOrUpdate = "InsertOrUpdate";
 
 	/**
 	 * 日志描述

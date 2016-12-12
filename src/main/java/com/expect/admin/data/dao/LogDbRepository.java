@@ -1,12 +1,11 @@
 package com.expect.admin.data.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.expect.admin.data.dataobject.LogDb;
+import com.expect.admin.data.support.repository.CustomRepository;
 
 /**
  * 日志JPA
  */
-public interface LogDbRepository extends JpaRepository<LogDb, String> {
+public interface LogDbRepository extends CustomRepository<LogDb, String> {
 
 }

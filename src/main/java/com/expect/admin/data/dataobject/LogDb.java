@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
+import com.expect.admin.data.support.other.ConditionSearch;
+
 /**
  * 数据库日志
  */
@@ -20,21 +22,29 @@ import org.hibernate.annotations.Type;
 @Table(name = "c_log_db")
 public class LogDb {
 
-	private String id;
-	private String methodName;// 方法名（类名+方法名）
-	private String operationType;// 操作类型
-	private String description;// 方法描述
-	private Long executeTime;// 执行一次操作时间
-	private Date dateTime;// 执行的时间
-	private String result;// 返回的结果
-	private String userId;// 用户id
-	private String username;// 用户名
-	private Set<LogDbParam> params;// 传入的参数
-
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Column(name = "id", nullable = false, unique = true, length = 32)
+	private String id;
+	@ConditionSearch(value = ConditionSearch.Operator_Like)
+	private String methodName;// 方法名（类名+方法名）
+	@ConditionSearch(value = ConditionSearch.Operator_Equal)
+	private String operationType;// 操作类型
+	@ConditionSearch(value = ConditionSearch.Operator_Like)
+	private String description;// 方法描述
+	@ConditionSearch(value = ConditionSearch.Operator_Between, betweenDescriptor = "executeTime")
+	private Long executeTime;// 执行一次操作时间
+	@ConditionSearch(value = ConditionSearch.Operator_Between, betweenDescriptor = "dateTime")
+	private Date dateTime;// 执行的时间
+	@ConditionSearch(value = ConditionSearch.Operator_Like)
+	private String result;// 返回的结果
+	private String userId;// 用户id
+	@ConditionSearch(value = ConditionSearch.Operator_Like)
+	private String username;// 用户名
+	@OneToMany(mappedBy = "logDb")
+	private Set<LogDbParam> params;// 传入的参数
+
 	public String getId() {
 		return id;
 	}
@@ -79,7 +89,7 @@ public class LogDb {
 		this.executeTime = executeTime;
 	}
 
-	@Column(name = "datetime")
+	@Column(name = "date_time")
 	public Date getDateTime() {
 		return dateTime;
 	}
@@ -116,7 +126,6 @@ public class LogDb {
 		this.username = username;
 	}
 
-	@OneToMany(mappedBy = "logDb")
 	public Set<LogDbParam> getParams() {
 		return params;
 	}

@@ -19,7 +19,6 @@ import com.expect.admin.data.dataobject.LogDb;
 import com.expect.admin.data.dataobject.LogDbParam;
 import com.expect.admin.data.dataobject.User;
 import com.expect.admin.utils.log.utils.LogDescriptor;
-import com.expect.admin.utils.log.utils.LogDescriptorI;
 import com.expect.admin.utils.log.utils.LogUtils;
 
 /**
@@ -41,63 +40,63 @@ public class LogDbInterceptor {
 	private LogDbRepository logDbRepository;
 	@Autowired
 	private LogDbParamRepository logDbParamRepository;
-	@Autowired
-	private LogDescriptorI logDescriptorI;
+//	@Autowired
+//	private LogDescriptorI logDescriptorI;
 
-	@Pointcut(value = "(execution(* *..service.*.save*(..)) && !execution(* com.expect.admin.service.*.save*(..))) || (execution(* *..service.*.update*(..)) && !execution(* com.expect.admin.service.*.update*(..))) || execution(* *..service.*.delete*(..)) && !execution(* com.expect.admin.service.*.delete*(..)))")
-	public void pointCutMethod() {
-	}
+//	@Pointcut(value = "(execution(* *..service.*.save*(..)) && !execution(* com.expect.admin.service.*.save*(..))) || (execution(* *..service.*.update*(..)) && !execution(* com.expect.admin.service.*.update*(..))) || execution(* *..service.*.delete*(..)) && !execution(* com.expect.admin.service.*.delete*(..)))")
+//	public void pointCutMethod() {
+//	}
 
 	// @Around("pointCutMethod()")
-	public Object executeMethod(ProceedingJoinPoint pjp) {
-		logger.info("增删改开始");
-		try {
-			LogDb logDb = new LogDb();
-			// 用户信息
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user = (User) auth.getPrincipal();
-			String userId = user.getId();
-			String username = user.getUsername();
-			// 执行时间
-			long executeTime = System.currentTimeMillis();
-			Object object = pjp.proceed();
-			executeTime = System.currentTimeMillis() - executeTime;
-			// 类名
-			String className = pjp.getSignature().getDeclaringTypeName();
-			// 方法名
-			String methodName = pjp.getSignature().getName();
-			logger.info("签名：" + className + "." + methodName);
-			// 日志的注解
-			if (logDescriptorI != null) {
-				logDb.setDescription(logDescriptorI.description(className, methodName));
-				logDb.setOperationType(logDescriptorI.operationType(className, methodName));
-			}
-			logDb.setMethodName(className + "." + methodName);
-			logDb.setExecuteTime(executeTime);
-			logDb.setDateTime(new Date());
-			logDb.setResult(object + "");
-			logDb.setUserId(userId);
-			logDb.setUsername(username);
-			LogDb result = logDbRepository.save(logDb);
-
-			if (result != null) {
-				// 参数
-				Object[] args = pjp.getArgs();
-				for (Object arg : args) {
-					LogDbParam logDbParam = new LogDbParam();
-					logDbParam.setParam(arg + "");
-					logDbParam.setLogDb(logDb);
-					logDbParamRepository.save(logDbParam);
-				}
-			}
-			logger.info("增删改成功");
-			return object;
-		} catch (Throwable e) {
-			e.printStackTrace();
-			logger.info("增删改失败：" + e.getMessage());
-		}
-		return null;
-	}
+//	public Object executeMethod(ProceedingJoinPoint pjp) {
+//		logger.info("增删改开始");
+//		try {
+//			LogDb logDb = new LogDb();
+//			// 用户信息
+//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//			User user = (User) auth.getPrincipal();
+//			String userId = user.getId();
+//			String username = user.getUsername();
+//			// 执行时间
+//			long executeTime = System.currentTimeMillis();
+//			Object object = pjp.proceed();
+//			executeTime = System.currentTimeMillis() - executeTime;
+//			// 类名
+//			String className = pjp.getSignature().getDeclaringTypeName();
+//			// 方法名
+//			String methodName = pjp.getSignature().getName();
+//			logger.info("签名：" + className + "." + methodName);
+//			// 日志的注解
+//			if (logDescriptorI != null) {
+//				logDb.setDescription(logDescriptorI.description(className, methodName));
+//				logDb.setOperationType(logDescriptorI.operationType(className, methodName));
+//			}
+//			logDb.setMethodName(className + "." + methodName);
+//			logDb.setExecuteTime(executeTime);
+//			logDb.setDateTime(new Date());
+//			logDb.setResult(object + "");
+//			logDb.setUserId(userId);
+//			logDb.setUsername(username);
+//			LogDb result = logDbRepository.save(logDb);
+//
+//			if (result != null) {
+//				// 参数
+//				Object[] args = pjp.getArgs();
+//				for (Object arg : args) {
+//					LogDbParam logDbParam = new LogDbParam();
+//					logDbParam.setParam(arg + "");
+//					logDbParam.setLogDb(logDb);
+//					logDbParamRepository.save(logDbParam);
+//				}
+//			}
+//			logger.info("增删改成功");
+//			return object;
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//			logger.info("增删改失败：" + e.getMessage());
+//		}
+//		return null;
+//	}
 
 	@Pointcut(value = "@annotation(com.expect.admin.utils.log.utils.LogDescriptor)")
 	public void pointAnnotation() {

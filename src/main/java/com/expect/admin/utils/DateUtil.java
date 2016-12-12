@@ -242,4 +242,37 @@ public class DateUtil {
 		return parse(format(new Date(), webFormat), webFormat);
 	}
 
+	/**
+	 * 判断是否是同一天
+	 */
+	public static boolean isSameDay(Date startDate, Date endDate) {
+		Calendar startCalendar = Calendar.getInstance();
+		startCalendar.setTime(startDate);
+		Calendar endCalendar = Calendar.getInstance();
+		endCalendar.setTime(endDate);
+
+		if (startCalendar.get(Calendar.YEAR) != endCalendar.get(Calendar.YEAR)) {
+			return false;
+		}
+
+		if (startCalendar.get(Calendar.MONTH) != endCalendar.get(Calendar.MONTH)) {
+			return false;
+		}
+
+		if (startCalendar.get(Calendar.DAY_OF_MONTH) == endCalendar.get(Calendar.DAY_OF_MONTH)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 判断是否是上午还是下午，0代表上午，1代表下午
+	 */
+	public static int isAmOrPm(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.AM_PM);
+	}
+
 }

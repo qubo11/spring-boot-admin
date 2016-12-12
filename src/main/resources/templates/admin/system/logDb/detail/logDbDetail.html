@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<form class="form-horizontal">
+		<div class="form-body">
+			<div class="form-group">
+				<label class="col-md-2 control-label">方法名：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.methodName}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">时间：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.dateTimeStr}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">操作人：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.username}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">操作类型：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.operationType}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">方法描述：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.description}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">执行时间：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.executeTimeStr}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">返回结果：</label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${logDb.result}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">参数：</label>
+				<div class="col-md-10">
+					<p style="word-wrap:break-word;">
+						<th:block th:each="param : ${logDb.params}" th:text="${param.name}"></th:block>
+					</p>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
