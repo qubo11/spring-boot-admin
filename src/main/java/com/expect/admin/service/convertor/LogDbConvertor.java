@@ -65,10 +65,10 @@ public class LogDbConvertor {
 	public static LogDb convert(LogDbVo logDbVo) {
 		LogDb logDb=new LogDb();
 		BeanUtils.copyProperties(logDbVo, logDb);
-		if (!StringUtils.isEmpty(logDbVo.getDateTimeStr())) {
+		if (!StringUtils.isBlank(logDbVo.getDateTimeStr())) {
 			logDb.setDateTime(DateUtil.parse(logDbVo.getDateTimeStr(), DateUtil.noSecondFormat));
 		}
-		if (!StringUtils.isEmpty(logDbVo.getExecuteTimeStr())) {
+		if (!StringUtils.isBlank(logDbVo.getExecuteTimeStr())) {
 			logDb.setExecuteTime(Long.valueOf(logDbVo.getExecuteTimeStr()));
 		}
 		return logDb;

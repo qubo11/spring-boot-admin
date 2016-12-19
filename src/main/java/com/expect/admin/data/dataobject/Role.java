@@ -8,9 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,7 +25,7 @@ public class Role {
 	private String name;
 	private String remark;
 	private Set<User> users;
-	private Set<Function> functions;
+	private Set<RoleFunction> roleFunctions;
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -67,14 +66,13 @@ public class Role {
 		this.users = users;
 	}
 
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-	@JoinTable(name = "c_role_function", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "function_id"))
-	public Set<Function> getFunctions() {
-		return functions;
+	@OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+	public Set<RoleFunction> getRoleFunctions() {
+		return roleFunctions;
 	}
 
-	public void setFunctions(Set<Function> functions) {
-		this.functions = functions;
+	public void setRoleFunctions(Set<RoleFunction> roleFunctions) {
+		this.roleFunctions = roleFunctions;
 	}
 
 }

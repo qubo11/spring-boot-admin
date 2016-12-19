@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
 
 import com.expect.admin.data.dataobject.Function;
 import com.expect.admin.service.vo.FunctionVo;
@@ -26,7 +26,7 @@ public class FunctionConvertor {
 		}
 		BeanUtils.copyProperties(function, functionVo);
 		String url = functionVo.getUrl();
-		if (!StringUtils.isEmpty(url)) {
+		if (!StringUtils.isBlank(url)) {
 			url = url.replace("/", "");
 			functionVo.setEncodeUrl(url);
 		}
@@ -141,7 +141,7 @@ public class FunctionConvertor {
 		if (!CollectionUtils.isEmpty(functionVos)) {
 			sov.addOption("", "设置为上级功能");
 			for (FunctionVo functionVo : functionVos) {
-				if (checkedFunction != null && !StringUtils.isEmpty(checkedFunction.getParentId())) {
+				if (checkedFunction != null && !StringUtils.isBlank(checkedFunction.getParentId())) {
 					if (checkedFunction.getParentId().equals(functionVo.getId())) {
 						sov.addOption(functionVo.getId(), functionVo.getName(), true);
 					} else {

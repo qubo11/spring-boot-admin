@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.expect.admin.data.dao.FunctionRepository;
 import com.expect.admin.data.dataobject.Function;
 import com.expect.admin.data.dataobject.Role;
+import com.expect.admin.data.dataobject.RoleFunction;
 import com.expect.admin.data.dataobject.User;
 import com.expect.admin.service.convertor.FunctionConvertor;
 import com.expect.admin.service.vo.FunctionVo;
@@ -38,30 +39,21 @@ public class FunctionService {
 		Set<Role> roles = user.getRoles();
 		Set<Function> functions = new HashSet<>();
 		for (Role role : roles) {
-			functions.addAll(role.getFunctions());
+			Set<RoleFunction> roleFunctions = role.getRoleFunctions();
+			if (!CollectionUtils.isEmpty(roleFunctions)) {
+				for (RoleFunction roleFunction : roleFunctions) {
+					functions.add(roleFunction.getFunction());
+				}
+			}
 		}
-		// 先把不同角色相同功能去除
-		// for (int i = 0; i < functions.size(); i++) {
-		// Function function = functions.get(i);
-		// for (int j = functions.size() - 1; j >= 0; j--) {
-		// Function judgeFunction = functions.get(j);
-		// if (i != j && function.getId() == judgeFunction.getId()) {
-		// functions.remove(j);
-		// }
-		// }
-		// }
+
 		// 把相应功能归类到同一顶级功能下
 		List<FunctionVo> resultFunctions = new ArrayList<>();
 		for (Function function : functions) {
-			// System.out.println("function:" + function.getName());
 			Function parentFunction = function.getParentFunction();
 			if (parentFunction != null) {
-				// System.out.println("parentFunction:" +
-				// parentFunction.getName());
 				Function parentParentFunction = parentFunction.getParentFunction();
 				if (parentParentFunction != null) {
-					// System.out.println("parentParentFunction:" +
-					// parentParentFunction.getName());
 					boolean flag = false;
 					for (int i = 0; i < resultFunctions.size(); i++) {
 						FunctionVo resultFunction = resultFunctions.get(i);
@@ -139,23 +131,6 @@ public class FunctionService {
 			}
 		}
 
-		// System.out.println("***************************************");
-		// for (FunctionVo fFunction : resultFunctions) {
-		// System.out.println("first:" + fFunction.getName());
-		// List<FunctionVo> sFunctions = fFunction.getChildFunctionVos();
-		// if (sFunctions != null) {
-		// for (int j = 0; j < sFunctions.size(); j++) {
-		// System.out.println("second:" + sFunctions.get(j).getName());
-		// List<FunctionVo> tFunctions =
-		// sFunctions.get(j).getChildFunctionVos();
-		// if (tFunctions != null) {
-		// for (int k = 0; k < tFunctions.size(); k++) {
-		// System.out.println("third:" + tFunctions.get(k).getName());
-		// }
-		// }
-		// }
-		// }
-		// }
 		return resultFunctions;
 	}
 
@@ -174,7 +149,7 @@ public class FunctionService {
 	public FunctionVo getFunctionById(String id) {
 		List<FunctionVo> functions = getFunctions();
 		FunctionVo checkedFunction = null;
-		if (!StringUtils.isEmpty(id)) {
+		if (!StringUtils.isBlank(id)) {
 			for (int i = functions.size() - 1; i >= 0; i--) {
 				if (id.equals((functions.get(i).getId()))) {
 					checkedFunction = functions.remove(i);
@@ -184,7 +159,7 @@ public class FunctionService {
 		}
 		SelectOptionVo parentFunctionSov = FunctionConvertor.convertSov(functions, checkedFunction);
 		FunctionVo functionVo = null;
-		if (!StringUtils.isEmpty(id)) {
+		if (!StringUtils.isBlank(id)) {
 			Function function = functionRepository.findOne(id);
 			if (function == null) {
 				functionVo = new FunctionVo();
@@ -206,7 +181,7 @@ public class FunctionService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("增加失败");
 		Function parentFunction = null;
-		if (!StringUtils.isEmpty(functionVo.getParentId())) {
+		if (!StringUtils.isBlank(functionVo.getParentId())) {
 			parentFunction = functionRepository.findOne(functionVo.getParentId());
 			if (parentFunction == null) {
 				return dtrv;
@@ -232,7 +207,7 @@ public class FunctionService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("修改失败");
 		Function parentFunction = null;
-		if (!StringUtils.isEmpty(functionVo.getParentId())) {
+		if (!StringUtils.isBlank(functionVo.getParentId())) {
 			parentFunction = functionRepository.findOne(functionVo.getParentId());
 			if (parentFunction == null) {
 				return dtrv;
@@ -299,7 +274,7 @@ public class FunctionService {
 	public ResultVo deleteBatch(String ids) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("删除失败");
-		if (StringUtils.isEmpty(ids)) {
+		if (StringUtils.isBlank(ids)) {
 			return resultVo;
 		}
 		String[] idArr = ids.split(",");

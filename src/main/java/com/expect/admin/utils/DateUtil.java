@@ -275,4 +275,18 @@ public class DateUtil {
 		return calendar.get(Calendar.AM_PM);
 	}
 
+	/**
+	 * 获取今天的时间范围
+	 * 
+	 * @return Date[0] yyyy-MM-dd 00:00:00,Date[1] yyyy-MM-dd 23:59:59
+	 */
+	public static Date[] getTodayDateRange() {
+		String todayStr = DateUtil.format(new Date(), DateUtil.webFormat);
+		String todayStartStr = todayStr + " 00:00:00";
+		String todayEndStr = todayStr + " 23:59:59";
+		Date todayStart = DateUtil.parse(todayStartStr, DateUtil.fullFormat);
+		Date todayEnd = DateUtil.parse(todayEndStr, DateUtil.fullFormat);
+		return new Date[] { todayStart, todayEnd };
+	}
+
 }

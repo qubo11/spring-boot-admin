@@ -66,6 +66,27 @@ public class JodaTimeUtil {
 	}
 
 	/**
+	 * 获取某月一共多少天
+	 * 
+	 * @param year
+	 *            年
+	 * @param month
+	 *            月
+	 * @param day
+	 *            日
+	 * @param hour
+	 *            时
+	 * @param minute
+	 *            分
+	 * @param second
+	 *            秒
+	 */
+	public static int getTotalDayOfMonth(int year, int month, int day, int hour, int minute, int second) {
+		DateTime dateTime = new DateTime(year, month, day, hour, minute, second);
+		return dateTime.dayOfMonth().getMaximumValue();
+	}
+
+	/**
 	 * 解析时间
 	 * 
 	 * @param dateTimeStr

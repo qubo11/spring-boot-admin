@@ -544,7 +544,7 @@ $.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
 		if ( typeof options === "number" ) {
 			options = { duration: options };
 		}
-		hasOptions = !$.isEmptyObject( options );
+		hasOptions = !$.isBlankObject( options );
 		options.complete = callback;
 		if ( options.delay ) {
 			element.delay( options.delay );

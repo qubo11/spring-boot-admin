@@ -21,12 +21,13 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "c_department")
-public class Department {
+public class Department implements Comparable<Department> {
 
 	private String id;
 	private String name;
 	private String code;
 	private String description;
+	private Integer sequence;
 	private User manager;
 	private Department parentDepartment;
 	private List<Department> childDepartments;
@@ -71,6 +72,15 @@ public class Department {
 		this.description = description;
 	}
 
+	@Column(name = "sequence", precision = 5)
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "manager_id")
 	public User getManager() {
@@ -107,6 +117,16 @@ public class Department {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@Override
+	public int compareTo(Department o) {
+		if (this.sequence > o.getSequence()) {
+			return 1;
+		} else if (this.sequence < o.getSequence()) {
+			return -1;
+		}
+		return 0;
 	}
 
 }

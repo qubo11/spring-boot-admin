@@ -57,7 +57,7 @@ public class JacksonJsonUtil {
 	}
 
 	public <T> T readObject(String content, String nodeName, Class<T> clazz) {
-		if (StringUtils.isEmpty(nodeName)) {
+		if (StringUtils.isBlank(nodeName)) {
 			return readObject(content, clazz);
 		} else {
 			try {
@@ -83,7 +83,7 @@ public class JacksonJsonUtil {
 	}
 
 	public List readList(String content, String nodeName, Class<?> elementClasses) {
-		if (StringUtils.isEmpty(nodeName)) {
+		if (StringUtils.isBlank(nodeName)) {
 			return readList(content, elementClasses);
 		} else {
 			try {

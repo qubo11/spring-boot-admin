@@ -10,8 +10,8 @@ public class DataTableServerVo<T> extends BaseVo {
 	public static String checkbox = "<label class='mt-checkbox mt-checkbox-single mt-checkbox-outline'> <input type='checkbox' class='checkboxes' /><span></span></label>";
 
 	protected int draw;
-	protected int recordsTotal;
-	protected int recordsFiltered;
+	protected long recordsTotal;
+	protected long recordsFiltered;
 	protected List<T> data = new ArrayList<>();
 
 	public int getDraw() {
@@ -22,19 +22,19 @@ public class DataTableServerVo<T> extends BaseVo {
 		this.draw = draw;
 	}
 
-	public int getRecordsTotal() {
+	public long getRecordsTotal() {
 		return recordsTotal;
 	}
 
-	public void setRecordsTotal(int recordsTotal) {
+	public void setRecordsTotal(long recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
 
-	public int getRecordsFiltered() {
+	public long getRecordsFiltered() {
 		return recordsFiltered;
 	}
 
-	public void setRecordsFiltered(int recordsFiltered) {
+	public void setRecordsFiltered(long recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
 	}
 

@@ -3,15 +3,15 @@ package com.expect.admin.service.vo.component;
 public class SimpleVo extends BaseVo {
 
 	private String id;
-	private String name;
+	private String value;
 
 	public SimpleVo() {
 	}
 
-	public SimpleVo(String id, String name) {
+	public SimpleVo(String id, String value) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.value = value;
 	}
 
 	public String getId() {
@@ -22,12 +22,12 @@ public class SimpleVo extends BaseVo {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getValue() {
+		return value;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 }

@@ -16,10 +16,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -48,6 +51,12 @@ public class User implements UserDetails {
 	private String phone;// 手机
 	@Column(name = "email", length = 63)
 	private String email;// 电子邮件
+	@Column(name = "remark1", length = 511)
+	private String remark1;// 备注1
+	@Column(name = "remark2", length = 511)
+	private String remark2;// 备注2
+	@Column(name = "is_delete", precision = 1)
+	private Integer isDelete;// 是否删除,0删除,1未删除
 	@OneToOne
 	@JoinColumn(name = "avatar_id")
 	private Attachment avatar;// 头像
@@ -147,6 +156,14 @@ public class User implements UserDetails {
 		this.departments = departments;
 	}
 
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
@@ -177,4 +194,70 @@ public class User implements UserDetails {
 		return true;
 	}
 
+	public static User getUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) auth.getPrincipal();
+		return user;
+	}
+
+	/**
+	 * 以下是权限操作
+	 */
+	@Transient
+	private boolean insert;
+	@Transient
+	private boolean update;
+	@Transient
+	private boolean delete;
+	@Transient
+	private boolean other;
+
+	public void setAuthority() {
+		Set<Role> roles = this.getRoles();
+		for (Role sysRole : roles) {
+			Set<RoleFunction> roleFunctions = sysRole.getRoleFunctions();
+			for (RoleFunction roleFunction : roleFunctions) {
+				if (roleFunction.getInsertAuthority() != null && roleFunction.getInsertAuthority() == 1) {
+					this.insert = true;
+				}
+				if (roleFunction.getUpdateAuthority() != null && roleFunction.getUpdateAuthority() == 1) {
+					this.update = true;
+				}
+				if (roleFunction.getDeleteAuthority() != null && roleFunction.getDeleteAuthority() == 1) {
+					this.delete = true;
+				}
+				if (roleFunction.getOtherAuthority() != null && roleFunction.getOtherAuthority() == 1) {
+					this.other = true;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 判断用户是否有insert权限
+	 */
+	public boolean hasInsertAuthority() {
+		return insert;
+	}
+
+	/**
+	 * 判断用户是否有update权限
+	 */
+	public boolean hasUpdateAuthority() {
+		return update;
+	}
+
+	/**
+	 * 判断用户是否有delete权限
+	 */
+	public boolean hasDeleteAuthority() {
+		return delete;
+	}
+
+	/**
+	 * 判断用户是否有other权限
+	 */
+	public boolean hasOtherAuthority() {
+		return other;
+	}
 }

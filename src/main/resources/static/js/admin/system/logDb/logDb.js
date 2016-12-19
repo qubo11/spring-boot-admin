@@ -30,6 +30,8 @@ var LogDb = {
 		$(".query-button").click(function(){
 			mTable.ajax.reload();
 		});
+		DateTool.initHourDate("input[name='dateTime1']");
+		DateTool.initHourDate("input[name='dateTime2']");
 	},
 	initModal:function(){
 		DatatableTool.initAddModal(function(id){

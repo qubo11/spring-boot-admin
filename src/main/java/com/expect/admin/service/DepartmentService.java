@@ -50,7 +50,7 @@ public class DepartmentService {
 	public DepartmentVo getDepartmentById(String id) {
 		List<DepartmentVo> departments = getDepartments();
 		DepartmentVo checkedDepartment = null;
-		if (!StringUtils.isEmpty(id)) {
+		if (!StringUtils.isBlank(id)) {
 			for (int i = departments.size() - 1; i >= 0; i--) {
 				if (id.equals((departments.get(i).getId()))) {
 					checkedDepartment = departments.remove(i);
@@ -62,7 +62,7 @@ public class DepartmentService {
 		SelectOptionVo managerSov = null;
 
 		DepartmentVo departmentVo = null;
-		if (StringUtils.isEmpty(id)) {
+		if (StringUtils.isBlank(id)) {
 			departmentVo = new DepartmentVo();
 			managerSov = UserConvertor.convertSov(users, null);
 		} else {
@@ -104,7 +104,7 @@ public class DepartmentService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("增加失败");
 
-		if (StringUtils.isEmpty(departmentVo.getCode())) {
+		if (StringUtils.isBlank(departmentVo.getCode())) {
 			dtrv.setMessage("部门代码不能为空");
 			return dtrv;
 		}
@@ -114,16 +114,16 @@ public class DepartmentService {
 			return dtrv;
 		}
 
-		if (StringUtils.isEmpty(departmentVo.getName())) {
+		if (StringUtils.isBlank(departmentVo.getName())) {
 			dtrv.setMessage("部门名称不能为空");
 			return dtrv;
 		}
 		Department parentDepartment = null;
-		if (!StringUtils.isEmpty(departmentVo.getParentId())) {
+		if (!StringUtils.isBlank(departmentVo.getParentId())) {
 			parentDepartment = departmentRepository.findOne(departmentVo.getParentId());
 		}
 		User manager = null;
-		if (!StringUtils.isEmpty(departmentVo.getManagerId())) {
+		if (!StringUtils.isBlank(departmentVo.getManagerId())) {
 			manager = userRepository.findOne(departmentVo.getManagerId());
 		}
 		Department department = DepartmentConvertor.convert(departmentVo);
@@ -147,11 +147,11 @@ public class DepartmentService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("修改失败");
 
-		if (StringUtils.isEmpty(departmentVo.getCode())) {
+		if (StringUtils.isBlank(departmentVo.getCode())) {
 			dtrv.setMessage("部门代码不能为空");
 			return dtrv;
 		}
-		if (StringUtils.isEmpty(departmentVo.getName())) {
+		if (StringUtils.isBlank(departmentVo.getName())) {
 			dtrv.setMessage("部门名称不能为空");
 			return dtrv;
 		}
@@ -163,7 +163,7 @@ public class DepartmentService {
 		}
 
 		// 部门代码有修改，判断部门代码是否存在
-		if (StringUtils.isEmpty(checkDepartment.getCode())
+		if (StringUtils.isBlank(checkDepartment.getCode())
 				|| !checkDepartment.getCode().equals(departmentVo.getCode())) {
 			Department checkCodeDepartment = departmentRepository.findByCode(departmentVo.getCode());
 			if (checkCodeDepartment != null) {
@@ -172,11 +172,11 @@ public class DepartmentService {
 			}
 		}
 		Department parentDepartment = null;
-		if (!StringUtils.isEmpty(departmentVo.getParentId())) {
+		if (!StringUtils.isBlank(departmentVo.getParentId())) {
 			parentDepartment = departmentRepository.findOne(departmentVo.getParentId());
 		}
 		User manager = null;
-		if (!StringUtils.isEmpty(departmentVo.getManagerId())) {
+		if (!StringUtils.isBlank(departmentVo.getManagerId())) {
 			manager = userRepository.findOne(departmentVo.getManagerId());
 		}
 
@@ -238,7 +238,7 @@ public class DepartmentService {
 	public ResultVo deleteBatch(String ids) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("删除失败");
-		if (StringUtils.isEmpty(ids)) {
+		if (StringUtils.isBlank(ids)) {
 			return resultVo;
 		}
 		String[] idArr = ids.split(",");

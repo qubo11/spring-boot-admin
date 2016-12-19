@@ -3198,7 +3198,7 @@ if (typeof Object.create !== 'function') {
     };
 
     Plugin.prototype.filtersCallback = function(dropdown, item) {
-        if (!$.isEmptyObject(dropdown)) {
+        if (!$.isBlankObject(dropdown)) {
             dropdown.wrap.trigger('mouseleave.cbp');
 
             if (dropdown.headerText) {

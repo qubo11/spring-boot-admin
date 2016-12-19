@@ -2,60 +2,47 @@ package com.expect.admin.service.vo.component.html;
 
 import com.expect.admin.service.vo.component.BaseVo;
 
-public class ButtonVo extends BaseVo{
+public class ButtonVo extends BaseVo {
 
 	public final String disabled = "disabled";
 	public final String outline = "btn-outline";
-	public final String Type_Primary = "btn-primary";
-	public final String Type_Success = "btn-success";
-	public final String Type_Info = "btn-info";
-	public final String Type_Warning = "btn-warning";
-	public final String Type_Danger = "btn-danger";
-	public final String Type_Link = "btn-link";
+	public final static String Type_Default = "btn-default";
+	public final static String Type_Primary = "btn-primary";
+	public final static String Type_Success = "btn-success";
+	public final static String Type_Info = "btn-info";
+	public final static String Type_Warning = "btn-warning";
+	public final static String Type_Danger = "btn-danger";
+	public final static String Type_Link = "btn-link";
 
-	private final static int Size_Small = 1;
-	private final static int Size_Normal = 2;
-	private final static int Size_Larger = 3;
+	public final static int Size_ExtraSmall = 0;
+	public final static int Size_Small = 1;
+	public final static int Size_Normal = 2;
+	public final static int Size_Larger = 3;
 
-	private String className = "";
-	private String text;
-	private String otherAttr;
-	private String size = "";
+	private StringBuilder className = new StringBuilder();
+	private StringBuilder text = new StringBuilder();
+	private StringBuilder otherAttr = new StringBuilder();
+	private StringBuilder icon = new StringBuilder();
 	private boolean isDisabled;
 	private boolean isOutline;
 
 	public String getButton() {
-		String button = "<button type='button' class='btn " + size + " " + className + "' " + otherAttr + ">" + text
+		String button = "<button type='button' class='btn " + className + "' " + otherAttr + "> " + icon + text
 				+ "</button>";
 		return button;
 	}
 
 	/**
-	 * @param isButton false:代表标签是a,true:代表标签是button
+	 * @param isButton
+	 *            false:代表标签是a,true:代表标签是button
 	 */
 	public String getButton(boolean isButton) {
 		if (isButton) {
 			return getButton();
 		} else {
-			String button = "<a class='btn " + size + " " + className + "' " + otherAttr + ">" + text + "</a>";
+			String button = "<a class='btn " + className + "' " + otherAttr + "> " + icon + text + "</a>";
 			return button;
 		}
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public String getOtherAttr() {
-		return otherAttr;
-	}
-
-	public String getSize() {
-		return size;
 	}
 
 	public boolean isDisabled() {
@@ -75,40 +62,43 @@ public class ButtonVo extends BaseVo{
 		}
 
 		public Builder setClassName(String className) {
-			buttonVo.className += " " + className + " ";
+			buttonVo.className.append(className);
 			return this;
 		}
 
 		public Builder setText(String text) {
-			buttonVo.text = text;
+			buttonVo.text.append(text);
 			return this;
 		}
 
 		public Builder setOtherAttr(String otherAttr) {
-			buttonVo.otherAttr = otherAttr;
+			buttonVo.otherAttr.append(otherAttr);
 			return this;
 		}
 
 		public Builder setSize(int size) {
 			String sizeClassName = "";
 			switch (size) {
+			case Size_ExtraSmall:
+				sizeClassName = " btn-xs";
+				break;
 			case Size_Small:
-				sizeClassName = "btn-xs";
+				sizeClassName = " btn-sm";
 				break;
 			case Size_Normal:
 				break;
 			case Size_Larger:
-				sizeClassName = "btn-lg";
+				sizeClassName = " btn-lg";
 				break;
 			}
-			buttonVo.className += sizeClassName;
+			setClassName(sizeClassName);
 			return this;
 		}
 
 		public Builder setDisabled(boolean isDisabled) {
 			buttonVo.isDisabled = isDisabled;
 			if (isDisabled) {
-				buttonVo.className += " " + buttonVo.disabled + " ";
+				buttonVo.className.append(buttonVo.disabled);
 			}
 			return this;
 		}
@@ -116,8 +106,15 @@ public class ButtonVo extends BaseVo{
 		public Builder setOutline(boolean isOutline) {
 			buttonVo.isOutline = isOutline;
 			if (isOutline) {
-				buttonVo.className += " " + buttonVo.outline + " ";
+				buttonVo.className.append(buttonVo.outline);
 			}
+			return this;
+		}
+
+		public Builder setIcon(String iconClass) {
+			buttonVo.icon.append("<i class='");
+			buttonVo.icon.append(iconClass);
+			buttonVo.icon.append("'></i>");
 			return this;
 		}
 

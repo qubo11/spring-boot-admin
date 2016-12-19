@@ -46,22 +46,25 @@ public class CustomerSpesc {
 						if (field == null) {
 							continue;
 						}
-						if (attrValue != null) {
-							ConditionSearch conditionSearch = field.getAnnotation(ConditionSearch.class);
-							if (conditionSearch == null) {
+						ConditionSearch conditionSearch = field.getAnnotation(ConditionSearch.class);
+						if (conditionSearch == null) {
+							continue;
+						}
+						String operator = conditionSearch.value();
+						if (!operator.equals(ConditionSearch.Operator_Between)) {
+							if (attrValue == null) {
 								continue;
 							}
-							String operator = conditionSearch.value();
-							if (!operator.equals(ConditionSearch.Operator_Between)) {
-								Predicate predicate = getPredicate(conditionSearch, cb, root.get(attrName), attrValue);
+							Predicate predicate = getPredicate(conditionSearch, cb, root.get(attrName), attrValue);
+							if (predicate != null) {
 								predicates.add(predicate);
-							} else {
-								BetweenEntity be = new BetweenEntity();
-								be.descritor = conditionSearch.betweenDescriptor();
-								be.attrName = attrName;
-								be.attrValue = attrValue;
-								bes.add(be);
 							}
+						} else {
+							BetweenEntity be = new BetweenEntity();
+							be.descritor = conditionSearch.betweenDescriptor();
+							be.attrName = attrName;
+							be.attrValue = attrValue;
+							bes.add(be);
 						}
 					} catch (IllegalArgumentException | NoSuchFieldException | SecurityException e) {
 						e.printStackTrace();
@@ -72,17 +75,27 @@ public class CustomerSpesc {
 					BetweenEntity be = bes.get(i);
 					// 单值between
 					if ("".equals(be.descritor)) {
+						if (be.attrValue == null) {
+							continue;
+						}
 						if (be.attrValue instanceof String) {
 							Predicate predicate = between(cb, root.get(be.attrName), (String) be.attrValue);
-							predicates.add(predicate);
+							if (predicate != null) {
+								predicates.add(predicate);
+							}
 						}
 					} else {
 						// 双值between
 						String descripor = be.descritor;
 						Object attrValue1 = betweenParams1.get(descripor);
 						Object attrValue2 = betweenParams2.get(descripor);
+						if (attrValue1 == null && attrValue2 == null) {
+							continue;
+						}
 						Predicate predicate = between(cb, root.get(be.attrName), attrValue1, attrValue2);
-						predicates.add(predicate);
+						if (predicate != null) {
+							predicates.add(predicate);
+						}
 					}
 				}
 				Predicate[] predicatesArr = new Predicate[predicates.size()];
@@ -227,11 +240,11 @@ public class CustomerSpesc {
 		} else if (values.length == 1) {
 			return greaterThanOrEqualTo(cb, expression, values[0]);
 		} else {
-			if (!StringUtils.isEmpty(values[0]) && !StringUtils.isEmpty(values[0])) {
+			if (!StringUtils.isBlank(values[0]) && !StringUtils.isBlank(values[0])) {
 				return cb.between(expression, values[0], values[1]);
-			} else if (!StringUtils.isEmpty(values[0]) && StringUtils.isEmpty(values[0])) {
+			} else if (!StringUtils.isBlank(values[0]) && StringUtils.isBlank(values[0])) {
 				return greaterThanOrEqualTo(cb, expression, values[0]);
-			} else if (StringUtils.isEmpty(values[0]) && !StringUtils.isEmpty(values[0])) {
+			} else if (StringUtils.isBlank(values[0]) && !StringUtils.isBlank(values[0])) {
 				return lessThanOrEqualTo(cb, expression, values[1]);
 			} else {
 				return null;
@@ -241,7 +254,7 @@ public class CustomerSpesc {
 
 	/**
 	 * 范围区间 between<br/>
-	 * 如果是双值String/Date类型:<br/>
+	 * 如果是双值String/Integer/Long/Date类型:<br/>
 	 * 1.如果参数值都存在(不为null)，则使用between;<br/>
 	 * 2.如果参数值前面存在，则使用大于等于;<br/>
 	 * 3.如果参数值后面存在，则使用小于等于.<br/>
@@ -251,7 +264,13 @@ public class CustomerSpesc {
 			if (obj1 instanceof Date && obj2 instanceof Date) {
 				return cb.between(expression, (Date) obj1, (Date) obj2);
 			} else {
-				return cb.between(expression, (String) obj1, (String) obj2);
+				if (obj1 instanceof Integer && obj2 instanceof Integer) {
+					return cb.between(expression, (Integer) obj1, (Integer) obj2);
+				} else if (obj1 instanceof Long && obj2 instanceof Long) {
+					return cb.between(expression, (Long) obj1, (Long) obj2);
+				} else {
+					return cb.between(expression, (String) obj1, (String) obj2);
+				}
 			}
 		} else if (obj1 != null && obj2 == null) {
 			return greaterThan(cb, expression, obj1);
@@ -297,7 +316,13 @@ public class CustomerSpesc {
 		if (value instanceof Date) {
 			return cb.lessThan(expression, (Date) value);
 		} else {
-			return cb.lessThan(expression, (String) value);
+			if (value instanceof Integer) {
+				return cb.lessThan(expression, (Integer) value);
+			} else if (value instanceof Long) {
+				return cb.lessThan(expression, (Long) value);
+			} else {
+				return cb.lessThan(expression, (String) value);
+			}
 		}
 	}
 
@@ -308,7 +333,13 @@ public class CustomerSpesc {
 		if (value instanceof Date) {
 			return cb.lessThanOrEqualTo(expression, (Date) value);
 		} else {
-			return cb.lessThanOrEqualTo(expression, (String) value);
+			if (value instanceof Integer) {
+				return cb.lessThanOrEqualTo(expression, (Integer) value);
+			} else if (value instanceof Long) {
+				return cb.lessThanOrEqualTo(expression, (Long) value);
+			} else {
+				return cb.lessThanOrEqualTo(expression, (String) value);
+			}
 		}
 	}
 
@@ -319,7 +350,13 @@ public class CustomerSpesc {
 		if (value instanceof Date) {
 			return cb.greaterThan(expression, (Date) value);
 		} else {
-			return cb.greaterThan(expression, (String) value);
+			if (value instanceof Integer) {
+				return cb.greaterThan(expression, (Integer) value);
+			} else if (value instanceof Long) {
+				return cb.greaterThan(expression, (Long) value);
+			} else {
+				return cb.greaterThan(expression, (String) value);
+			}
 		}
 	}
 
@@ -330,7 +367,13 @@ public class CustomerSpesc {
 		if (value instanceof Date) {
 			return cb.greaterThanOrEqualTo(expression, (Date) value);
 		} else {
-			return cb.greaterThanOrEqualTo(expression, (String) value);
+			if (value instanceof Integer) {
+				return cb.greaterThanOrEqualTo(expression, (Integer) value);
+			} else if (value instanceof Long) {
+				return cb.greaterThanOrEqualTo(expression, (Long) value);
+			} else {
+				return cb.greaterThanOrEqualTo(expression, (String) value);
+			}
 		}
 	}
 

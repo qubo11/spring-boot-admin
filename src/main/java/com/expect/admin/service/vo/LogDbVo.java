@@ -110,7 +110,7 @@ public class LogDbVo {
 		}
 		SimpleVo sv = new SimpleVo();
 		sv.setId(id);
-		sv.setName(value);
+		sv.setValue(value);
 		params.add(sv);
 	}
 

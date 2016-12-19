@@ -56,7 +56,7 @@ public class FileResultVo extends ResultVo {
 	}
 
 	public void addIds(String ids) {
-		if (StringUtils.isEmpty(ids)) {
+		if (StringUtils.isBlank(ids)) {
 			this.ids = ids;
 		} else {
 			this.ids += "," + ids;

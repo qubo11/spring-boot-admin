@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<th:block th:if="${action!=null}">
+		<div class="actions" th:fragment="actions-fragment">
+			<th:block th:if="${action.html!=null}">
+				<th:block th:utext="${action.html}"></th:block>
+			</th:block>
+			<th:block th:if="${action.save==true}">
+				<a href="javascript:;" class="btn btn-default btn-sm save-button">
+					<i class="fa fa-plus"></i> 增加
+				</a>
+			</th:block>
+			<th:block th:if="${action.delete==true}">
+				<a href="javascript:;"
+					class="btn btn-default btn-sm batch-delete-button"> <i
+					class="fa fa-remove"></i> 删除
+				</a>
+			</th:block>
+			<th:block th:if="${action.query==true}">
+				<a href="javascript:;" class="btn btn-default btn-sm query-button">
+					<i class="fa fa-search"></i> 查询
+				</a>
+			</th:block>
+			<th:block th:if="${action.export==true}">
+				<a href="javascript:;" class="btn btn-default btn-sm export-button">
+					<i class="fa fa-file-excel-o"></i> 导出
+				</a>
+			</th:block>
+		</div>
+	</th:block>
+</body>
+</html>

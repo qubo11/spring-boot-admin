@@ -200,7 +200,7 @@ public class UserConvertor {
 		if (!CollectionUtils.isEmpty(userVos)) {
 			sov.addOption("", "无");
 			for (UserVo userVo : userVos) {
-				if (StringUtils.isEmpty(username)) {
+				if (StringUtils.isBlank(username)) {
 					sov.addOption(userVo.getId(), userVo.getUsername());
 					continue;
 				}

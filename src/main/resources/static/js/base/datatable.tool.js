@@ -90,7 +90,8 @@ var DatatableTool = function() {
 			"bFilter" : false,
 			"bLengthChange" : false,
 			"columnDefs" : columnDefs,
-			"bInfo" : false
+			"bInfo" : false,
+			"autoWidth":false
 		});
 		return mTable;
 	}

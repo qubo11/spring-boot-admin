@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
 
 import com.expect.admin.data.dataobject.Department;
 import com.expect.admin.data.dataobject.User;
@@ -137,7 +137,7 @@ public class DepartmentConvertor {
 		if (!CollectionUtils.isEmpty(departmentVos)) {
 			sov.addOption("", "设置为上级部门");
 			for (DepartmentVo departmentVo : departmentVos) {
-				if (checkedDepartment != null && !StringUtils.isEmpty(checkedDepartment.getParentId())) {
+				if (checkedDepartment != null && !StringUtils.isBlank(checkedDepartment.getParentId())) {
 					if (checkedDepartment.getParentId().equals(departmentVo.getId())) {
 						sov.addOption(departmentVo.getId(), departmentVo.getName(), true);
 					} else {

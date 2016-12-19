@@ -2,13 +2,11 @@ package com.expect.admin.data.dataobject;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,7 +28,7 @@ public class Function {
 	private int sequence;
 	private Function parentFunction;
 	private Set<Function> childFunctions;
-	private Set<Role> roles;
+	private Set<RoleFunction> roleFunctions;
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -108,13 +106,13 @@ public class Function {
 		this.childFunctions = childFunctions;
 	}
 
-	@ManyToMany(cascade = CascadeType.REFRESH, mappedBy = "functions")
-	public Set<Role> getRoles() {
-		return roles;
+	@OneToMany(mappedBy = "function")
+	public Set<RoleFunction> getRoleFunctions() {
+		return roleFunctions;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRoleFunctions(Set<RoleFunction> roleFunctions) {
+		this.roleFunctions = roleFunctions;
 	}
 
 }

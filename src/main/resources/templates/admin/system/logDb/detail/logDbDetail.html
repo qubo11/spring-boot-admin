@@ -52,7 +52,7 @@
 				<label class="col-md-2 control-label">参数：</label>
 				<div class="col-md-10">
 					<p style="word-wrap:break-word;">
-						<th:block th:each="param : ${logDb.params}" th:text="${param.name}"></th:block>
+						<th:block th:each="param : ${logDb.params}" th:text="${param.value}"></th:block>
 					</p>
 				</div>
 			</div>

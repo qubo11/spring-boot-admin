@@ -383,7 +383,7 @@ vjs.cleanUpEvents = function(elem, type) {
   }
 
   // Remove the events object if there are no types left
-  if (vjs.isEmpty(data.handlers)) {
+  if (vjs.isBlank(data.handlers)) {
     delete data.handlers;
     delete data.dispatcher;
     delete data.disabled;
@@ -394,7 +394,7 @@ vjs.cleanUpEvents = function(elem, type) {
   }
 
   // Finally remove the expando if there is no data left
-  if (vjs.isEmpty(data)) {
+  if (vjs.isBlank(data)) {
     vjs.removeData(elem);
   }
 };
@@ -827,7 +827,7 @@ vjs.getData = function(el){
  */
 vjs.hasData = function(el){
   var id = el[vjs.expando];
-  return !(!id || vjs.isEmpty(vjs.cache[id]));
+  return !(!id || vjs.isBlank(vjs.cache[id]));
 };
 
 /**
@@ -863,7 +863,7 @@ vjs.removeData = function(el){
  * @return {Boolean}
  * @private
  */
-vjs.isEmpty = function(obj) {
+vjs.isBlank = function(obj) {
   for (var prop in obj) {
     // Inlude null properties as empty.
     if (obj[prop] !== null) {

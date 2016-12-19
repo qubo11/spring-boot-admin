@@ -951,7 +951,7 @@ var utils = UE.utils = {
 
     /**
      * 判断obj对象是否为空
-     * @method isEmptyObject
+     * @method isBlankObject
      * @param { * } obj 需要判断的对象
      * @remind 如果判断的对象是NULL， 将直接返回true， 如果是数组且为空， 返回true， 如果是字符串， 且字符串为空，
      *          返回true， 如果是普通对象， 且该对象没有任何实例属性， 返回true
@@ -960,26 +960,26 @@ var utils = UE.utils = {
      * ```javascript
      *
      * //output: true
-     * console.log( UE.utils.isEmptyObject( {} ) );
+     * console.log( UE.utils.isBlankObject( {} ) );
      *
      * //output: true
-     * console.log( UE.utils.isEmptyObject( [] ) );
+     * console.log( UE.utils.isBlankObject( [] ) );
      *
      * //output: true
-     * console.log( UE.utils.isEmptyObject( "" ) );
+     * console.log( UE.utils.isBlankObject( "" ) );
      *
      * //output: false
-     * console.log( UE.utils.isEmptyObject( { key: 1 } ) );
+     * console.log( UE.utils.isBlankObject( { key: 1 } ) );
      *
      * //output: false
-     * console.log( UE.utils.isEmptyObject( [1] ) );
+     * console.log( UE.utils.isBlankObject( [1] ) );
      *
      * //output: false
-     * console.log( UE.utils.isEmptyObject( "1" ) );
+     * console.log( UE.utils.isBlankObject( "1" ) );
      *
      * ```
      */
-    isEmptyObject:function (obj) {
+    isBlankObject:function (obj) {
         if (obj == null) return true;
         if (this.isArray(obj) || this.isString(obj)) return obj.length === 0;
         for (var key in obj) if (obj.hasOwnProperty(key)) return false;
@@ -2469,7 +2469,7 @@ var domUtils = dom.domUtils = {
     clearEmptySibling:function (node, ignoreNext, ignorePre) {
         function clear(next, dir) {
             var tmpNode;
-            while (next && !domUtils.isBookmarkNode(next) && (domUtils.isEmptyInlineElement(next)
+            while (next && !domUtils.isBookmarkNode(next) && (domUtils.isBlankInlineElement(next)
                 //这里不能把空格算进来会吧空格干掉，出现文字间的空格丢掉了
                 || !new RegExp('[^\t\n\r' + domUtils.fillChar + ']').test(next.nodeValue) )) {
                 tmpNode = next[dir];
@@ -2906,7 +2906,7 @@ var domUtils = dom.domUtils = {
     },
     /**
      * 检查节点node是否是空inline节点
-     * @method  isEmptyInlineElement
+     * @method  isBlankInlineElement
      * @param { Node } node 需要检测的节点对象
      * @return { Number }  如果给定的节点是空的inline节点， 则返回1, 否则返回0。
      * @example
@@ -2917,7 +2917,7 @@ var domUtils = dom.domUtils = {
      * <b>xx<i></i></b> => 0
      * ```
      */
-    isEmptyInlineElement:function (node) {
+    isBlankInlineElement:function (node) {
         if (node.nodeType != 1 || !dtd.$removeEmpty[ node.tagName ]) {
             return 0;
         }
@@ -2927,7 +2927,7 @@ var domUtils = dom.domUtils = {
             if (domUtils.isBookmarkNode(node)) {
                 return 0;
             }
-            if (node.nodeType == 1 && !domUtils.isEmptyInlineElement(node) ||
+            if (node.nodeType == 1 && !domUtils.isBlankInlineElement(node) ||
                 node.nodeType == 3 && !domUtils.isWhitespace(node)
                 ) {
                 return 0;
@@ -3771,15 +3771,15 @@ var domUtils = dom.domUtils = {
 
     /**
      * 判断给定节点是否为空节点
-     * @method isEmptyNode
+     * @method isBlankNode
      * @param { Node } node 需要检测的节点对象
      * @return { Boolean } 节点是否为空
      * @example
      * ```javascript
-     * UE.dom.domUtils.isEmptyNode( document.body );
+     * UE.dom.domUtils.isBlankNode( document.body );
      * ```
      */
-    isEmptyNode:function (node) {
+    isBlankNode:function (node) {
         return !node.firstChild || domUtils.getChildCount(node, function (node) {
             return  !domUtils.isBr(node) && !domUtils.isBookmarkNode(node) && !domUtils.isWhitespace(node)
         }) == 0
@@ -3883,7 +3883,7 @@ var domUtils = dom.domUtils = {
             tmpRange.setStartBefore(tmp);
             start = tmpRange.startContainer;
         }
-        if (start.nodeType == 1 && domUtils.isEmptyNode(start) && tmpRange.startOffset == 1) {
+        if (start.nodeType == 1 && domUtils.isBlankNode(start) && tmpRange.startOffset == 1) {
             tmpRange.setStart(start, 0).collapse(true);
         }
         while (!tmpRange.startOffset) {
@@ -3913,7 +3913,7 @@ var domUtils = dom.domUtils = {
 
     /**
      * 判断给定的元素是否是一个空元素
-     * @method isEmptyBlock
+     * @method isBlankBlock
      * @param { Element } node 需要判断的元素
      * @return { Boolean } 是否是空元素
      * @example
@@ -3922,19 +3922,19 @@ var domUtils = dom.domUtils = {
      *
      * <script>
      *     //output: true
-     *     console.log( UE.dom.domUtils.isEmptyBlock( document.getElementById("test") ) );
+     *     console.log( UE.dom.domUtils.isBlankBlock( document.getElementById("test") ) );
      * </script>
      * ```
      */
 
     /**
      * 根据指定的判断规则判断给定的元素是否是一个空元素
-     * @method isEmptyBlock
+     * @method isBlankBlock
      * @param { Element } node 需要判断的元素
      * @param { RegExp } reg 对内容执行判断的正则表达式对象
      * @return { Boolean } 是否是空元素
      */
-    isEmptyBlock:function (node,reg) {
+    isBlankBlock:function (node,reg) {
         if(node.nodeType != 1)
             return 0;
         reg = reg || new RegExp('[ \xa0\t\r\n' + domUtils.fillChar + ']', 'g');
@@ -4487,7 +4487,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 if (!fillData.nodeValue.replace(fillCharReg, '').length) {
                     var tmpNode = fillData.parentNode;
                     domUtils.remove(fillData);
-                    while (tmpNode && domUtils.isEmptyInlineElement(tmpNode) &&
+                    while (tmpNode && domUtils.isBlankInlineElement(tmpNode) &&
                         //safari的contains有bug
                         (browser.safari ? !(domUtils.getPosition(tmpNode,excludeNode) & domUtils.POSITION_CONTAINS) : !tmpNode.contains(excludeNode))
                         ) {
@@ -6750,7 +6750,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
         /* 尝试异步加载后台配置 */
         me.loadServerConfig();
 
-        if(!utils.isEmptyObject(UE.I18N)){
+        if(!utils.isBlankObject(UE.I18N)){
             //修改默认的语言类型
             me.options.lang = checkCurLang(UE.I18N);
             UE.plugin.load(me);
@@ -7014,7 +7014,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
 
             //编辑器不能为空内容
 
-            if (domUtils.isEmptyNode(me.body)) {
+            if (domUtils.isBlankNode(me.body)) {
                 me.body.innerHTML = '<p>' + (browser.ie ? '' : '<br/>') + '</p>';
             }
             //如果要求focus, 就把光标定位到内容开始
@@ -7423,7 +7423,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 if (toEnd) {
                     var node = me.body.lastChild;
                     if(node && node.nodeType == 1 && !dtd.$empty[node.tagName]){
-                        if(domUtils.isEmptyBlock(node)){
+                        if(domUtils.isBlankBlock(node)){
                             rng.setStartAtFirst(node)
                         }else{
                             rng.setStartAtLast(node)
@@ -7687,7 +7687,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     }
                 }
             }
-            if (!domUtils.isEmptyBlock(this.body)) {
+            if (!domUtils.isBlankBlock(this.body)) {
                 return true
             }
             //随时添加,定义的特殊标签如果存在，不能认为是空
@@ -8216,7 +8216,7 @@ UE.ajax = function() {
 
         var submitStr = json2str(ajaxOpts);  // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
         //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
-        if (!utils.isEmptyObject(ajaxOpts.data)){
+        if (!utils.isBlankObject(ajaxOpts.data)){
             submitStr += (submitStr? "&":"") + json2str(ajaxOpts.data);
         }
         //超时检测
@@ -8280,7 +8280,7 @@ UE.ajax = function() {
 
         var queryStr = json2str(opts);  // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
         //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
-        if (!utils.isEmptyObject(opts.data)){
+        if (!utils.isBlankObject(opts.data)){
             queryStr += (queryStr? "&":"") + json2str(opts.data);
         }
         if (queryStr) {
@@ -9665,7 +9665,7 @@ var filterNode = UE.filterNode = function () {
 
     }
     return function(root,rules){
-        if(utils.isEmptyObject(rules)){
+        if(utils.isBlankObject(rules)){
             return root;
         }
         var val;
@@ -9987,9 +9987,9 @@ UE.plugins['defaultfilter'] = function () {
         //进行默认的处理
         root.traversal(function (node) {
             if (node.type == 'element') {
-                if (!dtd.$cdata[node.tagName] && me.options.autoClearEmptyNode && dtd.$inline[node.tagName] && !dtd.$empty[node.tagName] && (!node.attrs || utils.isEmptyObject(node.attrs))) {
+                if (!dtd.$cdata[node.tagName] && me.options.autoClearEmptyNode && dtd.$inline[node.tagName] && !dtd.$empty[node.tagName] && (!node.attrs || utils.isBlankObject(node.attrs))) {
                     if (!node.firstChild()) node.parentNode.removeChild(node);
-                    else if (node.tagName == 'span' && (!node.attrs || utils.isEmptyObject(node.attrs))) {
+                    else if (node.tagName == 'span' && (!node.attrs || utils.isBlankObject(node.attrs))) {
                         node.parentNode.removeChild(node, true)
                     }
                     return;
@@ -10024,7 +10024,7 @@ UE.plugins['defaultfilter'] = function () {
                         if (browser.webkit && (val = node.getStyle('white-space'))) {
                             if (/nowrap|normal/.test(val)) {
                                 node.setStyle('white-space', '');
-                                if (me.options.autoClearEmptyNode && utils.isEmptyObject(node.attrs)) {
+                                if (me.options.autoClearEmptyNode && utils.isBlankObject(node.attrs)) {
                                     node.parentNode.removeChild(node, true)
                                 }
                             }
@@ -10141,10 +10141,10 @@ UE.plugins['defaultfilter'] = function () {
         root.traversal(function (node) {
             if (node.type == 'element') {
 
-                if (me.options.autoClearEmptyNode && dtd.$inline[node.tagName] && !dtd.$empty[node.tagName] && (!node.attrs || utils.isEmptyObject(node.attrs))) {
+                if (me.options.autoClearEmptyNode && dtd.$inline[node.tagName] && !dtd.$empty[node.tagName] && (!node.attrs || utils.isBlankObject(node.attrs))) {
 
                     if (!node.firstChild()) node.parentNode.removeChild(node);
-                    else if (node.tagName == 'span' && (!node.attrs || utils.isEmptyObject(node.attrs))) {
+                    else if (node.tagName == 'span' && (!node.attrs || utils.isBlankObject(node.attrs))) {
                         node.parentNode.removeChild(node, true)
                     }
                     return;
@@ -10338,7 +10338,7 @@ UE.commands['inserthtml'] = {
                 }
             }
             li = domUtils.findParentByTagName(range.startContainer,'li',true);
-            if(domUtils.isEmptyBlock(li)){
+            if(domUtils.isBlankBlock(li)){
                 domUtils.remove(li)
             }
             if(last){
@@ -10412,7 +10412,7 @@ UE.commands['inserthtml'] = {
                 domUtils.remove(nextNode)
             }
             //用chrome可能有空白展位符
-            if(domUtils.isBlockElm(child) && domUtils.isEmptyNode(child)){
+            if(domUtils.isBlockElm(child) && domUtils.isBlankNode(child)){
                 if(nextNode = child.nextSibling){
                     domUtils.remove(child);
                     if(nextNode.nodeType == 1 && dtd.$block[nextNode.tagName]){
@@ -10525,7 +10525,7 @@ UE.plugins['autotypeset'] = function(){
                 return 0;
             }
 
-            return notEmpty ? !domUtils.isEmptyBlock(node) : domUtils.isEmptyBlock(node,new RegExp('[\\s'+domUtils.fillChar
+            return notEmpty ? !domUtils.isBlankBlock(node) : domUtils.isBlankBlock(node,new RegExp('[\\s'+domUtils.fillChar
                 +']','g'));
         }
     }
@@ -10688,7 +10688,7 @@ UE.plugins['autotypeset'] = function(){
 
             //去掉冗余的标签
             if(opt.removeEmptyNode){
-                if(opt.removeTagNames[ci.tagName.toLowerCase()] && domUtils.hasNoAttributes(ci) && domUtils.isEmptyBlock(ci)){
+                if(opt.removeTagNames[ci.tagName.toLowerCase()] && domUtils.hasNoAttributes(ci) && domUtils.isBlankBlock(ci)){
                     domUtils.remove(ci);
                 }
             }
@@ -11026,7 +11026,7 @@ UE.commands['imagefloat'] = {
                             range.selectNode(tmpNode).select();
                             //去掉后边多余的元素
                             next = tmpNode.parentNode.nextSibling;
-                            if (next && domUtils.isEmptyNode(next)) {
+                            if (next && domUtils.isBlankNode(next)) {
                                 domUtils.remove(next);
                             }
 
@@ -12199,7 +12199,7 @@ UE.plugins['removeformat'] = function(){
                 var node = range.startContainer,
                     tmp,
                     collapsed = range.collapsed;
-                while(node.nodeType == 1 && domUtils.isEmptyNode(node) && dtd.$removeEmpty[node.tagName]){
+                while(node.nodeType == 1 && domUtils.isBlankNode(node) && dtd.$removeEmpty[node.tagName]){
                     tmp = node.parentNode;
                     range.setStartBefore(node);
                     //trace:937
@@ -12213,7 +12213,7 @@ UE.plugins['removeformat'] = function(){
 
                 if(!collapsed){
                     node = range.endContainer;
-                    while(node.nodeType == 1 && domUtils.isEmptyNode(node) && dtd.$removeEmpty[node.tagName]){
+                    while(node.nodeType == 1 && domUtils.isBlankNode(node) && dtd.$removeEmpty[node.tagName]){
                         tmp = node.parentNode;
                         range.setEndBefore(node);
                         domUtils.remove(node);
@@ -12584,7 +12584,7 @@ UE.plugins['selectall'] = function(){
             var me = this,body = me.body,
                 range = me.selection.getRange();
             range.selectNodeContents(body);
-            if(domUtils.isEmptyBlock(body)){
+            if(domUtils.isBlankBlock(body)){
                 //opera不能自动合并到元素的里边，要手动处理一下
                 if(browser.opera && body.firstChild && body.firstChild.nodeType == 1){
                     range.setStartAtFirst(body.firstChild);
@@ -12675,7 +12675,7 @@ UE.plugins['paragraph'] = function() {
                     }
                     para.appendChild( tmpRange.extractContents() );
                     //需要内容占位
-                    if(domUtils.isEmptyNode(para)){
+                    if(domUtils.isBlankNode(para)){
                         domUtils.fillChar(range.document,para);
                         
                     }
@@ -12751,7 +12751,7 @@ UE.plugins['paragraph'] = function() {
 
                 domUtils.remove(txt);
 
-                if(domUtils.isBlockElm(pN)&&domUtils.isEmptyNode(pN)){
+                if(domUtils.isBlockElm(pN)&&domUtils.isBlankNode(pN)){
                     domUtils.fillNode(this.document,pN);
                 }
 
@@ -13317,12 +13317,12 @@ UE.plugins['insertcode'] = function() {
                 domUtils.removeAttributes(pre,'id');
                 var tmpNode = pre.previousSibling;
 
-                if(tmpNode && (tmpNode.nodeType == 3 && tmpNode.nodeValue.length == 1 && browser.ie && browser.version == 6 ||  domUtils.isEmptyBlock(tmpNode))){
+                if(tmpNode && (tmpNode.nodeType == 3 && tmpNode.nodeValue.length == 1 && browser.ie && browser.version == 6 ||  domUtils.isBlankBlock(tmpNode))){
 
                     domUtils.remove(tmpNode)
                 }
                 var rng = me.selection.getRange();
-                if(domUtils.isEmptyBlock(pre)){
+                if(domUtils.isBlankBlock(pre)){
                     rng.setStart(pre,0).setCursor(false,true)
                 }else{
                     rng.selectNodeContents(pre).select()
@@ -13880,10 +13880,10 @@ UE.plugins['pagebreak'] = function () {
     me.setOpt('pageBreakTag','_ueditor_page_break_tag_');
 
     function fillNode(node){
-        if(domUtils.isEmptyBlock(node)){
+        if(domUtils.isBlankBlock(node)){
             var firstChild = node.firstChild,tmpNode;
 
-            while(firstChild && firstChild.nodeType == 1 && domUtils.isEmptyBlock(firstChild)){
+            while(firstChild && firstChild.nodeType == 1 && domUtils.isBlankBlock(firstChild)){
                 tmpNode = firstChild;
                 firstChild = firstChild.firstChild;
             }
@@ -13981,7 +13981,7 @@ UE.plugins['pagebreak'] = function () {
                 if (!range.collapsed) {
                     range.deleteContents();
                     var start = range.startContainer;
-                    while ( !domUtils.isBody(start) && domUtils.isBlockElm(start) && domUtils.isEmptyNode(start)) {
+                    while ( !domUtils.isBody(start) && domUtils.isBlockElm(start) && domUtils.isBlankNode(start)) {
                         range.setStartBefore(start).collapse(true);
                         domUtils.remove(start);
                         start = range.startContainer;
@@ -13994,7 +13994,7 @@ UE.plugins['pagebreak'] = function () {
                 while (!domUtils.isBody(pN)) {
                     domUtils.breakParent(hr, pN);
                     nextNode = hr.nextSibling;
-                    if (nextNode && domUtils.isEmptyBlock(nextNode)) {
+                    if (nextNode && domUtils.isBlankBlock(nextNode)) {
                         domUtils.remove(nextNode);
                     }
                     pN = hr.parentNode;
@@ -14106,19 +14106,19 @@ UE.plugins['dragdrop'] = function (){
                 }
 
 
-                if((pre && pre.nodeType == 1 && !domUtils.isEmptyBlock(pre) || !pre) && (!next || next && !domUtils.isEmptyBlock(next))){
-                    if(pre && pre.tagName == 'P' && !domUtils.isEmptyBlock(pre)){
+                if((pre && pre.nodeType == 1 && !domUtils.isBlankBlock(pre) || !pre) && (!next || next && !domUtils.isBlankBlock(next))){
+                    if(pre && pre.tagName == 'P' && !domUtils.isBlankBlock(pre)){
                         pre.appendChild(node);
                         domUtils.moveChild(next,pre);
                         domUtils.remove(next);
-                    }else  if(next && next.tagName == 'P' && !domUtils.isEmptyBlock(next)){
+                    }else  if(next && next.tagName == 'P' && !domUtils.isBlankBlock(next)){
                         next.insertBefore(node,next.firstChild);
                     }
 
-                    if(pre && pre.tagName == 'P' && domUtils.isEmptyBlock(pre)){
+                    if(pre && pre.tagName == 'P' && domUtils.isBlankBlock(pre)){
                         domUtils.remove(pre)
                     }
-                    if(next && next.tagName == 'P' && domUtils.isEmptyBlock(next)){
+                    if(next && next.tagName == 'P' && domUtils.isBlankBlock(next)){
                         domUtils.remove(next)
                     }
                     rng.selectNode(node).select();
@@ -14249,7 +14249,7 @@ UE.plugins['undo'] = function () {
             //处理undo后空格不展位的问题
             if (browser.ie) {
                 utils.each(domUtils.getElementsByTagName(me.document,'td th caption p'),function(node){
-                    if(domUtils.isEmptyNode(node)){
+                    if(domUtils.isBlankNode(node)){
                         domUtils.fillNode(me.document, node);
                     }
                 })
@@ -14555,7 +14555,7 @@ UE.plugins['paste'] = function () {
         setTimeout(function () {
             if (browser.webkit) {
                 for (var i = 0, pastebins = doc.querySelectorAll('#baidu_pastebin'), pi; pi = pastebins[i++];) {
-                    if (domUtils.isEmptyNode(pi)) {
+                    if (domUtils.isBlankNode(pi)) {
                         domUtils.remove(pi);
                     } else {
                         pastebin = pi;
@@ -14684,7 +14684,7 @@ UE.plugins['paste'] = function () {
                     root.removeChild(br)
                 }
                 utils.each(me.body.querySelectorAll('div'), function (node) {
-                    if (domUtils.isEmptyBlock(node)) {
+                    if (domUtils.isBlankBlock(node)) {
                         domUtils.remove(node,true)
                     }
                 })
@@ -15054,7 +15054,7 @@ UE.plugins['list'] = function () {
                 //trace:3416
                 if(!rng.collapsed){
                     if(li = domUtils.findParentByTagName(rng.startContainer,'li',true)){
-                        if(!li.nextSibling && domUtils.isEmptyBlock(li)){
+                        if(!li.nextSibling && domUtils.isBlankBlock(li)){
                             var pn = li.parentNode,node;
                             if(node = pn.previousSibling){
                                 domUtils.remove(pn);
@@ -15374,7 +15374,7 @@ UE.plugins['list'] = function () {
         if(preList && domUtils.isFillChar(preList)){
             domUtils.remove(preList);
         }
-        !ignoreEmpty && domUtils.isEmptyBlock(list) && domUtils.remove(list);
+        !ignoreEmpty && domUtils.isBlankBlock(list) && domUtils.remove(list);
         if(getStyle(list)){
             adjustListStyle(list.ownerDocument,true)
         }
@@ -15390,11 +15390,11 @@ UE.plugins['list'] = function () {
     }
     function clearEmptySibling(node) {
         var tmpNode = node.previousSibling;
-        if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
+        if (tmpNode && domUtils.isBlankBlock(tmpNode)) {
             domUtils.remove(tmpNode);
         }
         tmpNode = node.nextSibling;
-        if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
+        if (tmpNode && domUtils.isBlankBlock(tmpNode)) {
             domUtils.remove(tmpNode);
         }
     }
@@ -15448,7 +15448,7 @@ UE.plugins['list'] = function () {
                     if (start && end && start === end) {
                         range.deleteContents();
                         li = domUtils.findParentByTagName(range.startContainer, 'li', true);
-                        if (li && domUtils.isEmptyBlock(li)) {
+                        if (li && domUtils.isBlankBlock(li)) {
 
                             pre = li.previousSibling;
                             next = li.nextSibling;
@@ -15500,7 +15500,7 @@ UE.plugins['list'] = function () {
                 li = domUtils.findParentByTagName(range.startContainer, 'li', true);
 
                 if (li) {
-                    if (domUtils.isEmptyBlock(li)) {
+                    if (domUtils.isBlankBlock(li)) {
                         bk = range.createBookmark();
                         var parentList = li.parentNode;
                         if (li !== parentList.lastChild) {
@@ -15509,7 +15509,7 @@ UE.plugins['list'] = function () {
                         } else {
 
                             parentList.parentNode.insertBefore(li, parentList.nextSibling);
-                            if (domUtils.isEmptyNode(parentList)) {
+                            if (domUtils.isBlankNode(parentList)) {
                                 domUtils.remove(parentList);
                             }
                         }
@@ -15559,7 +15559,7 @@ UE.plugins['list'] = function () {
                             nextLi.appendChild(p);
                             first = p;
                         }
-                        if (domUtils.isEmptyNode(first)) {
+                        if (domUtils.isBlankNode(first)) {
                             first.innerHTML = '';
                             domUtils.fillNode(me.document, first);
                         }
@@ -15567,7 +15567,7 @@ UE.plugins['list'] = function () {
                         range.setStart(first, 0).collapse(true).shrinkBoundary().select();
                         domUtils.remove(span);
                         var pre = nextLi.previousSibling;
-                        if (pre && domUtils.isEmptyBlock(pre)) {
+                        if (pre && domUtils.isBlankBlock(pre)) {
                             pre.innerHTML = '<p></p>';
                             domUtils.fillNode(me.document, pre.firstChild);
                         }
@@ -15613,7 +15613,7 @@ UE.plugins['list'] = function () {
                         me.undoManger && me.undoManger.save();
                         first = li.firstChild;
                         if (domUtils.isBlockElm(first)) {
-                            if (domUtils.isEmptyNode(first)) {
+                            if (domUtils.isBlankNode(first)) {
 //                                    range.setEnd(pre, pre.childNodes.length).shrinkBoundary().collapse().select(true);
                                 pre.appendChild(first);
                                 range.setStart(first, 0).setCursor(false, true);
@@ -15626,7 +15626,7 @@ UE.plugins['list'] = function () {
                                 span = me.document.createElement('span');
                                 range.insertNode(span);
                                 //判断pre是否是空的节点,如果是<p><br/></p>类型的空节点，干掉p标签防止它占位
-                                if (domUtils.isEmptyBlock(pre)) {
+                                if (domUtils.isBlankBlock(pre)) {
                                     pre.innerHTML = '';
                                 }
                                 domUtils.moveChild(li, pre);
@@ -15636,7 +15636,7 @@ UE.plugins['list'] = function () {
 
                             }
                         } else {
-                            if (domUtils.isEmptyNode(li)) {
+                            if (domUtils.isBlankNode(li)) {
                                 var p = me.document.createElement('p');
                                 pre.appendChild(p);
                                 range.setStart(p, 0).setCursor();
@@ -15662,7 +15662,7 @@ UE.plugins['list'] = function () {
                         var bk = range.createBookmark();
                         if(domUtils.isTagNode(parentList.parentNode,'ol ul')){
                             parentList.parentNode.insertBefore(li,parentList);
-                            if(domUtils.isEmptyNode(parentList)){
+                            if(domUtils.isBlankNode(parentList)){
                                 domUtils.remove(parentList)
                             }
                         }else{
@@ -15672,7 +15672,7 @@ UE.plugins['list'] = function () {
                             }
 
                             domUtils.remove(li);
-                            if(domUtils.isEmptyNode(parentList)){
+                            if(domUtils.isBlankNode(parentList)){
                                 domUtils.remove(parentList)
                             }
 
@@ -15933,10 +15933,10 @@ UE.plugins['list'] = function () {
                         }
                         frag.appendChild(end);
                         domUtils.breakParent(tmp, startParent);
-                        if (domUtils.isEmptyNode(tmp.previousSibling)) {
+                        if (domUtils.isBlankNode(tmp.previousSibling)) {
                             domUtils.remove(tmp.previousSibling);
                         }
-                        if (domUtils.isEmptyNode(tmp.nextSibling)) {
+                        if (domUtils.isBlankNode(tmp.nextSibling)) {
                             domUtils.remove(tmp.nextSibling)
                         }
                         var nodeStyle = getStyle(startParent) || domUtils.getComputedStyle(startParent, 'list-style-type') || (command.toLowerCase() == 'insertorderedlist' ? 'decimal' : 'disc');
@@ -16001,7 +16001,7 @@ UE.plugins['list'] = function () {
                             start = tmp;
                         }
                         startParent.parentNode.insertBefore(frag, startParent.nextSibling);
-                        if (domUtils.isEmptyNode(startParent)) {
+                        if (domUtils.isBlankNode(startParent)) {
                             range.setStartBefore(startParent);
                             domUtils.remove(startParent);
                         } else {
@@ -16046,7 +16046,7 @@ UE.plugins['list'] = function () {
                         domUtils.remove(end);
                         endParent.parentNode.insertBefore(frag, endParent);
                         range.setEndBefore(endParent);
-                        if (domUtils.isEmptyNode(endParent)) {
+                        if (domUtils.isBlankNode(endParent)) {
                             domUtils.remove(endParent);
                         }
 
@@ -16111,7 +16111,7 @@ UE.plugins['list'] = function () {
                         var li = range.document.createElement('li');
 
                         li.appendChild(tmpRange.extractContents());
-                        if(domUtils.isEmptyNode(li)){
+                        if(domUtils.isBlankNode(li)){
                             var tmpNode = range.document.createElement('p');
                             while(li.firstChild){
                                 tmpNode.appendChild(li.firstChild)
@@ -16801,7 +16801,7 @@ UE.plugins['keystrokes'] = function() {
             range = me.selection.getRange();
             if(range.collapsed){
                 start = range.startContainer;
-                if(domUtils.isEmptyBlock(start)){
+                if(domUtils.isBlankBlock(start)){
                     var parent = start.parentNode;
                     while(domUtils.getChildCount(parent) == 1 && !domUtils.isBody(parent)){
                         start = parent;
@@ -16826,7 +16826,7 @@ UE.plugins['keystrokes'] = function() {
                 var tmpNode,
                     autoClearTagName = ['h1','h2','h3','h4','h5','h6'];
                 if(tmpNode = domUtils.findParentByTagName(rng.startContainer,autoClearTagName,true)){
-                    if(domUtils.isEmptyBlock(tmpNode)){
+                    if(domUtils.isBlankBlock(tmpNode)){
                         var pre = tmpNode.previousSibling;
                         if(pre && pre.nodeName != 'TABLE'){
                             domUtils.remove(tmpNode);
@@ -16853,7 +16853,7 @@ UE.plugins['keystrokes'] = function() {
 
 
             //chrome下如果删除了inline标签，浏览器会有记忆，在输入文字还是会套上刚才删除的标签，所以这里再选一次就不会了
-            if( !collapsed && (rng.startContainer.nodeType == 3 || rng.startContainer.nodeType == 1 && domUtils.isEmptyBlock(rng.startContainer))){
+            if( !collapsed && (rng.startContainer.nodeType == 3 || rng.startContainer.nodeType == 1 && domUtils.isBlankBlock(rng.startContainer))){
                 if(browser.ie){
                     var span = rng.document.createElement('span');
                     rng.insertNode(span).setStartBefore(span).collapse(true);
@@ -17819,7 +17819,7 @@ UE.plugins['video'] = function (){
             domUtils.addClass(cell, "selectTdClass");
         })
     };
-    UETable.isEmptyBlock = function (node) {
+    UETable.isBlankBlock = function (node) {
         var reg = new RegExp(domUtils.fillChar, 'g');
         if (node[browser.ie ? 'innerText' : 'textContent'].replace(/^\s*$/, '').replace(reg, '').length > 0) {
             return 0;
@@ -18455,8 +18455,8 @@ UE.plugins['video'] = function (){
          * 移动单元格中的内容
          */
         moveContent:function (cellTo, cellFrom) {
-            if (UETable.isEmptyBlock(cellFrom)) return;
-            if (UETable.isEmptyBlock(cellTo)) {
+            if (UETable.isBlankBlock(cellFrom)) return;
+            if (UETable.isBlankBlock(cellTo)) {
                 cellTo.innerHTML = cellFrom.innerHTML;
                 return;
             }
@@ -19255,7 +19255,7 @@ UE.plugins['video'] = function (){
                 var cell = ut.selectedTds[0];
                 ut.mergeRange();
                 var rng = this.selection.getRange();
-                if (domUtils.isEmptyBlock(cell)) {
+                if (domUtils.isBlankBlock(cell)) {
                     rng.setStart(cell, 0).collapse(true)
                 } else {
                     rng.selectNodeContents(cell)
@@ -19335,7 +19335,7 @@ UE.plugins['video'] = function (){
                 preCell = ut.getVSideCell(cell),
                 nextCell = ut.getVSideCell(cell, true),
                 rng = this.selection.getRange();
-            if (utils.isEmptyObject(cellsRange)) {
+            if (utils.isBlankObject(cellsRange)) {
                 ut.deleteRow(cellInfo.rowIndex);
             } else {
                 for (var i = cellsRange.beginRowIndex; i < cellsRange.endRowIndex + 1; i++) {
@@ -19424,7 +19424,7 @@ UE.plugins['video'] = function (){
                 cellInfo = ut.getCellInfo(cell),
                 preCell = ut.getHSideCell(cell),
                 nextCell = ut.getHSideCell(cell, true);
-            if (utils.isEmptyObject(range)) {
+            if (utils.isBlankObject(range)) {
                 ut.deleteCol(cellInfo.colIndex);
             } else {
                 for (var i = range.beginColIndex; i < range.endColIndex + 1; i++) {
@@ -20019,7 +20019,7 @@ UE.plugins['table'] = function () {
 
                 var caption = domUtils.findParentByTagName(me.selection.getStart(), 'caption', true),
                     range = me.selection.getRange();
-                if (range.collapsed && caption && isEmptyBlock(caption)) {
+                if (range.collapsed && caption && isBlankBlock(caption)) {
                     me.fireEvent('saveScene');
                     var table = caption.parentNode;
                     domUtils.remove(caption);
@@ -20241,7 +20241,7 @@ UE.plugins['table'] = function () {
                         removeStyleSize(table, true);
                         domUtils.removeAttributes(table, ['style', 'border']);
                         utils.each(domUtils.getElementsByTagName(table, "td"), function (td) {
-                            if (isEmptyBlock(td)) {
+                            if (isBlankBlock(td)) {
                                 domUtils.fillNode(me.document, td);
                             }
                             removeStyleSize(td, true);
@@ -20300,7 +20300,7 @@ UE.plugins['table'] = function () {
                 //trace:3742
 //                utils.each(domUtils.getElementsByTagName(me.document, 'td'), function (td) {
 //
-//                    if (domUtils.isEmptyBlock(td) && td !== start) {
+//                    if (domUtils.isBlankBlock(td) && td !== start) {
 //                        domUtils.fillNode(me.document, td);
 //                        if (browser.ie && browser.version == 6) {
 //                            td.innerHTML = '&nbsp;'
@@ -20308,7 +20308,7 @@ UE.plugins['table'] = function () {
 //                    }
 //                });
 //                utils.each(domUtils.getElementsByTagName(me.document, 'th'), function (th) {
-//                    if (domUtils.isEmptyBlock(th) && th !== start) {
+//                    if (domUtils.isBlankBlock(th) && th !== start) {
 //                        domUtils.fillNode(me.document, th);
 //                        if (browser.ie && browser.version == 6) {
 //                            th.innerHTML = '&nbsp;'
@@ -20459,7 +20459,7 @@ UE.plugins['table'] = function () {
                     currentRowIndex = cell.rowSpan > 1 ? currentRowIndex : ua.getCellInfo(cell).rowIndex;
                     var nextCell = ua.getTabNextCell(cell, currentRowIndex);
                     if (nextCell) {
-                        if (isEmptyBlock(nextCell)) {
+                        if (isBlankBlock(nextCell)) {
                             range.setStart(nextCell, 0).setCursor(false, true)
                         } else {
                             range.selectNodeContents(nextCell).select()
@@ -20498,7 +20498,7 @@ UE.plugins['table'] = function () {
         me.addListener("beforegetcontent", function () {
             switchBorderColor(this, false);
             browser.ie && utils.each(this.document.getElementsByTagName('caption'), function (ci) {
-                if (domUtils.isEmptyNode(ci)) {
+                if (domUtils.isBlankNode(ci)) {
                     ci.innerHTML = '&nbsp;'
                 }
             });
@@ -20548,7 +20548,7 @@ UE.plugins['table'] = function () {
                 tds = ut.selectedTds;
                 var lastState = -2, lastValue = -2, value, state;
                 for (var i = 0, td; td = tds[i]; i++) {
-                    if (isEmptyBlock(td)) {
+                    if (isBlankBlock(td)) {
                         range.setStart(td, 0).setCursor(false, true)
                     } else {
                         range.selectNode(td).select(true);
@@ -20564,7 +20564,7 @@ UE.plugins['table'] = function () {
                         }
                         lastState = me.queryCommandState(cmd);
                         lastValue = me.queryCommandValue(cmd);
-                        if (domUtils.isEmptyBlock(td)) {
+                        if (domUtils.isBlankBlock(td)) {
                             domUtils.fillNode(me.document, td)
                         }
                     }
@@ -20606,7 +20606,7 @@ UE.plugins['table'] = function () {
         return null;
     }
 
-    function isEmptyBlock(node) {
+    function isBlankBlock(node) {
         var reg = new RegExp(domUtils.fillChar, 'g');
         if (node[browser.ie ? 'innerText' : 'textContent'].replace(/^\s*$/, '').replace(reg, '').length > 0) {
             return 0;
@@ -21279,7 +21279,7 @@ UE.plugins['table'] = function () {
                 cell = ut ? ut.selectedTds[0] : null;
             if (cell) {
                 range = new dom.Range(me.document);
-                if (domUtils.isEmptyBlock(cell)) {
+                if (domUtils.isBlankBlock(cell)) {
                     range.setStart(cell, 0).setCursor(false, true);
                 } else {
                     range.selectNodeContents(cell).shrinkBoundary().setCursor(false, true);
@@ -23160,7 +23160,7 @@ UE.plugins['customstyle'] = function() {
                 var node = domUtils.findParent(me.selection.getStart(), function(node) {
                     return node.getAttribute('label');
                 }, true);
-                if (node && dtd.$block[node.tagName] && domUtils.isEmptyNode(node)) {
+                if (node && dtd.$block[node.tagName] && domUtils.isBlankNode(node)) {
                         var p = me.document.createElement('p');
                         domUtils.insertAfter(node, p);
                         domUtils.fillNode(me.document, p);
@@ -28272,7 +28272,7 @@ UE.ui = baidu.editor.ui = {};
     editorui.paragraph = function (editor, list, title) {
         title = editor.options.labelMap['paragraph'] || editor.getLang("labelMap.paragraph") || '';
         list = editor.options['paragraph'] || [];
-        if (utils.isEmptyObject(list)) return;
+        if (utils.isBlankObject(list)) return;
         var items = [];
         for (var i in list) {
             items.push({

@@ -2,6 +2,7 @@ package com.expect.admin.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.expect.admin.data.dao.FunctionRepository;
+import com.expect.admin.data.dao.RoleFunctionRepository;
 import com.expect.admin.data.dao.RoleRepository;
 import com.expect.admin.data.dao.UserRepository;
 import com.expect.admin.data.dataobject.Function;
 import com.expect.admin.data.dataobject.Role;
+import com.expect.admin.data.dataobject.RoleFunction;
 import com.expect.admin.data.dataobject.User;
 import com.expect.admin.service.convertor.RoleConvertor;
 import com.expect.admin.service.vo.RoleVo;
@@ -34,6 +37,8 @@ public class RoleService {
 	@Autowired
 	private FunctionRepository functionRepository;
 	@Autowired
+	private RoleFunctionRepository roleFunctionRepository;
+	@Autowired
 	private UserRepository userRepository;
 
 	/**
@@ -49,7 +54,7 @@ public class RoleService {
 	 * 根据id获取角色
 	 */
 	public RoleVo getRoleById(String id) {
-		if (StringUtils.isEmpty(id)) {
+		if (StringUtils.isBlank(id)) {
 			return null;
 		}
 		Role role = roleRepository.findOne(id);
@@ -74,7 +79,7 @@ public class RoleService {
 	public ResultVo save(String name) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("增加失败");
-		if (StringUtils.isEmpty(name)) {
+		if (StringUtils.isBlank(name)) {
 			resultVo.setMessage("角色名不能为空");
 			return resultVo;
 		}
@@ -97,7 +102,7 @@ public class RoleService {
 	public ResultVo update(String id, String name) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("修改失败");
-		if (StringUtils.isEmpty(name)) {
+		if (StringUtils.isBlank(name)) {
 			return resultVo;
 		}
 		Role role = roleRepository.findOne(id);
@@ -134,14 +139,20 @@ public class RoleService {
 	 * 根据roleId获取functions
 	 */
 	public List<JsTreeVo> getFunctionTreeByRoleId(String roleId) {
-		if (StringUtils.isEmpty(roleId)) {
+		if (StringUtils.isBlank(roleId)) {
 			return new ArrayList<>();
 		}
 		Role role = roleRepository.findOne(roleId);
 		if (role == null) {
 			return new ArrayList<>();
 		}
-		Set<Function> functions = role.getFunctions();
+		Set<Function> functions = new HashSet<>();
+		Set<RoleFunction> roleFunctions = role.getRoleFunctions();
+		if (!CollectionUtils.isEmpty(roleFunctions)) {
+			for (RoleFunction roleFunction : roleFunctions) {
+				functions.add(roleFunction.getFunction());
+			}
+		}
 		List<JsTreeVo> resultJsTreeVos = new ArrayList<>();
 		List<Function> parentFunctions = functionRepository.findByParentFunctionIsNull();
 		// 设置第一级功能
@@ -217,25 +228,61 @@ public class RoleService {
 	/**
 	 * 修改角色的功能
 	 */
+	@Transactional
 	public ResultVo updateRoleFunctions(String roleId, String functionIds) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("修改失败");
-		if (StringUtils.isEmpty(roleId)) {
+		if (StringUtils.isBlank(roleId)) {
 			return resultVo;
 		}
 		Role role = roleRepository.getOne(roleId);
 		if (role == null) {
 			return resultVo;
 		}
+		Set<RoleFunction> roleFunctions = roleFunctionRepository.findByRoleId(roleId);
 		// 修改角色的功能
-		if (StringUtils.isEmpty(functionIds)) {
-			role.setFunctions(null);
-		} else {
+		if (!StringUtils.isBlank(functionIds)) {
 			String[] functionIdArr = functionIds.split(",");
-			Set<Function> functions = functionRepository.findByIdIn(functionIdArr);
-			role.setFunctions(functions);
+			Set<RoleFunction> deleteRoleFunctions = new HashSet<>();
+			// 删除修改后不存在的角色功能
+			for (RoleFunction roleFunction : roleFunctions) {
+				boolean isExists = false;
+				for (String functionId : functionIdArr) {
+					if (functionId.equals(roleFunction.getFunction().getId())) {
+						isExists = true;
+						break;
+					}
+				}
+				if (!isExists) {
+					deleteRoleFunctions.add(roleFunction);
+				}
+			}
+			for (RoleFunction deleteRoleFunction : deleteRoleFunctions) {
+				for (RoleFunction roleFunction : roleFunctions) {
+					if (deleteRoleFunction.getFunction().getId().equals(roleFunction.getFunction().getId())) {
+						roleFunctions.remove(roleFunction);
+						break;
+					}
+				}
+			}
+			// 增加新的角色功能
+			for (String functionId : functionIdArr) {
+				boolean isExists = false;
+				for (RoleFunction roleFunction : roleFunctions) {
+					if (functionId.equals(roleFunction.getFunction().getId())) {
+						isExists = true;
+						break;
+					}
+				}
+				if (!isExists) {
+					RoleFunction roleFunction = new RoleFunction();
+					Function function = functionRepository.findOne(functionId);
+					roleFunction.setFunction(function);
+					roleFunction.setRole(role);
+					roleFunctionRepository.save(roleFunction);
+				}
+			}
 		}
-		roleRepository.flush();
 
 		resultVo.setMessage("修改成功");
 		resultVo.setResult(true);

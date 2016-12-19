@@ -35,7 +35,7 @@ public class AttachmentController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultVo upload(MultipartFile files, String path, HttpServletRequest request) {
-		if (StringUtils.isEmpty(path)) {
+		if (StringUtils.isBlank(path)) {
 			return new FileResultVo(false, "路径错误");
 		}
 		path = Base64Util.decode(path);
@@ -48,7 +48,7 @@ public class AttachmentController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(String id, HttpServletResponse response) {
-		if (StringUtils.isEmpty(id)) {
+		if (StringUtils.isBlank(id)) {
 			return;
 		}
 		AttachmentVo attachment = attachmentService.getAttachmentById(id);
@@ -68,7 +68,7 @@ public class AttachmentController {
 	 */
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public void show(String id, HttpServletResponse response) {
-		if (StringUtils.isEmpty(id)) {
+		if (StringUtils.isBlank(id)) {
 			return;
 		}
 		AttachmentVo attachment = attachmentService.getAttachmentById(id);

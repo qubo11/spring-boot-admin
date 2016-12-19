@@ -27,6 +27,7 @@ import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.utils.IOUtil;
+import com.expect.admin.utils.exception.AjaxRequestException;
 
 @Controller
 @RequestMapping("/admin/user")
@@ -80,8 +81,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo save(UserVo userVo) {
-		return userService.save(userVo);
+	public DataTableRowVo save(UserVo userVo) throws AjaxRequestException {
+		try {
+			return userService.save(userVo);
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -89,8 +94,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo update(UserVo userVo) {
-		return userService.update(userVo);
+	public DataTableRowVo update(UserVo userVo) throws AjaxRequestException {
+		try {
+			return userService.update(userVo);
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -98,8 +107,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo delete(String id) {
-		return userService.delete(id);
+	public ResultVo delete(String id) throws AjaxRequestException {
+		try {
+			return userService.delete(id);
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -107,8 +120,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo deleteBatch(String ids) {
-		return userService.deleteBatch(ids);
+	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
+		try {
+			return userService.deleteBatch(ids);
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -116,9 +133,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserRole", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo updateUserRole(String userId, String roleId) {
-		ResultVo resultVo = userService.updateUserRole(userId, roleId);
-		return resultVo;
+	public ResultVo updateUserRole(String userId, String roleId) throws AjaxRequestException {
+		try {
+			ResultVo resultVo = userService.updateUserRole(userId, roleId);
+			return resultVo;
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -126,9 +147,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserDepartment", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo updateUserDepartment(String userId, String departmentId) {
-		ResultVo resultVo = userService.updateUserDepartment(userId, departmentId);
-		return resultVo;
+	public ResultVo updateUserDepartment(String userId, String departmentId) throws AjaxRequestException {
+		try {
+			ResultVo resultVo = userService.updateUserDepartment(userId, departmentId);
+			return resultVo;
+		} catch (Exception e) {
+			throw new AjaxRequestException();
+		}
 	}
 
 	/**
@@ -136,18 +161,22 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/checkAvatar", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultVo checkAvatar(String userId) {
-		UserVo user = userService.getUserById(userId);
-		if (user != null && !StringUtils.isEmpty(user.getAvatarId())) {
-			String avatarId = user.getAvatarId();
-			AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
-			if (avatar != null) {
-				return new ResultVo(true);
+	public ResultVo checkAvatar(String userId) throws AjaxRequestException {
+		try {
+			UserVo user = userService.getUserById(userId);
+			if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
+				String avatarId = user.getAvatarId();
+				AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
+				if (avatar != null) {
+					return new ResultVo(true);
+				} else {
+					return new ResultVo(false);
+				}
 			} else {
 				return new ResultVo(false);
 			}
-		} else {
-			return new ResultVo(false);
+		} catch (Exception e) {
+			throw new AjaxRequestException();
 		}
 	}
 
@@ -155,23 +184,27 @@ public class UserController {
 	 * 显示头像
 	 */
 	@RequestMapping(value = "/showAvatar", method = RequestMethod.GET)
-	public void showAvatar(String userId, HttpServletResponse response) {
-		UserVo user = userService.getUserById(userId);
-		if (user != null && !StringUtils.isEmpty(user.getAvatarId())) {
-			String avatarId = user.getAvatarId();
-			AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
-			if (avatar != null) {
-				byte[] avatarByte = IOUtil.inputDataFromFile(avatar.getPath() + File.separator + avatar.getName());
-				if (avatarByte != null) {
-					try {
-						response.getOutputStream().write(avatarByte);
-						response.getOutputStream().flush();
-						response.getOutputStream().close();
-					} catch (IOException e) {
-						e.printStackTrace();
+	public void showAvatar(String userId, HttpServletResponse response) throws AjaxRequestException {
+		try {
+			UserVo user = userService.getUserById(userId);
+			if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
+				String avatarId = user.getAvatarId();
+				AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
+				if (avatar != null) {
+					byte[] avatarByte = IOUtil.inputDataFromFile(avatar.getPath() + File.separator + avatar.getName());
+					if (avatarByte != null) {
+						try {
+							response.getOutputStream().write(avatarByte);
+							response.getOutputStream().flush();
+							response.getOutputStream().close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			throw new AjaxRequestException();
 		}
 	}
 
@@ -180,14 +213,19 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo uploadAvatar(MultipartFile files, String userAvatarId, HttpServletRequest request) {
-		String avatarPath = settings.getAvatarPath();
-		FileResultVo frv = attachmentService.save(files, avatarPath);
-		if (!frv.isResult()) {
-			return frv;
+	public ResultVo uploadAvatar(MultipartFile files, String userAvatarId, HttpServletRequest request)
+			throws AjaxRequestException {
+		try {
+			String avatarPath = settings.getAvatarPath();
+			FileResultVo frv = attachmentService.save(files, avatarPath);
+			if (!frv.isResult()) {
+				return frv;
+			}
+			ResultVo rv = userService.updateAvatar(userAvatarId, frv.getId());
+			return rv;
+		} catch (Exception e) {
+			throw new AjaxRequestException();
 		}
-		ResultVo rv = userService.updateAvatar(userAvatarId, frv.getId());
-		return rv;
 	}
 
 }

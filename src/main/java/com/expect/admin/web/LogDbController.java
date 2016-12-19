@@ -57,8 +57,8 @@ public class LogDbController {
 		Page<LogDb> logDbPage = logDbService.getLogs(logDbVo, start, length);
 		List<LogDb> logDbs = logDbPage.getContent();
 		DataTableServerArrayVo dtsrv = LogDbConvertor.convertDtsrv(logDbs);
-		dtsrv.setRecordsFiltered(logDbPage.getTotalPages());
-		dtsrv.setRecordsTotal(logDbPage.getTotalPages());
+		dtsrv.setRecordsFiltered(logDbPage.getTotalElements());
+		dtsrv.setRecordsTotal(logDbPage.getTotalElements());
 		return dtsrv;
 	}
 

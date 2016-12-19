@@ -3368,13 +3368,13 @@
 							delete state[i];
 						}
 					}
-					if($.isEmptyObject(state.core)) {
+					if($.isBlankObject(state.core)) {
 						delete state.core;
 						this.set_state(state, callback);
 						return false;
 					}
 				}
-				if($.isEmptyObject(state)) {
+				if($.isBlankObject(state)) {
 					state = null;
 					if(callback) { callback.call(this); }
 					/**
@@ -6714,7 +6714,7 @@
 		};
 		this._load_nodes = function (nodes, callback, is_callback) {
 			var s = this.settings.massload;
-			if(is_callback && !$.isEmptyObject(this._data.massload)) {
+			if(is_callback && !$.isBlankObject(this._data.massload)) {
 				return parent._load_nodes.call(this, nodes, callback, is_callback);
 			}
 			if($.isFunction(s)) {

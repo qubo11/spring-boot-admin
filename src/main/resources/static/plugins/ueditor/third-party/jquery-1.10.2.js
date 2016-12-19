@@ -504,7 +504,7 @@ jQuery.extend({
 		return key === undefined || core_hasOwn.call( obj, key );
 	},
 
-	isEmptyObject: function( obj ) {
+	isBlankObject: function( obj ) {
 		var name;
 		for ( name in obj ) {
 			return false;
@@ -3711,7 +3711,7 @@ function internalRemoveData( elem, name, pvt ) {
 
 			// If there is no data left in the cache, we want to continue
 			// and let the cache object itself get destroyed
-			if ( pvt ? !isEmptyDataObject(thisCache) : !jQuery.isEmptyObject(thisCache) ) {
+			if ( pvt ? !isBlankDataObject(thisCache) : !jQuery.isBlankObject(thisCache) ) {
 				return;
 			}
 		}
@@ -3723,7 +3723,7 @@ function internalRemoveData( elem, name, pvt ) {
 
 		// Don't destroy the parent cache unless the internal data object
 		// had been the only thing left in it
-		if ( !isEmptyDataObject( cache[ id ] ) ) {
+		if ( !isBlankDataObject( cache[ id ] ) ) {
 			return;
 		}
 	}
@@ -3758,7 +3758,7 @@ jQuery.extend({
 
 	hasData: function( elem ) {
 		elem = elem.nodeType ? jQuery.cache[ elem[jQuery.expando] ] : elem[ jQuery.expando ];
-		return !!elem && !isEmptyDataObject( elem );
+		return !!elem && !isBlankDataObject( elem );
 	},
 
 	data: function( elem, name, data ) {
@@ -3883,12 +3883,12 @@ function dataAttr( elem, key, data ) {
 }
 
 // checks a cache object for emptiness
-function isEmptyDataObject( obj ) {
+function isBlankDataObject( obj ) {
 	var name;
 	for ( name in obj ) {
 
 		// if the public data object is empty, the private is still empty
-		if ( name === "data" && jQuery.isEmptyObject( obj[name] ) ) {
+		if ( name === "data" && jQuery.isBlankObject( obj[name] ) ) {
 			continue;
 		}
 		if ( name !== "toJSON" ) {
@@ -4909,7 +4909,7 @@ jQuery.event = {
 		}
 
 		// Remove the expando if it's no longer used
-		if ( jQuery.isEmptyObject( events ) ) {
+		if ( jQuery.isBlankObject( events ) ) {
 			delete elemData.handle;
 
 			// removeData also checks for emptiness and clears the expando if empty
@@ -9144,7 +9144,7 @@ function defaultPrefilter( elem, props, opts ) {
 		}
 	}
 
-	if ( !jQuery.isEmptyObject( orig ) ) {
+	if ( !jQuery.isBlankObject( orig ) ) {
 		if ( dataShow ) {
 			if ( "hidden" in dataShow ) {
 				hidden = dataShow.hidden;
@@ -9298,7 +9298,7 @@ jQuery.fn.extend({
 			.end().animate({ opacity: to }, speed, easing, callback );
 	},
 	animate: function( prop, speed, easing, callback ) {
-		var empty = jQuery.isEmptyObject( prop ),
+		var empty = jQuery.isBlankObject( prop ),
 			optall = jQuery.speed( speed, easing, callback ),
 			doAnimation = function() {
 				// Operate on a copy of prop so per-property easing won't be lost

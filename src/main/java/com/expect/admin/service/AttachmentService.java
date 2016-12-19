@@ -44,7 +44,7 @@ public class AttachmentService {
 			e.printStackTrace();
 			return frv;
 		}
-		if (StringUtils.isEmpty(path)) {
+		if (StringUtils.isBlank(path)) {
 			path = settings.getAttachmentPath();
 		}
 		String fileName = file.getOriginalFilename();

@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
 	 * 根据id获取用户
 	 */
 	public UserVo getUserById(String id) {
-		if (StringUtils.isEmpty(id)) {
+		if (StringUtils.isBlank(id)) {
 			return new UserVo();
 		} else {
 			User user = userRepository.findOne(id);
@@ -98,7 +98,7 @@ public class UserService implements UserDetailsService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("修改失败");
 
-		if (StringUtils.isEmpty(userVo.getId())) {
+		if (StringUtils.isBlank(userVo.getId())) {
 			return dtrv;
 		}
 		User user = userRepository.findOne(userVo.getId());
@@ -147,7 +147,7 @@ public class UserService implements UserDetailsService {
 	public ResultVo deleteBatch(String ids) {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("删除失败");
-		if (StringUtils.isEmpty(ids)) {
+		if (StringUtils.isBlank(ids)) {
 			return resultVo;
 		}
 		String[] idArr = ids.split(",");
@@ -183,7 +183,7 @@ public class UserService implements UserDetailsService {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("用户角色修改失败");
 
-		if (StringUtils.isEmpty(userId)) {
+		if (StringUtils.isBlank(userId)) {
 			return resultVo;
 		}
 		User user = userRepository.findOne(userId);
@@ -208,7 +208,7 @@ public class UserService implements UserDetailsService {
 		ResultVo resultVo = new ResultVo();
 		resultVo.setMessage("用户部门修改失败");
 
-		if (StringUtils.isEmpty(userId)) {
+		if (StringUtils.isBlank(userId)) {
 			return resultVo;
 		}
 		User user = userRepository.findOne(userId);
@@ -231,6 +231,7 @@ public class UserService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
+		user.setAuthority();
 		return user;
 	}
 
