@@ -1,0 +1,7 @@
+前台：
+1.备忘录js都在plugins/jquery-memo下面，引入对应的js和css即可；
+2.更新下plugins/bootstrap-sweetalert,把home.html中的sweetalert.min.js换成sweetalert.js，我改了一些功能；
+3.用法：参考见index.html：（把该页面的js放在你们自己的.js文件下面）
+主要就增删改查四个操作，对应的param下面的userId换成session里面的用户的id即可。
+后台：
+1.把所有关于memo都拷贝到你们的项目下面；
