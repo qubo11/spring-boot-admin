@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 </head>
 <body>
-	<th:block th:if="${action!=null}">
-		<div class="actions" th:fragment="actions-fragment">
+	<th:block th:if="${action!=null}" th:fragment="actions-fragment">
+		<div class="actions">
 			<th:block th:if="${action.html!=null}">
 				<th:block th:utext="${action.html}"></th:block>
 			</th:block>

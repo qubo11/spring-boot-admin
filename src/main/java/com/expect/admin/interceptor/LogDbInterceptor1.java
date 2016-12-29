@@ -1,4 +1,4 @@
-package com.expect.admin.utils.log.interceptor;
+package com.expect.admin.interceptor;
 
 import java.util.Date;
 
@@ -18,8 +18,8 @@ import com.expect.admin.data.dao.LogDbRepository;
 import com.expect.admin.data.dataobject.LogDb;
 import com.expect.admin.data.dataobject.LogDbParam;
 import com.expect.admin.data.dataobject.User;
-import com.expect.admin.utils.log.utils.LogDescriptor;
-import com.expect.admin.utils.log.utils.LogUtils;
+import com.expect.admin.service.log.LogDescriptor;
+import com.expect.admin.service.log.LogUtils;
 
 /**
  * 增删改的数据库操作记录
@@ -32,9 +32,9 @@ import com.expect.admin.utils.log.utils.LogUtils;
  */
 @Component
 @Aspect
-public class LogDbInterceptor {
+public class LogDbInterceptor1 {
 
-	private Logger logger = LoggerFactory.getLogger(LogDbInterceptor.class);
+	private Logger logger = LoggerFactory.getLogger(LogDbInterceptor1.class);
 
 	@Autowired
 	private LogDbRepository logDbRepository;
@@ -98,63 +98,63 @@ public class LogDbInterceptor {
 //		return null;
 //	}
 
-	@Pointcut(value = "@annotation(com.expect.admin.utils.log.utils.LogDescriptor)")
-	public void pointAnnotation() {
-	}
-
-	@Around("pointAnnotation()")
-	public Object executeAnnotation(ProceedingJoinPoint pjp) {
-		logger.info("增删改开始");
-		try {
-			LogDb logDb = new LogDb();
-			// 用户信息
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user = (User) auth.getPrincipal();
-			String userId = user.getId();
-			String username = user.getUsername();
-			// 执行时间
-			long executeTime = System.currentTimeMillis();
-			Object object = pjp.proceed();
-			executeTime = System.currentTimeMillis() - executeTime;
-			// 类名
-			String className = pjp.getSignature().getDeclaringTypeName();
-			// 方法名
-			String methodName = pjp.getSignature().getName();
-			logger.info("签名：" + className + "." + methodName);
-			// 参数
-			Object[] args = pjp.getArgs();
-			int length = 0;
-			if (args != null) {
-				length = args.length;
-			}
-			// 日志的注解
-			LogDescriptor logDescriptor = LogUtils.getLogDescriptor(className, methodName, length);
-			if (logDescriptor != null) {
-				logDb.setDescription(logDescriptor.value());
-				logDb.setOperationType(logDescriptor.operationType());
-			}
-			logDb.setMethodName(className + "." + methodName);
-			logDb.setExecuteTime(executeTime);
-			logDb.setDateTime(new Date());
-			logDb.setResult(object + "");
-			logDb.setUserId(userId);
-			logDb.setUsername(username);
-			LogDb result = logDbRepository.save(logDb);
-
-			if (result != null) {
-				for (Object arg : args) {
-					LogDbParam logDbParam = new LogDbParam();
-					logDbParam.setParam(arg + "");
-					logDbParam.setLogDb(logDb);
-					logDbParamRepository.save(logDbParam);
-				}
-			}
-			logger.info("增删改成功");
-			return object;
-		} catch (Throwable e) {
-			e.printStackTrace();
-			logger.info("增删改失败：" + e.getMessage());
-		}
-		return null;
-	}
+//	@Pointcut(value = "@annotation(com.expect.admin.utils.log.utils.LogDescriptor)")
+//	public void pointAnnotation() {
+//	}
+//
+//	@Around("pointAnnotation()")
+//	public Object executeAnnotation(ProceedingJoinPoint pjp) {
+//		logger.info("增删改开始");
+//		try {
+//			LogDb logDb = new LogDb();
+//			// 用户信息
+//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//			User user = (User) auth.getPrincipal();
+//			String userId = user.getId();
+//			String username = user.getUsername();
+//			// 执行时间
+//			long executeTime = System.currentTimeMillis();
+//			Object object = pjp.proceed();
+//			executeTime = System.currentTimeMillis() - executeTime;
+//			// 类名
+//			String className = pjp.getSignature().getDeclaringTypeName();
+//			// 方法名
+//			String methodName = pjp.getSignature().getName();
+//			logger.info("签名：" + className + "." + methodName);
+//			// 参数
+//			Object[] args = pjp.getArgs();
+//			int length = 0;
+//			if (args != null) {
+//				length = args.length;
+//			}
+//			// 日志的注解
+//			LogDescriptor logDescriptor = LogUtils.getLogDescriptor(className, methodName, length);
+//			if (logDescriptor != null) {
+//				logDb.setDescription(logDescriptor.value());
+//				logDb.setOperationType(logDescriptor.operationType());
+//			}
+//			logDb.setMethodName(className + "." + methodName);
+//			logDb.setExecuteTime(executeTime);
+//			logDb.setDateTime(new Date());
+//			logDb.setResult(object + "");
+//			logDb.setUserId(userId);
+//			logDb.setUsername(username);
+//			LogDb result = logDbRepository.save(logDb);
+//
+//			if (result != null) {
+//				for (Object arg : args) {
+//					LogDbParam logDbParam = new LogDbParam();
+//					logDbParam.setParam(arg + "");
+//					logDbParam.setLogDb(logDb);
+//					logDbParamRepository.save(logDbParam);
+//				}
+//			}
+//			logger.info("增删改成功");
+//			return object;
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//			logger.info("增删改失败：" + e.getMessage());
+//		}
+//		return null;
+//	}
 }

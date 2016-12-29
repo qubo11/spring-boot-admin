@@ -1,4 +1,4 @@
-package com.expect.admin.utils.log.utils;
+package com.expect.admin.service.log;
 
 /**
  * 日志记录描述接口，用户日志方法的AOP，统一处理日志描述和操作类型

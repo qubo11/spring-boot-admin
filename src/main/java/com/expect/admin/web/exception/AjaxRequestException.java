@@ -1,4 +1,4 @@
-package com.expect.admin.utils.exception;
+package com.expect.admin.web.exception;
 
 /**
  * ajax请求的错误

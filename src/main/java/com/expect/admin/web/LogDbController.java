@@ -15,6 +15,8 @@ import com.expect.admin.service.LogDbService;
 import com.expect.admin.service.convertor.LogDbConvertor;
 import com.expect.admin.service.vo.LogDbVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableServerArrayVo;
+import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequestException;
 
 /**
  * 日志记录Controller
@@ -53,7 +55,9 @@ public class LogDbController {
 	 */
 	@RequestMapping(value = "/getLogDbDatatable", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableServerArrayVo getLogDbDatatable(LogDbVo logDbVo, String start, String length) {
+	@AjaxException
+	public DataTableServerArrayVo getLogDbDatatable(LogDbVo logDbVo, String start, String length)
+			throws AjaxRequestException {
 		Page<LogDb> logDbPage = logDbService.getLogs(logDbVo, start, length);
 		List<LogDb> logDbs = logDbPage.getContent();
 		DataTableServerArrayVo dtsrv = LogDbConvertor.convertDtsrv(logDbs);

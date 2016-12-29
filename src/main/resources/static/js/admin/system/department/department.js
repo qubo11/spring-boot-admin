@@ -4,16 +4,20 @@ var Department = {
 	inputCode:$("input[name='code']"),
 	inputDescription:$("input[name='description']"),
 	init : function() {
-		var mTable=DatatableTool.initDatatable("department-table", [ {
-			'orderable' : false,
-			'targets' : [ 0, 6 ]
-		}, {
-			"searchable" : false,
-			"targets" : [ 0, 6 ]
-		},{
-			"width" : "100px",
-			"targets" : 6
-		} ], [ [ 1, "asc" ] ]);
+		var mTable=DatatableTool.initDatatable("department-table",{
+			"columnDefs":[ {
+				'orderable' : false,
+				'targets' : [ 0, 6 ]
+			}, {
+				"searchable" : false,
+				"targets" : [ 0, 6 ]
+			},{
+				"width" : "100px",
+				"targets" : 6
+			} ],
+			"order":[ [ 1, "asc" ] ],
+			"bAutoWidth":true
+		});
 		
 		Department.initModal();
 		Department.initSaveUpdate();

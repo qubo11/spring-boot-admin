@@ -12,10 +12,10 @@ import com.expect.admin.plugins.ueditor.define.State;
 
 @Component
 public class Uploader {
-
+	
 	@Autowired
 	private BinaryUploader bu;
-
+	
 	private HttpServletRequest request = null;
 	private Map<String, Object> conf = null;
 
@@ -27,33 +27,23 @@ public class Uploader {
 		this.conf = conf;
 	}
 
-	public final State doExec(MultipartFile upfile) {
+	public final State doExec(MultipartFile file) {
 		String filedName = (String) this.conf.get("fieldName");
 		State state = null;
 
 		if ("true".equals(this.conf.get("isBase64"))) {
 			state = Base64Uploader.save(this.request.getParameter(filedName), this.conf);
 		} else {
-			state = bu.save(this.request, this.conf, upfile);
+			state = bu.save(this.request, this.conf, file);
 		}
-
 		return state;
-	}
-
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
-
-	public Map<String, Object> getConf() {
-		return conf;
 	}
 
 	public void setConf(Map<String, Object> conf) {
 		this.conf = conf;
 	}
 
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 }

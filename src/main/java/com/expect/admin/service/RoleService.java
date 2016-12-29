@@ -258,12 +258,7 @@ public class RoleService {
 				}
 			}
 			for (RoleFunction deleteRoleFunction : deleteRoleFunctions) {
-				for (RoleFunction roleFunction : roleFunctions) {
-					if (deleteRoleFunction.getFunction().getId().equals(roleFunction.getFunction().getId())) {
-						roleFunctions.remove(roleFunction);
-						break;
-					}
-				}
+				roleFunctionRepository.delete(deleteRoleFunction);
 			}
 			// 增加新的角色功能
 			for (String functionId : functionIdArr) {

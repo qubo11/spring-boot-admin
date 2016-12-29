@@ -14,6 +14,8 @@ import com.expect.admin.service.convertor.FunctionConvertor;
 import com.expect.admin.service.vo.FunctionVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
+import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequestException;
 
 /**
  * 功能Controller
@@ -55,7 +57,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo save(FunctionVo functionVo) {
+	@AjaxException
+	public DataTableRowVo save(FunctionVo functionVo) throws AjaxRequestException{
 		return functionService.save(functionVo);
 	}
 
@@ -64,7 +67,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo update(FunctionVo functionVo) {
+	@AjaxException
+	public DataTableRowVo update(FunctionVo functionVo) throws AjaxRequestException{
 		return functionService.update(functionVo);
 	}
 
@@ -73,7 +77,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo delete(String id) {
+	@AjaxException
+	public ResultVo delete(String id) throws AjaxRequestException{
 		return functionService.delete(id);
 	}
 
@@ -82,7 +87,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo deleteBatch(String ids) {
+	@AjaxException
+	public ResultVo deleteBatch(String ids) throws AjaxRequestException{
 		return functionService.deleteBatch(ids);
 	}
 }

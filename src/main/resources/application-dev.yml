@@ -1,0 +1,23 @@
+server:
+  port: 80
+  context-path: /spring-boot-admin
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/spring-boot-admin
+    username: root
+    password: qubo
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      indent-output: true
+  aop:
+    proxy-target-class: true
+    
+custom:
+  root-path: C:\\spring-boot-admin
+  avatar-path: C:\\spring-boot-admin\\avatar
+  attachment-path: C:\\spring-boot-admin\\attachment

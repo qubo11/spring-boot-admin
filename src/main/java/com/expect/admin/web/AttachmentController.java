@@ -21,6 +21,8 @@ import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.utils.Base64Util;
 import com.expect.admin.utils.IOUtil;
 import com.expect.admin.utils.RequestUtil;
+import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequestException;
 
 @Controller
 @RequestMapping("/admin/attachment")
@@ -34,11 +36,11 @@ public class AttachmentController {
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo upload(MultipartFile files, String path, HttpServletRequest request) {
-		if (StringUtils.isBlank(path)) {
-			return new FileResultVo(false, "路径错误");
+	@AjaxException
+	public ResultVo upload(MultipartFile files, String path, HttpServletRequest request) throws AjaxRequestException {
+		if (!StringUtils.isBlank(path)) {
+			path = Base64Util.decode(path);
 		}
-		path = Base64Util.decode(path);
 		FileResultVo frv = attachmentService.save(files, path);
 		return frv;
 	}

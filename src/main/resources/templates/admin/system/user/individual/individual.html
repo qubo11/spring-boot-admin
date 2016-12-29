@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="page-head">
+		<div class="page-title">
+			<h1>个人设置</h1>
+		</div>
+	</div>
+	<ul class="page-breadcrumb breadcrumb">
+		<li><a href="javascript:;">主页</a> <i class="fa fa-circle"></i></li>
+		<li><span class="active">个人设置</span></li>
+	</ul>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="profile-content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet light bordered">
+							<div class="portlet-title tabbable-line">
+								<div class="caption caption-md">
+									<i class="icon-globe theme-font hide"></i> <span
+										class="caption-subject font-blue-madison bold uppercase">个人帐号</span>
+								</div>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#tab_individual_info"
+										data-toggle="tab" aria-expanded="true">个人信息</a></li>
+									<li class=""><a href="#tab_individual_avatar"
+										data-toggle="tab" aria-expanded="false">修改头像</a></li>
+									<li class=""><a href="#tab_individual_password"
+										data-toggle="tab" aria-expanded="false">修改密码</a></li>
+								</ul>
+							</div>
+							<div class="portlet-body">
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_individual_info">
+										<form id="individual-info-form" role="form">
+											<input type="hidden" name="id" th:value="${user.id}" />
+											<input type="hidden" name="password" th:value="${user.password}" />
+											<div class="form-group">
+												<label for="username">用户名</label>
+												<div class="input-group col-md-12">
+													<input id="username" type="text" class="form-control"
+														name="username" placeholder="请输入用户名"
+														th:value="${user.username}" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="fullName">姓名</label>
+												<div class="input-group col-md-12">
+													<input id="fullName" type="text" class="form-control"
+														name="fullName" placeholder="请输入姓名"
+														th:value="${user.fullName}" />
+												</div>
+											</div>
+											<div class="form-group form-md-radios">
+												<label>性别</label>
+												<div class="md-radio-inline">
+													<div class="md-radio">
+														<input type="radio" id="sex-male" name="sex" value="男"
+															class="md-radiobtn" th:checked="${user.sex}=='男'" /> <label
+															for="sex-male"> <span class="inc"></span> <span
+															class="check"></span> <span class="box"></span> 男
+														</label>
+													</div>
+													<div class="md-radio has-error">
+														<input type="radio" id="sex-female" name="sex"
+															class="md-radiobtn" value="女"
+															th:checked="${user.sex}=='女'" /> <label for="sex-female">
+															<span class="inc"></span> <span class="check"></span> <span
+															class="box"></span> 女
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="phone">电话</label>
+												<div class="input-group col-md-12">
+													<input id="phone" type="text" class="form-control"
+														name="phone" placeholder="请输入电话" th:value="${user.phone}" />
+
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="email">邮箱</label>
+												<div class="input-group col-md-12">
+													<input id="email" type="text" class="form-control"
+														name="email" placeholder="请输入邮箱" th:value="${user.email}" />
+
+												</div>
+											</div>
+											<div class="margiv-top-10">
+												<a href="javascript:;"
+													class="btn green individual-info-save">保存 </a>
+											</div>
+										</form>
+									</div>
+									<div class="tab-pane" id="tab_individual_avatar">
+										<form class="form" id="user-avatar-form">
+											<input type="hidden" name="userAvatarId" th:value="${user.id}"/>
+											<div class="row">
+												<div class="col-md-5 col-md-offset-4">
+													<img th:src="@{/images/avatar.png}"
+														class="circle responsive-img valign user-avatar-img"
+														style="width: 180px; height: 180px;" />
+												</div>
+											</div>
+											<div class="row" style="margin-top: 10px;">
+												<div class="col-md-10 col-md-offset-1">
+													<div class="files-template-wrapper"></div>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div class="tab-pane" id="tab_individual_password">
+										<form id="user-password-form">
+											<input type="hidden" name="id" th:value="${user.id}" />
+											<div class="form-group">
+												<label class="control-label">当前密码</label> <input
+													type="password" class="form-control" name="oldPassword"/>
+											</div>
+											<div class="form-group">
+												<label class="control-label">新密码</label> <input
+													type="password" class="form-control" name="newPassword"/>
+											</div>
+											<div class="form-group">
+												<label class="control-label">重复新密码</label> <input
+													type="password" class="form-control" name="newPasswordRepeat"/>
+											</div>
+											<div class="margin-top-10">
+												<a href="javascript:;" class="btn green user-pasword-modify">
+													修改 </a>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/admin/system/user/individual.js}"
+		type="text/javascript"></script>
+</body>
+</html>

@@ -95,13 +95,16 @@ public class AttachmentService {
 	 */
 	public AttachmentVo getAttachmentById(String id) {
 		Attachment attachment = attachmentRepository.findOne(id);
-		AttachmentVo attachmentVo = new AttachmentVo();
-		try {
-			BeanUtils.copyProperties(attachmentVo, attachment);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+		if (attachment != null) {
+			AttachmentVo attachmentVo = new AttachmentVo();
+			try {
+				BeanUtils.copyProperties(attachmentVo, attachment);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			return attachmentVo;
 		}
-		return attachmentVo;
+		return null;
 	}
 
 	/**

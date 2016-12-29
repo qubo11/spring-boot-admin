@@ -127,10 +127,9 @@ public class UserConvertor {
 		dtrv.addData(userVo.getSex());
 		dtrv.addData(userVo.getPhone());
 		dtrv.addData(userVo.getEmail());
-		dtrv.addData(userVo.getRoleName());
-		dtrv.addData(userVo.getDepartmentName());
 		// 设置操作的button
 		StringBuilder sb = new StringBuilder();
+		sb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getGreenButton("部门", "data-id='" + userVo.getId() + "'"));
@@ -152,38 +151,9 @@ public class UserConvertor {
 		dtrv.addData(user.getSex());
 		dtrv.addData(user.getPhone());
 		dtrv.addData(user.getEmail());
-		// 设置角色
-		Set<Role> roles = user.getRoles();
-		StringBuilder roleSb = new StringBuilder();
-		if (!CollectionUtils.isEmpty(roles)) {
-			int index = 0;
-			for (Role role : roles) {
-				if (index != roles.size() - 1) {
-					roleSb.append(role.getName() + ",");
-				} else {
-					roleSb.append(role.getName());
-				}
-				index++;
-			}
-		}
-		dtrv.addData(roleSb.toString());
-		// 设置部门
-		Set<Department> departments = user.getDepartments();
-		StringBuilder departmentSb = new StringBuilder();
-		if (!CollectionUtils.isEmpty(departments)) {
-			int index = 0;
-			for (Department department : departments) {
-				if (index != departments.size() - 1) {
-					departmentSb.append(department.getName() + ",");
-				} else {
-					departmentSb.append(department.getName());
-				}
-				index++;
-			}
-		}
-		dtrv.addData(departmentSb.toString());
 		// 设置操作的button
 		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + user.getId() + "'"));
 		buttonSb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + user.getId() + "'"));
 		buttonSb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + user.getId() + "'"));
 		buttonSb.append(DataTableButtonFactory.getGreenButton("部门", "data-id='" + user.getId() + "'"));

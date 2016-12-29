@@ -5,7 +5,7 @@
 
 	<groupId>com.expect.admin</groupId>
 	<artifactId>spring-boot-admin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>spring-boot-admin</name>
@@ -116,8 +116,12 @@
 
 	<build>
 		<finalName>spring-boot-admin</finalName>
-		<!-- <plugins> <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
-			</plugin> </plugins> -->
+		<!-- <plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins> -->
 	</build>
 
 </project>

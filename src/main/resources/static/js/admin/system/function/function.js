@@ -6,16 +6,20 @@ var Function = {
 	inputDescription:$("input[name='description']"),
 	inputSequence:$("input[name='sequenceStr']"),
 	init : function() {
-		var mTable=DatatableTool.initDatatable("function-table", [ {
-			'orderable' : false,
-			'targets' : [ 0, 7 ]
-		}, {
-			"searchable" : false,
-			"targets" : [ 0, 7 ]
-		},{
-			"width" : "100px",
-			"targets" : 7
-		} ], [ [ 1, "asc" ] ]);
+		var mTable=DatatableTool.initDatatable("function-table",{
+			"columnDefs":[ {
+				'orderable' : false,
+				'targets' : [ 0, 7 ]
+			}, {
+				"searchable" : false,
+				"targets" : [ 0, 7 ]
+			},{
+				"width" : "100px",
+				"targets" : 7
+			} ],
+			"order":[ [ 1, "asc" ] ],
+			"bAutoWidth":true
+		});
 		
 		Function.initModal();
 		Function.initSaveUpdate();

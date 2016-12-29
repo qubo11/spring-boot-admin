@@ -49,7 +49,7 @@ public class BinaryUploader {
 				}
 				String id = frv.getId();
 				url = "attachment/show?id=" + id;
-			}else{
+			} else {
 				return new BaseState(false, AppInfo.IO_ERROR);
 			}
 

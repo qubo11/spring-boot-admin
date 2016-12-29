@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-md-4 control-label">头像：</label>
+			<div class="col-md-6">
+				<img th:src="@{attachment/show(id=${user.avatarId})}"
+					style="height: 150px;" />
+			</div>
+		</div>
+		<div class="form-body">
+			<div class="form-group">
+				<label class="col-md-4 control-label">用户名：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.username}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">密码：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.password}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">姓名：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.fullName}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">性别：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.sex}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">Email：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.email}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">电话：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.phone}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">角色：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.roleName}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">部门：</label>
+				<div class="col-md-8">
+					<p class="form-control-static" th:text="${user.departmentName}"></p>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

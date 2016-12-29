@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.expect.admin.config.Settings;
+import com.expect.admin.data.dataobject.User;
 import com.expect.admin.service.AttachmentService;
 import com.expect.admin.service.UserService;
 import com.expect.admin.service.convertor.UserConvertor;
@@ -27,7 +28,8 @@ import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.utils.IOUtil;
-import com.expect.admin.utils.exception.AjaxRequestException;
+import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequestException;
 
 @Controller
 @RequestMapping("/admin/user")
@@ -64,6 +66,17 @@ public class UserController {
 		modelAndView.addObject("user", user);
 		return modelAndView;
 	}
+	
+	/**
+	 * 用户表单页面
+	 */
+	@RequestMapping(value = "/userDetailPage", method = RequestMethod.POST)
+	public ModelAndView userDetailPage(String id) {
+		UserVo user = userService.getUserById(id);
+		ModelAndView modelAndView = new ModelAndView(viewName + "detail/userDetail");
+		modelAndView.addObject("user", user);
+		return modelAndView;
+	}
 
 	/**
 	 * 获取userSelect的html
@@ -81,12 +94,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public DataTableRowVo save(UserVo userVo) throws AjaxRequestException {
-		try {
-			return userService.save(userVo);
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		return userService.save(userVo);
 	}
 
 	/**
@@ -94,12 +104,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public DataTableRowVo update(UserVo userVo) throws AjaxRequestException {
-		try {
-			return userService.update(userVo);
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		return userService.update(userVo);
 	}
 
 	/**
@@ -107,12 +114,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public ResultVo delete(String id) throws AjaxRequestException {
-		try {
-			return userService.delete(id);
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		return userService.delete(id);
 	}
 
 	/**
@@ -120,12 +124,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
-		try {
-			return userService.deleteBatch(ids);
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		return userService.deleteBatch(ids);
 	}
 
 	/**
@@ -133,13 +134,10 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserRole", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public ResultVo updateUserRole(String userId, String roleId) throws AjaxRequestException {
-		try {
-			ResultVo resultVo = userService.updateUserRole(userId, roleId);
-			return resultVo;
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		ResultVo resultVo = userService.updateUserRole(userId, roleId);
+		return resultVo;
 	}
 
 	/**
@@ -147,13 +145,10 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserDepartment", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public ResultVo updateUserDepartment(String userId, String departmentId) throws AjaxRequestException {
-		try {
-			ResultVo resultVo = userService.updateUserDepartment(userId, departmentId);
-			return resultVo;
-		} catch (Exception e) {
-			throw new AjaxRequestException();
-		}
+		ResultVo resultVo = userService.updateUserDepartment(userId, departmentId);
+		return resultVo;
 	}
 
 	/**
@@ -161,22 +156,19 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/checkAvatar", method = RequestMethod.GET)
 	@ResponseBody
+	@AjaxException
 	public ResultVo checkAvatar(String userId) throws AjaxRequestException {
-		try {
-			UserVo user = userService.getUserById(userId);
-			if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
-				String avatarId = user.getAvatarId();
-				AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
-				if (avatar != null) {
-					return new ResultVo(true);
-				} else {
-					return new ResultVo(false);
-				}
+		UserVo user = userService.getUserById(userId);
+		if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
+			String avatarId = user.getAvatarId();
+			AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
+			if (avatar != null) {
+				return new ResultVo(true);
 			} else {
 				return new ResultVo(false);
 			}
-		} catch (Exception e) {
-			throw new AjaxRequestException();
+		} else {
+			return new ResultVo(false);
 		}
 	}
 
@@ -184,27 +176,24 @@ public class UserController {
 	 * 显示头像
 	 */
 	@RequestMapping(value = "/showAvatar", method = RequestMethod.GET)
+	@AjaxException
 	public void showAvatar(String userId, HttpServletResponse response) throws AjaxRequestException {
-		try {
-			UserVo user = userService.getUserById(userId);
-			if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
-				String avatarId = user.getAvatarId();
-				AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
-				if (avatar != null) {
-					byte[] avatarByte = IOUtil.inputDataFromFile(avatar.getPath() + File.separator + avatar.getName());
-					if (avatarByte != null) {
-						try {
-							response.getOutputStream().write(avatarByte);
-							response.getOutputStream().flush();
-							response.getOutputStream().close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+		UserVo user = userService.getUserById(userId);
+		if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
+			String avatarId = user.getAvatarId();
+			AttachmentVo avatar = attachmentService.getAttachmentById(avatarId);
+			if (avatar != null) {
+				byte[] avatarByte = IOUtil.inputDataFromFile(avatar.getPath() + File.separator + avatar.getName());
+				if (avatarByte != null) {
+					try {
+						response.getOutputStream().write(avatarByte);
+						response.getOutputStream().flush();
+						response.getOutputStream().close();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			}
-		} catch (Exception e) {
-			throw new AjaxRequestException();
 		}
 	}
 
@@ -213,19 +202,39 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
 	@ResponseBody
+	@AjaxException
 	public ResultVo uploadAvatar(MultipartFile files, String userAvatarId, HttpServletRequest request)
 			throws AjaxRequestException {
-		try {
-			String avatarPath = settings.getAvatarPath();
-			FileResultVo frv = attachmentService.save(files, avatarPath);
-			if (!frv.isResult()) {
-				return frv;
-			}
-			ResultVo rv = userService.updateAvatar(userAvatarId, frv.getId());
-			return rv;
-		} catch (Exception e) {
-			throw new AjaxRequestException();
+		String avatarPath = settings.getAvatarPath();
+		FileResultVo frv = attachmentService.save(files, avatarPath);
+		if (!frv.isResult()) {
+			return frv;
 		}
+		ResultVo rv = userService.updateAvatar(userAvatarId, frv.getId());
+		return rv;
 	}
 
+	/**
+	 * 用户管理页面
+	 */
+	@RequestMapping(value = "/individualPage", method = RequestMethod.GET)
+	public ModelAndView individualPage() {
+		User user = User.getUser();
+		ModelAndView modelAndView = new ModelAndView(viewName + "individual/individual");
+		UserVo userVo = userService.getUserById(user.getId());
+		modelAndView.addObject("user", userVo);
+		return modelAndView;
+	}
+
+	/**
+	 * 修改密码
+	 */
+	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxException
+	public ResultVo modifyPassword(String id, String oldPassword, String newPassword, String newPasswordRepeat)
+			throws AjaxRequestException {
+		ResultVo rv = userService.updatePassword(id, oldPassword, newPassword, newPasswordRepeat);
+		return rv;
+	}
 }

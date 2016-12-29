@@ -67,7 +67,6 @@ jQuery.extend({
            //按name取值  
            var oldElement = jQuery("input[name="+fileElementId[i]+"]");  
            oldElement.each(function(index) {  
-				console.info(index);
                var newElement = jQuery($(this)).clone();  
                jQuery(oldElement).attr('id', fileId);  
                jQuery(oldElement).before(newElement);  

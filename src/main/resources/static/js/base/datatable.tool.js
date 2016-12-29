@@ -1,7 +1,23 @@
 var DatatableTool = function() {
 
-	var initDatatable = function(tableId, columnDefs, order) {
-		var i18nUrl = "/plugins/datatables/dataTables.chinese.txt";
+	var initDatatable = function(tableId, options,drawCallback) {
+		var defaultOptions={
+			bAutoWidth:true,
+			columnDefs:null,
+			order:null
+		};
+		if(options){
+			if(options.bAutoWidth){
+				defaultOptions.bAutoWidth=options.bAutoWidth;
+			}
+			if(options.columnDefs){
+				defaultOptions.columnDefs=options.columnDefs;
+			}
+			if(options.order){
+				defaultOptions.order=options.order;
+			}
+		}
+		var i18nUrl = "plugins/datatables/dataTables.chinese.txt";
 		var mTable = $('#' + tableId).DataTable({
 			'oLanguage' : {
 				'sUrl' : i18nUrl
@@ -10,10 +26,16 @@ var DatatableTool = function() {
 			"bFilter" : true, // 搜索
 			"bLengthChange" : true,// 改变每页长度
 			"lengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],// 可以改变的每页长度
-			responsive : true,
 			"bStateSave" : true,
-			"columnDefs" : columnDefs,
-			"order" : order
+			"columnDefs" : defaultOptions.columnDefs,
+			"order" : defaultOptions.order,
+			"drawCallback" : function(settings) {
+				if (drawCallback != null) {
+					drawCallback();
+				}
+			},
+			"responsive" : true,
+			"bAutoWidth":defaultOptions.bAutoWidth
 		});
 		$('#' + tableId).find('.group-checkable').change(function() {
 			var set = jQuery(this).attr("data-set");
@@ -29,9 +51,21 @@ var DatatableTool = function() {
 		return mTable;
 	}
 
-	function initDatatableServer(tableId, ajax,columns,
+	function initDatatableServer(tableId, ajax,options,
 			drawCallback) {
-		var i18nUrl = "/plugins/datatables/dataTables.chinese.txt";
+		var defaultOptions={
+			bAutoWidth:true,
+			columns:null
+		};
+		if(options){
+			if(options.bAutoWidth){
+				defaultOptions.bAutoWidth=options.bAutoWidth;
+			}
+			if(options.columns){
+				defaultOptions.columns=options.columns;
+			}
+		}
+		var i18nUrl = "plugins/datatables/dataTables.chinese.txt";
 		var mTable = $('#' + tableId).DataTable({
 			'oLanguage' : {
 				'sUrl' : i18nUrl
@@ -59,12 +93,14 @@ var DatatableTool = function() {
 					}
 				}
 			},
-			"columns" : columns,
-			"fnDrawCallback" : function(settings) {
+			"columns" : defaultOptions.columns,
+			"drawCallback" : function(settings) {
 				if (drawCallback != null) {
 					drawCallback();
 				}
-			}
+			},
+			"responsive" : true,
+			"bAutoWidth":defaultOptions.bAutoWidth
 		});
 		$('#' + tableId).find('.group-checkable').change(function() {
 			var set = jQuery(this).attr("data-set");
@@ -91,6 +127,7 @@ var DatatableTool = function() {
 			"bLengthChange" : false,
 			"columnDefs" : columnDefs,
 			"bInfo" : false,
+			"responsive" : true,
 			"autoWidth":false
 		});
 		return mTable;
@@ -439,11 +476,11 @@ var DatatableTool = function() {
 	}
 	
 	return {
-		initDatatable : function(tableId, columnDefs, order) {
-			return initDatatable(tableId, columnDefs, order);
+		initDatatable : function(tableId, options,drawCallback) {
+			return initDatatable(tableId, options,drawCallback);
 		},
-		initDatatableServer : function(tableId, ajax, columnDefs,drawCallback) {
-			return initDatatableServer(tableId, ajax,columnDefs,drawCallback);
+		initDatatableServer : function(tableId, ajax, options,drawCallback) {
+			return initDatatableServer(tableId, ajax,options,drawCallback);
 		},
 		initEditorDatatable : function(tableId,columnDefs){
 			return initEditorDatatable(tableId,columnDefs);

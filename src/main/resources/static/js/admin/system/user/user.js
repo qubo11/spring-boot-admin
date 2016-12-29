@@ -7,20 +7,20 @@ var User = {
 	inputPhone : $("input[name='phone']"),
 	inputSex : $("input[name='sex']"),
 	init : function() {
-		var mTable=DatatableTool.initDatatable("user-table", [ {
-			'orderable' : false,
-			'targets' : [ 0, 9 ]
-		}, {
-			"searchable" : false,
-			"targets" : [ 0, 9 ]
-		}, {
-			"width" : "30px",
-			"targets" : 0
-		}, {
-			"width" : "220px",
-			"targets" : 9
-		} ], [ [ 1, "asc" ] ]);
-		
+		var mTable=DatatableTool.initDatatable("user-table",{
+			"columnDefs":[ {
+				'orderable' : false,
+				'targets' : [ 0, 7 ]
+			}, {
+				"searchable" : false,
+				"targets" : [ 0, 7 ]
+			}, {
+				"width" : "30px",
+				"targets" : 0
+			}],
+			"order":[ [ 1, "asc" ] ],
+			"bAutoWidth":false
+		});
 		
 		User.initModal();
 		User.initSaveUpdate();
@@ -67,7 +67,7 @@ var User = {
 					$(".user-avatar-img").attr("src","/images/avatar.png");
 				}
 			});
-			var uploader=$("#user-avatar-form").FileUpload({
+			var uploader=$("#individual-avatar-form").FileUpload({
 				url:"user/uploadAvatar",
 				fileType: "image"
 			});
@@ -75,6 +75,15 @@ var User = {
 				if(data.result){
 					$(".user-avatar-img").attr("src","user/showAvatar?userId="+data.result.obj+"&uuid"+Tools.getUUID());
 				}
+			});
+		},function(id){
+			//详情
+			DatatableTool.modalShow("#green-sharp-modal", null);
+			$("#green-sharp-modal .modal-body").html("");
+			AjaxTool.html("user/userDetailPage",{
+				id:id
+			},function(html){
+				$("#green-sharp-modal .modal-body").html(html);
 			});
 		});
 	},

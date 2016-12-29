@@ -121,3 +121,53 @@ border-left
 .file-select-template .progress {
 	margin-top: 5px;
 }
+table thead tr th.operation-four-word {
+	width: 100px;
+}
+
+table thead tr th.operation-six-word {
+	width: 150px;
+}
+
+table thead tr th.operation-eight-word {
+	width: 200px;
+}
+
+table thead tr th.operation-ten-word {
+	width: 250px;
+}
+
+table thead tr th.operation-twelve-word {
+	width: 300px;
+}
+
+table thead tr th.operation-thirteen-word {
+	width: 325px;
+}
+
+@media ( max-width : 1600px) {
+	table thead tr th.operation-four-word-block {
+		width: 100px;
+		display: block;
+	}
+	table thead tr th.operation-six-word-block {
+		width: 150px;
+		display: block;
+	}
+	table thead tr th.operation-eight-word-block {
+		width: 200px;
+		display: block;
+	}
+	table thead tr th.operation-ten-word-block {
+		width: 250px;
+		display: block;
+	}
+	table thead tr th.operation-twelve-word-block {
+		width: 300px;
+		display: block;
+	}
+	table thead tr th.operation-thirteen-word-block {
+		width: 325px;
+		display: block;
+	}
+}

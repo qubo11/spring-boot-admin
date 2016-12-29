@@ -17,6 +17,8 @@ import com.expect.admin.service.vo.DepartmentVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.CheckboxsVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
+import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequestException;
 
 /**
  * 部门管理Controller
@@ -58,7 +60,8 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo save(DepartmentVo departmentVo) {
+	@AjaxException
+	public DataTableRowVo save(DepartmentVo departmentVo) throws AjaxRequestException {
 		return departmentService.save(departmentVo);
 	}
 
@@ -67,7 +70,8 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableRowVo update(DepartmentVo departmentVo) {
+	@AjaxException
+	public DataTableRowVo update(DepartmentVo departmentVo) throws AjaxRequestException {
 		return departmentService.update(departmentVo);
 	}
 
@@ -76,7 +80,8 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo delete(String id) {
+	@AjaxException
+	public ResultVo delete(String id) throws AjaxRequestException {
 		return departmentService.delete(id);
 	}
 
@@ -85,7 +90,8 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultVo deleteBatch(String ids) {
+	@AjaxException
+	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return departmentService.deleteBatch(ids);
 	}
 
@@ -94,7 +100,8 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/getDepartmentCheckboxHtml", method = RequestMethod.POST)
 	@ResponseBody
-	public CheckboxsVo getDepartmentCheckboxHtml(String userId) {
+	@AjaxException
+	public CheckboxsVo getDepartmentCheckboxHtml(String userId) throws AjaxRequestException {
 		List<DepartmentVo> departments = departmentService.getAllBottomDepartments();
 		List<String> ids = new ArrayList<>();
 		List<DepartmentVo> userDepartments = departmentService.getDepartmentsByUserId(userId);

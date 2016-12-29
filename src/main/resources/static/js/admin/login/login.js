@@ -62,7 +62,6 @@ var Login = function() {
     
     var cookies=function(){
     	var username=$.cookie('username');
-    	console.info(username);
     	if(username){
     		var password=$.cookie('password');
     		$("input[name='username']").val(username);

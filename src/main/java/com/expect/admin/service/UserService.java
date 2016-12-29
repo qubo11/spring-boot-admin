@@ -166,12 +166,44 @@ public class UserService implements UserDetailsService {
 	public ResultVo updateAvatar(String id, String avatarId) {
 		ResultVo rv = new ResultVo();
 		rv.setMessage("修改失败");
+		if (StringUtils.isEmpty(id)) {
+			return rv;
+		}
+
 		int result = userRepository.updateAvatarById(id, avatarId);
 		if (result > 0) {
 			rv.setMessage("修改成功");
 			rv.setResult(true);
 			rv.setObj(id);
 		}
+		return rv;
+	}
+
+	/**
+	 * 修改密码
+	 */
+	@Transactional
+	public ResultVo updatePassword(String id, String oldPassword, String newPassword, String newPasswordRepeat) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("修改失败");
+		if (!newPassword.equals(newPasswordRepeat)) {
+			rv.setMessage("密码输入不一致");
+			return rv;
+		}
+		if (StringUtils.isEmpty(id)) {
+			return rv;
+		}
+		User user = userRepository.findOne(id);
+		if (user == null) {
+			return rv;
+		}
+		if (!user.getPassword().equals(oldPassword)) {
+			rv.setMessage("旧密码输入错误");
+			return rv;
+		}
+		user.setPassword(newPassword);
+		rv.setMessage("修改成功");
+		rv.setResult(true);
 		return rv;
 	}
 
@@ -262,14 +294,29 @@ public class UserService implements UserDetailsService {
 			String ip = RequestUtil.getIpAddr(request);
 			loginLog(user.getId(), user.getUsername(), ip);
 
-			Cookie usernameCookie = new Cookie("username", user.getUsername());
-			usernameCookie.setMaxAge(24 * 60 * 60 * 30);
-			response.addCookie(usernameCookie);
-			Cookie passwordCookie = new Cookie("password", user.getPassword());
-			passwordCookie.setMaxAge(24 * 60 * 60 * 30);
-			response.addCookie(passwordCookie);
+			String remember = request.getParameter("remember-me");
+			if (StringUtils.isBlank(remember)) {
+				Cookie cookies[] = request.getCookies();
+				if (cookies != null) {
+					for (int i = 0; i < cookies.length; i++) {
+						if ("username".equals(cookies[i].getName()) || "password".equals(cookies[i].getName())) {
+							cookies[i].setMaxAge(0);
+							response.addCookie(cookies[i]);
+						}
+					}
+				}
+			} else {
+				if ("on".equals(remember)) {
+					Cookie usernameCookie = new Cookie("username", user.getUsername());
+					usernameCookie.setMaxAge(24 * 60 * 60 * 30);
+					response.addCookie(usernameCookie);
+					Cookie passwordCookie = new Cookie("password", user.getPassword());
+					passwordCookie.setMaxAge(24 * 60 * 60 * 30);
+					response.addCookie(passwordCookie);
+				}
+			}
 
-			response.sendRedirect("/admin/home");
+			response.sendRedirect("home");
 		}
 	}
 }

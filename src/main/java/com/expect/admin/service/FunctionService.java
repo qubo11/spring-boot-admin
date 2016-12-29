@@ -46,7 +46,7 @@ public class FunctionService {
 				}
 			}
 		}
-
+		
 		// 把相应功能归类到同一顶级功能下
 		List<FunctionVo> resultFunctions = new ArrayList<>();
 		for (Function function : functions) {
@@ -130,7 +130,6 @@ public class FunctionService {
 				}
 			}
 		}
-
 		return resultFunctions;
 	}
 

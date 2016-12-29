@@ -31,6 +31,8 @@ public class ActionEnter {
 
 	private ConfigManager configManager = null;
 
+	private String ueditorPath="plugins/ueditor/";
+	
 	public ActionEnter() {
 
 	}
@@ -40,7 +42,7 @@ public class ActionEnter {
 		this.rootPath = rootPath;
 		this.actionType = request.getParameter("action");
 		this.contextPath = request.getContextPath();
-		this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, request.getRequestURI());
+		this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, ueditorPath);
 	}
 
 	public String exec(MultipartFile upfile) {
@@ -140,7 +142,7 @@ public class ActionEnter {
 		this.rootPath = rootPath;
 		this.actionType = request.getParameter("action");
 		this.contextPath = request.getContextPath();
-		this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, request.getRequestURI());
+		this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, ueditorPath);
 	}
 
 }

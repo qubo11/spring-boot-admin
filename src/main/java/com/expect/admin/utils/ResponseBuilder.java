@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.expect.admin.web.exception.AjaxRequestException;
+
 /**
  * http请求的相应处理
  */
@@ -36,7 +38,8 @@ public class ResponseBuilder {
 	/**
 	 * ajaxupload的json返回参数的设置
 	 */
-	public static void writeJsonResponseForAjaxUpload(HttpServletResponse response, Object o) throws Exception {
+	public static void writeJsonResponseForAjaxUpload(HttpServletResponse response, Object o)
+			throws AjaxRequestException, IOException {
 		String content = JacksonJsonUtil.getInstance().write(o);
 
 		response.addHeader("Content-Type", "text/html;charset=" + DEFAULT_CHARSET);

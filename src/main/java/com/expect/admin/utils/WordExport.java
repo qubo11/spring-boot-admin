@@ -19,7 +19,7 @@ public class WordExport {
 			Configuration configuration = new Configuration();
 			// 设置编码
 			configuration.setDefaultEncoding("UTF-8");
-			// ftl模板文件统一放至 com.lun.template 包下面
+			// ftl模板文件统一放至
 			configuration.setClassForTemplateLoading(WordExport.class, "/doc");
 			// 获取模板
 			Template template = configuration.getTemplate(templateName);

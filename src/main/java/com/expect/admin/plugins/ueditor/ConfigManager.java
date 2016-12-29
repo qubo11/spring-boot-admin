@@ -17,17 +17,12 @@ import com.expect.admin.plugins.ueditor.define.ActionMap;
 
 /**
  * 配置管理器
- * 
- * @author hancong03@baidu.com
- *
  */
 public final class ConfigManager {
 
 	private final String rootPath;
 	private final String originalPath;
-	private final String contextPath;
 	private static final String configFileName = "config.json";
-	private String parentPath = null;
 	private JSONObject jsonConfig = null;
 	// 涂鸦上传filename定义
 	private final static String SCRAWL_FILE_NAME = "scrawl";
@@ -41,8 +36,6 @@ public final class ConfigManager {
 
 		rootPath = rootPath.replace("\\", "/");
 
-		this.contextPath = contextPath;
-
 		if (contextPath.length() > 0) {
 			this.rootPath = rootPath.substring(0, rootPath.length() - contextPath.length());
 		} else {
@@ -52,7 +45,6 @@ public final class ConfigManager {
 		this.originalPath = this.rootPath + uri;
 
 		this.initEnv();
-
 	}
 
 	/**
@@ -67,7 +59,6 @@ public final class ConfigManager {
 	 * @return 配置管理器实例或者null
 	 */
 	public static ConfigManager getInstance(String rootPath, String contextPath, String uri) {
-
 		try {
 			return new ConfigManager(rootPath, contextPath, uri);
 		} catch (Exception e) {
@@ -82,7 +73,6 @@ public final class ConfigManager {
 	}
 
 	public JSONObject getAllConfig() {
-
 		return this.jsonConfig;
 
 	}
@@ -157,16 +147,7 @@ public final class ConfigManager {
 
 	private void initEnv() throws FileNotFoundException, IOException {
 
-		File file = new File(this.originalPath);
-		
-		if (!file.isAbsolute()) {
-			file = new File(file.getAbsolutePath());
-		}
-
-		this.parentPath = file.getParent();
-		
 		String configContent = this.readFile(this.getConfigPath());
-
 		try {
 			JSONObject jsonConfig = new JSONObject(configContent);
 			this.jsonConfig = jsonConfig;
@@ -177,7 +158,7 @@ public final class ConfigManager {
 	}
 
 	private String getConfigPath() {
-		return this.parentPath + File.separator + ConfigManager.configFileName;
+		return this.originalPath + File.separator + ConfigManager.configFileName;
 	}
 
 	private String[] getArray(String key) {

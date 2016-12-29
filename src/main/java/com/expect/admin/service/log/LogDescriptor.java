@@ -1,4 +1,4 @@
-package com.expect.admin.utils.log.utils;
+package com.expect.admin.service.log;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
