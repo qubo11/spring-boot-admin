@@ -1,11 +1,5 @@
 var User = {
-	inputId : $("input[name='id']"),
-	inputUsername : $("input[name='username']"),
-	inputPassword : $("input[name='password']"),
-	inputFullName : $("input[name='fullName']"),
-	inputEmail : $("input[name='email']"),
-	inputPhone : $("input[name='phone']"),
-	inputSex : $("input[name='sex']"),
+	ctx : $("input[name='ctx']").val()+"/",
 	init : function() {
 		var mTable=DatatableTool.initDatatable("user-table",{
 			"columnDefs":[ {
@@ -28,8 +22,8 @@ var User = {
 		User.userDepartmentUpdateSubmit();
 	},
 	initModal:function(){
-		//初始化modal,增加/修改/删除/批量删除/部门/角色/头像
-		DatatableTool.initModal(function(){
+		//初始化modal,增加/修改/删除/批量删除/详情/部门/角色/头像
+		DatatableTool.initModal("user-wrapper",function(){
 			DatatableTool.modalShow("#user-modal", "#user-form");
 			User.getFormPage(-1);
 			
@@ -42,13 +36,22 @@ var User = {
 			$("#save").addClass("hidden");
 			$("#update").removeClass("hidden");
 		},function(id){
-			DatatableTool.deleteRow("user-table","user/delete",id);
+			DatatableTool.deleteRow("user-table","admin/user/delete",id);
 		},function(ids){
-			DatatableTool.deleteRows("user-table","user/deleteBatch",ids);
+			DatatableTool.deleteRows("user-table","admin/user/deleteBatch",ids);
+		},function(id){
+			//详情
+			DatatableTool.modalShow("#detail-modal", null);
+			$("#detail-modal .modal-body").html("");
+			AjaxTool.html("admin/user/userDetailPage",{
+				id:id
+			},function(html){
+				$("#detail-modal .modal-body").html(html);
+			});
 		});
-		DatatableTool.initAddModal(function(id){
+		DatatableTool.initAddModal("user-wrapper",function(id){
 			//部门
-			DatatableTool.modalShow("#green-modal", "#user-department-form");
+			DatatableTool.modalShow("#yellow-modal", "#user-department-form");
 			$("input[name='userId']").val(id);
 			User.requestDepartmentCheckBox(id);
 		},function(id){
@@ -58,51 +61,40 @@ var User = {
 			User.requestRoleCheckBox(id);
 		},function(id){
 			//头像
-			DatatableTool.modalShow("#yellow-modal", "#user-avatar-form");
+			DatatableTool.modalShow("#green-sharp-modal", "#user-department-form");
 			$("input[name='userAvatarId']").val(id);
-			AjaxTool.get("user/checkAvatar",{userId:id},function(response){
+			AjaxTool.get("admin/user/checkAvatar",{userId:id},function(response){
 				if(response.result){
-					$(".user-avatar-img").attr("src","user/showAvatar?userId="+id);
-				}else{
-					$(".user-avatar-img").attr("src","/images/avatar.png");
+					$(".user-avatar-img").attr("src",User.ctx+"admin/user/showAvatar?userId="+id);
 				}
 			});
-			var uploader=$("#individual-avatar-form").FileUpload({
-				url:"user/uploadAvatar",
+			var uploader=$("#user-avatar-form").FileUpload({
+				url:User.ctx+"admin/user/uploadAvatar",
 				fileType: "image"
 			});
 			uploader.done(function(data){
 				if(data.result){
-					$(".user-avatar-img").attr("src","user/showAvatar?userId="+data.result.obj+"&uuid"+Tools.getUUID());
+					$(".user-avatar-img").attr("src",User.ctx+"admin/user/showAvatar?userId="+data.result.obj+"&uuid="+Tools.getUUID());
 				}
-			});
-		},function(id){
-			//详情
-			DatatableTool.modalShow("#green-sharp-modal", null);
-			$("#green-sharp-modal .modal-body").html("");
-			AjaxTool.html("user/userDetailPage",{
-				id:id
-			},function(html){
-				$("#green-sharp-modal .modal-body").html(html);
 			});
 		});
 	},
 	initSaveUpdate:function(){
 		//绑定保存和修改按钮
-		DatatableTool.bindSaveAndUpdate(function(){
-			DatatableTool.saveRow("user/save",$("#user-form").serialize(),"user-table",function(rowNode,response){
+		DatatableTool.bindSaveAndUpdate("user-wrapper",function(){
+			DatatableTool.saveRow("admin/user/save",$("#user-form").serialize(),"user-table",function(rowNode,response){
 				$("#user-modal").modal('hide');
 				User.initModal();
 			});
 		},function(){
-			DatatableTool.updateRow("user/update",$("#user-form").serialize(),"user-table",function(rowNode,response){
+			DatatableTool.updateRow("admin/user/update",$("#user-form").serialize(),"user-table",function(rowNode,response){
 				$("#user-modal").modal('hide');
 				User.initModal();
 			});
 		});
 	},
 	getFormPage:function(id){
-		AjaxTool.html("user/userFormPage",{
+		AjaxTool.html("admin/user/userFormPage",{
 			id:id
 		},function(html){
 			$("#user-modal .modal-body").html(html);
@@ -122,7 +114,7 @@ var User = {
 				}
 			});
 			var id=$("input[name='userId']").val();
-			AjaxTool.post("user/updateUserRole", {
+			AjaxTool.post("admin/user/updateUserRole", {
 				"userId" : id,
 				"roleId" : roleid
 			}, function(response) {
@@ -153,11 +145,11 @@ var User = {
 				}
 			});
 			var id=$("input[name='userId']").val();
-			AjaxTool.post("user/updateUserDepartment", {
+			AjaxTool.post("admin/user/updateUserDepartment", {
 				"userId" : id,
 				"departmentId" : departmentId
 			}, function(response) {
-				$("#green-modal").modal('hide');
+				$("#yellow-modal").modal('hide');
 				Toast.show("部门提醒",response.message);
 				if (response.result) {
 					var mTable=$("#user-table").DataTable();
@@ -172,7 +164,7 @@ var User = {
 	},
 	requestRoleCheckBox:function(){
 		var id=$("input[name='userId']").val();
-		AjaxTool.post("role/getRoleCheckboxHtml",{
+		AjaxTool.post("admin/role/getRoleCheckboxHtml",{
 			userId:id
 		},function(response){
 			$("#role-checkbox").html(response.html);
@@ -180,7 +172,7 @@ var User = {
 	},
 	requestDepartmentCheckBox:function(){
 		var id=$("input[name='userId']").val();
-		AjaxTool.post("department/getDepartmentCheckboxHtml",{
+		AjaxTool.post("admin/department/getDepartmentCheckboxHtml",{
 			userId:id
 		},function(response){
 			$("#department-checkbox").html(response.html);

@@ -14,7 +14,7 @@
 		<li><a href="javascript:;">系统管理</a> <i class="fa fa-circle"></i></li>
 		<li><span class="active">用户管理</span></li>
 	</ul>
-	<div class="row">
+	<div id="user-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
 				<div class="portlet-title">
@@ -62,106 +62,105 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div id="user-modal" class="modal fade" data-width="760">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true"></button>
-			<h4 class="modal-title">用户管理</h4>
-		</div>
-		<div class="modal-body"></div>
-		<div class="modal-footer">
-			<button type="button" data-dismiss="modal"
-				class="btn btn-outline dark">关闭</button>
-			<button type="button" class="btn green" id="save">保存</button>
-			<button type="button" class="btn green hidden" id="update">修改</button>
-		</div>
-	</div>
-
-	<input type="hidden" name="userId" />
-	<div id="purple-modal" class="modal fade" data-width="760">
-		<div class="modal-header">
-			<h4 class="modal-title">设置角色</h4>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-12">
-					<form id="user-role-form">
-						<div class="form-group form-md-checkboxes">
-							<div class="md-checkbox-inline" id="role-checkbox"></div>
-						</div>
-					</form>
-				</div>
+		<div id="user-modal" class="modal fade" data-width="760">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true"></button>
+				<h4 class="modal-title">用户管理</h4>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal"
+					class="btn btn-outline dark">关闭</button>
+				<button type="button" class="btn green" id="save">保存</button>
+				<button type="button" class="btn green hidden" id="update">修改</button>
 			</div>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn green" id="role-save">保存</button>
-			<button type="button" data-dismiss="modal"
-				class="btn btn-outline dark">关闭</button>
-		</div>
-	</div>
-	<div id="green-modal" class="modal fade" data-width="760">
-		<div class="modal-header">
-			<h4 class="modal-title">设置部门</h4>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-12">
-					<form id="user-department-form">
-						<div class="form-group form-md-checkboxes">
-							<div class="md-checkbox-inline" id="department-checkbox"></div>
-						</div>
-					</form>
-				</div>
+
+		<div id="detail-modal" class="modal fade" data-width="60%"
+			style="height: 80%">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true"></button>
+				<h4 class="modal-title">用户详情</h4>
 			</div>
+			<div class="modal-body"></div>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn green" id="department-save">保存</button>
-			<button type="button" data-dismiss="modal"
-				class="btn btn-outline dark">关闭</button>
-		</div>
-	</div>
-	<div id="yellow-modal" class="modal modal-fixed-footer">
-		<input name="userAvatarId" type="hidden" />
-		<div class="modal-header">
-			<h4 class="modal-title">设置头像</h4>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-12">
-					<form class="form" id="user-avatar-form">
-						<input type="hidden" name="userAvatarId" />
-						<div class="row">
-							<div class="col-md-5 col-md-offset-4">
-								<img th:src="@{/images/avatar.png}"
-									class="circle responsive-img valign user-avatar-img"
-									style="width: 180px; height: 180px;" />
+
+		<input type="hidden" name="userId" />
+		<div id="purple-modal" class="modal fade" data-width="760">
+			<div class="modal-header">
+				<h4 class="modal-title">设置角色</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<form id="user-role-form">
+							<div class="form-group form-md-checkboxes">
+								<div class="md-checkbox-inline" id="role-checkbox"></div>
 							</div>
-						</div>
-						<div class="row" style="margin-top: 10px;">
-							<div class="col-md-10 col-md-offset-1">
-								<div class="files-template-wrapper"></div>
-							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn green" id="role-save">保存</button>
+				<button type="button" data-dismiss="modal"
+					class="btn btn-outline dark">关闭</button>
+			</div>
 		</div>
-		<div class="modal-footer">
-			<button type="button" data-dismiss="modal"
-				class="btn btn-outline dark">关闭</button>
+		<div id="yellow-modal" class="modal fade" data-width="760">
+			<div class="modal-header">
+				<h4 class="modal-title">设置部门</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<form id="user-department-form">
+							<div class="form-group form-md-checkboxes">
+								<div class="md-checkbox-inline" id="department-checkbox"></div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn green" id="department-save">保存</button>
+				<button type="button" data-dismiss="modal"
+					class="btn btn-outline dark">关闭</button>
+			</div>
 		</div>
-	</div>
-
-	<div id="green-sharp-modal" class="modal fade" data-width="60%"
-		style="height: 80%">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true"></button>
-			<h4 class="modal-title">用户详情</h4>
+		<div id="green-sharp-modal" class="modal modal-fixed-footer">
+			<input name="userAvatarId" type="hidden" />
+			<div class="modal-header">
+				<h4 class="modal-title">设置头像</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form" id="user-avatar-form">
+							<input type="hidden" name="userAvatarId" />
+							<div class="row">
+								<div class="col-md-5 col-md-offset-4">
+									<img th:src="@{/images/avatar.png}"
+										class="circle responsive-img valign user-avatar-img"
+										style="width: 180px; height: 180px;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 10px;">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="files-template-wrapper"></div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal"
+					class="btn btn-outline dark">关闭</button>
+			</div>
 		</div>
-		<div class="modal-body"></div>
 	</div>
 
 	<script th:src="@{/js/admin/system/user/user.js}"

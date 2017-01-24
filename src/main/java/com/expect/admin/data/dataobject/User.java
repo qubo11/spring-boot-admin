@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.Authentication;
@@ -201,63 +200,33 @@ public class User implements UserDetails {
 	}
 
 	/**
-	 * 以下是权限操作
+	 * 获取用户权限
+	 * 
+	 * @param functionId
+	 *            功能id
+	 * @return 权限数组：[0]:insert,[1]:update,[2]:delete,[3]:other
 	 */
-	@Transient
-	private boolean insert;
-	@Transient
-	private boolean update;
-	@Transient
-	private boolean delete;
-	@Transient
-	private boolean other;
-
-	public void setAuthority() {
+	public boolean[] getAuthority(String functionId) {
+		boolean[] authority = new boolean[4];
 		Set<Role> roles = this.getRoles();
 		for (Role sysRole : roles) {
 			Set<RoleFunction> roleFunctions = sysRole.getRoleFunctions();
 			for (RoleFunction roleFunction : roleFunctions) {
 				if (roleFunction.getInsertAuthority() != null && roleFunction.getInsertAuthority() == 1) {
-					this.insert = true;
+					authority[0] = true;
 				}
 				if (roleFunction.getUpdateAuthority() != null && roleFunction.getUpdateAuthority() == 1) {
-					this.update = true;
+					authority[1] = true;
 				}
 				if (roleFunction.getDeleteAuthority() != null && roleFunction.getDeleteAuthority() == 1) {
-					this.delete = true;
+					authority[2] = true;
 				}
 				if (roleFunction.getOtherAuthority() != null && roleFunction.getOtherAuthority() == 1) {
-					this.other = true;
+					authority[3] = true;
 				}
 			}
 		}
+		return authority;
 	}
 
-	/**
-	 * 判断用户是否有insert权限
-	 */
-	public boolean hasInsertAuthority() {
-		return insert;
-	}
-
-	/**
-	 * 判断用户是否有update权限
-	 */
-	public boolean hasUpdateAuthority() {
-		return update;
-	}
-
-	/**
-	 * 判断用户是否有delete权限
-	 */
-	public boolean hasDeleteAuthority() {
-		return delete;
-	}
-
-	/**
-	 * 判断用户是否有other权限
-	 */
-	public boolean hasOtherAuthority() {
-		return other;
-	}
 }

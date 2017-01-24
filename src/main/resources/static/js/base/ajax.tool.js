@@ -1,8 +1,17 @@
 var AjaxTool = function() {
+	
+	function checkUrl(url) {
+		var ctxObj=$("input[name='ctx']");
+		if(ctxObj.length>0){
+			var ctx=ctxObj.val();
+			url=ctx+"/"+url;
+		}
+		return url;
+	}
 
 	var get = function(url, data, successFunction) {
 		var promise = $.ajax({
-			url : url,
+			url : checkUrl(url),
 			data : data,
 			dataType : "json",
 			type : "get"
@@ -16,7 +25,7 @@ var AjaxTool = function() {
 
 	var post = function(url, data, successFunction) {
 		var promise = $.ajax({
-			url : url,
+			url : checkUrl(url),
 			data : data,
 			dataType : "json",
 			type : "post"
@@ -30,10 +39,10 @@ var AjaxTool = function() {
 	
 	var html = function(url, data, successFunction) {
 		var promise = $.ajax({
-			url : url,
+			url : checkUrl(url),
 			data : data,
 			dataType : "html",
-			type : "post"
+			type : "get"
 		});
 		promise.then(function(response) {
 			if (successFunction != null) {

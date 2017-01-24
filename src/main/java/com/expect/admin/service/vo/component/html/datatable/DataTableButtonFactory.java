@@ -26,20 +26,8 @@ public class DataTableButtonFactory {
 		return setButton(true, "修改", "blue update-button", otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
-	public static String getGreenButton(String text, String otherAttr) {
-		return setButton(true, text, "green green-button", otherAttr, ButtonVo.Size_ExtraSmall);
-	}
-
-	public static String getGreenButton(String text, String className, String otherAttr) {
-		return setButton(true, text, "green green-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
-	}
-
-	public static String getGreenButton(boolean isButton, String text, String className, String otherAttr) {
-		return setButton(isButton, text, "green green-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
-	}
-
-	public static String getGreenButton(boolean isButton, String text, String otherAttr) {
-		return setButton(isButton, text, "green green-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	public static String getDetailButton(String otherAttr) {
+		return setButton(true, "详情", "green detail-button", otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
 	public static String getYellowButton(String text, String otherAttr) {
@@ -58,6 +46,24 @@ public class DataTableButtonFactory {
 		return setButton(isButton, text, "yellow yellow-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
+	public static String getGreenSharpButton(String text, String otherAttr) {
+		return setButton(true, text, "green-sharp green-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenSharpButton(boolean isButton, String text, String otherAttr) {
+		return setButton(isButton, text, "green-sharp green-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenSharpButton(String text, String className, String otherAttr) {
+		return setButton(true, text, "green-sharp green-sharp-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenSharpButton(boolean isButton, String text, String className, String otherAttr) {
+		return setButton(isButton, text, "green-sharp green-sharp-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
 	public static String getPurpleButton(String text, String otherAttr) {
 		return setButton(true, text, "purple purple-button", otherAttr, ButtonVo.Size_ExtraSmall);
 	}
@@ -73,20 +79,57 @@ public class DataTableButtonFactory {
 	public static String getPurpleButton(boolean isButton, String text, String className, String otherAttr) {
 		return setButton(isButton, text, "purple purple-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
 	}
-	
-	public static String getGreenSharpButton(String text, String otherAttr) {
-		return setButton(true, text, "green-sharp green-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+
+	public static String getBlueSharpButton(String text, String otherAttr) {
+		return setButton(true, text, "blue-sharp blue-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
-	public static String getGreenSharpButton(boolean isButton, String text, String otherAttr) {
-		return setButton(isButton, text, "green-sharp green-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	public static String getBlueSharpButton(boolean isButton, String text, String otherAttr) {
+		return setButton(isButton, text, "blue-sharp blue-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
-	public static String getGreenSharpButton(String text, String className, String otherAttr) {
-		return setButton(true, text, "green-sharp green-sharp-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
+	public static String getBlueSharpButton(String text, String className, String otherAttr) {
+		return setButton(true, text, "blue-sharp blue-sharp-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
 	}
 
-	public static String getGreenSharpButton(boolean isButton, String text, String className, String otherAttr) {
-		return setButton(isButton, text, "green-sharp green-sharp-button " + className, otherAttr, ButtonVo.Size_ExtraSmall);
+	public static String getBlueSharpButton(boolean isButton, String text, String className, String otherAttr) {
+		return setButton(isButton, text, "blue-sharp blue-sharp-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenJungleButton(String text, String otherAttr) {
+		return setButton(true, text, "green-jungle green-jungle-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenJungleButton(boolean isButton, String text, String otherAttr) {
+		return setButton(isButton, text, "green-jungle green-jungle-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenJungleButton(String text, String className, String otherAttr) {
+		return setButton(true, text, "green-jungle green-jungle-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getGreenJungleButton(boolean isButton, String text, String className, String otherAttr) {
+		return setButton(isButton, text, "green-jungle green-jungle-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getPurpleSharpButton(String text, String otherAttr) {
+		return setButton(true, text, "purple-sharp purple-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getPurpleSharpButton(boolean isButton, String text, String otherAttr) {
+		return setButton(isButton, text, "purple-sharp purple-sharp-button", otherAttr, ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getPurpleSharpButton(String text, String className, String otherAttr) {
+		return setButton(true, text, "purple-sharp purple-sharp-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
+	}
+
+	public static String getPurpleSharpButton(boolean isButton, String text, String className, String otherAttr) {
+		return setButton(isButton, text, "purple-sharp purple-sharp-button " + className, otherAttr,
+				ButtonVo.Size_ExtraSmall);
 	}
 }

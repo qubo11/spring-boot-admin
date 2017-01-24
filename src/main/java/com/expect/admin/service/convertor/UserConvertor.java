@@ -129,10 +129,10 @@ public class UserConvertor {
 		dtrv.addData(userVo.getEmail());
 		// 设置操作的button
 		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + userVo.getId() + "'"));
+		sb.append(DataTableButtonFactory.getGreenSharpButton("头像", "data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getGreenButton("部门", "data-id='" + userVo.getId() + "'"));
+		sb.append(DataTableButtonFactory.getYellowButton("部门", "data-id='" + userVo.getId() + "'"));
+		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + userVo.getId() + "'"));
 		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + userVo.getId() + "'"));
 		dtrv.addData(sb.toString());
@@ -152,14 +152,14 @@ public class UserConvertor {
 		dtrv.addData(user.getPhone());
 		dtrv.addData(user.getEmail());
 		// 设置操作的button
-		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + user.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + user.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + user.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getGreenButton("部门", "data-id='" + user.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getUpdateButton("data-id='" + user.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getDeleteButton("data-id='" + user.getId() + "'"));
-		dtrv.addData(buttonSb.toString());
+		StringBuilder sb = new StringBuilder();
+		sb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + user.getId() + "'"));
+		sb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + user.getId() + "'"));
+		sb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + user.getId() + "'"));
+		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + userVo.getId() + "'"));
+		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + user.getId() + "'"));
+		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + user.getId() + "'"));
+		dtrv.addData(sb.toString());
 	}
 
 	/**

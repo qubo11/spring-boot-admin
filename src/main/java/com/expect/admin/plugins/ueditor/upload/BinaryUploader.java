@@ -16,7 +16,7 @@ import com.expect.admin.config.Settings;
 import com.expect.admin.plugins.ueditor.define.AppInfo;
 import com.expect.admin.plugins.ueditor.define.BaseState;
 import com.expect.admin.plugins.ueditor.define.State;
-import com.expect.admin.service.AttachmentService;
+import com.expect.admin.service.impl.AttachmentService;
 import com.expect.admin.service.vo.component.FileResultVo;
 import com.expect.admin.utils.DateUtil;
 

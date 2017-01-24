@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 
 import com.expect.admin.data.dao.LogDbParamRepository;
 import com.expect.admin.data.dao.LogDbRepository;
-import com.expect.admin.data.dataobject.LogDb;
-import com.expect.admin.data.dataobject.LogDbParam;
 import com.expect.admin.data.dataobject.User;
+import com.expect.admin.data.dataobject.log.LogDb;
+import com.expect.admin.data.dataobject.log.LogDbParam;
 import com.expect.admin.service.log.LogDescriptor;
 import com.expect.admin.service.log.LogDescriptorI;
 import com.expect.admin.service.log.LogUtils;

@@ -40,7 +40,7 @@ public class ButtonVo extends BaseVo {
 		if (isButton) {
 			return getButton();
 		} else {
-			String button = "<a class='btn " + className + "' " + otherAttr + "> " + icon + text + "</a>";
+			String button = "<a href='javascript:;' class='btn " + className + "' " + otherAttr + "> " + icon + text + "</a>";
 			return button;
 		}
 	}

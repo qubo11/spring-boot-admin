@@ -1,6 +1,6 @@
 package com.expect.admin.data.dao;
 
-import com.expect.admin.data.dataobject.LogDb;
+import com.expect.admin.data.dataobject.log.LogDb;
 import com.expect.admin.data.support.repository.CustomRepository;
 
 /**

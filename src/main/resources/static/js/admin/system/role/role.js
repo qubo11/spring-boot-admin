@@ -16,7 +16,7 @@ var Role = {
 				},
 				'data' : function(node, cb) {
 					var roleId=$(".list-group-item.active").data("id");
-					AjaxTool.post("role/getFunctionTree",{
+					AjaxTool.post("admin/role/getFunctionTree",{
 						roleId:roleId
 					},function(data){
 						cb(data);
@@ -73,7 +73,7 @@ var Role = {
 					}
 				}
 				var roleId=$list.data("id");
-				AjaxTool.post("role/updateRoleFunctions",{
+				AjaxTool.post("admin/role/updateRoleFunctions",{
 					roleId : roleId,
 					functionIds:functionIds
 				},function(response) {
@@ -85,7 +85,7 @@ var Role = {
 	saveRole:function(){
 		$(".save-button").click(function(){
 			SweetAlert.swalInput("增加角色","请输入角色名","请输入角色名",function(inputValue){
-				AjaxTool.post("role/save",{name:inputValue},function(response){
+				AjaxTool.post("admin/role/save",{name:inputValue},function(response){
                 	if(response.result){
                 		Toast.show("角色提醒","角色保存成功");
                 		var html='<a href="javascript:;" class="list-group-item" data-id="'+response.obj.id+'"><h4 class="list-group-item-heading">'+response.obj.name+'</h4></a>';
@@ -108,7 +108,7 @@ var Role = {
 			var text=$list.find("h4").text();
 			var id = $list.data("id");
 			SweetAlert.swalInput("增加角色","修改的角色名:"+text,"请输入角色名",function(inputValue){
-				AjaxTool.post("role/update",{id:id,name:inputValue},function(response){
+				AjaxTool.post("admin/role/update",{id:id,name:inputValue},function(response){
                 	if(response.result){
                 		Toast.show("角色提醒","角色修改成功");
                 		$list.find("h4").text(inputValue);
@@ -135,7 +135,7 @@ var Role = {
 					return;
 				}
 				var id=$list.data("id");
-				AjaxTool.post("role/delete",{id:id},function(response){
+				AjaxTool.post("admin/role/delete",{id:id},function(response){
 					if(response.result){
 						$list.remove();
 						Toast.show("角色提醒","角色删除成功");

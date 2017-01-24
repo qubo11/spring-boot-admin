@@ -19,7 +19,7 @@ public class FunctionConvertor {
 	/**
 	 * do to vo
 	 */
-	public static FunctionVo convert(Function function) {
+	public static FunctionVo convert(Function function, boolean isNav) {
 		FunctionVo functionVo = new FunctionVo();
 		if (function == null) {
 			return functionVo;
@@ -27,7 +27,13 @@ public class FunctionConvertor {
 		BeanUtils.copyProperties(function, functionVo);
 		String url = functionVo.getUrl();
 		if (!StringUtils.isBlank(url)) {
-			url = url.replace("/", "");
+			// // 如果是导航的function转换，则需要加上functionId=xxx
+			if (isNav) {
+				url = handleUrl(function.getId(), url);
+				functionVo.setUrl(url);
+			}
+			url = url.replaceAll("[a-zA-Z]","");
+			url = url.replaceAll("\\D","");
 			functionVo.setEncodeUrl(url);
 		}
 		// 设置父功能
@@ -37,14 +43,22 @@ public class FunctionConvertor {
 		}
 		return functionVo;
 	}
+	
+	private static String handleUrl(String functionId, String url) {
+		if (url.indexOf("?") >= 0) {
+			return url + "&functionId=" + functionId;
+		} else {
+			return url + "?functionId=" + functionId;
+		}
+	}
 
 	/**
 	 * dos to vos
 	 */
-	public static List<FunctionVo> convert(List<Function> functions) {
+	public static List<FunctionVo> convert(List<Function> functions, boolean isNav) {
 		List<FunctionVo> functionVos = new ArrayList<>();
 		for (Function function : functions) {
-			FunctionVo functionVo = convert(function);
+			FunctionVo functionVo = convert(function, isNav);
 			functionVos.add(functionVo);
 		}
 		return functionVos;
@@ -113,7 +127,7 @@ public class FunctionConvertor {
 	 * do to dtrv
 	 */
 	public static void convertDtrv(DataTableRowVo dtrv, Function function, Function parentFunction) {
-		FunctionVo functionVo = convert(function);
+		FunctionVo functionVo = convert(function, false);
 		dtrv.setObj(functionVo);
 		dtrv.setCheckbox(true);
 		dtrv.addData(function.getName());

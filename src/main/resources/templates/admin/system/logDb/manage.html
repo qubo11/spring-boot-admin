@@ -14,7 +14,7 @@
 		<li><a href="javascript:;">系统管理</a> <i class="fa fa-circle"></i></li>
 		<li><span class="active">日志记录</span></li>
 	</ul>
-	<div class="row">
+	<div id="logDb-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
 				<div class="portlet-title">
@@ -121,16 +121,15 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div id="green-modal" class="modal fade" data-width="50%"
-		style="height: 80%">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true"></button>
-			<h4 class="modal-title">日志记录详情</h4>
+		<div id="detail-modal" class="modal fade" data-width="50%"
+			style="height: 80%">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true"></button>
+				<h4 class="modal-title">日志记录详情</h4>
+			</div>
+			<div class="modal-body"></div>
 		</div>
-		<div class="modal-body"></div>
 	</div>
 
 	<script th:src="@{/js/admin/system/logDb/logDb.js}"

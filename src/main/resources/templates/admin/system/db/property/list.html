@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-6" th:each="property : ${properties}">
+			<div class="portlet light">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-cogs"></i>属性列表
+					</div>
+					<div class="actions">
+						<a href="javascript:;"
+							class="btn btn-default btn-sm update-button"> <i
+							class="fa fa-plus"></i> 修改
+						</a> <a href="javascript:;"
+							class="btn btn-default btn-sm delete-button"> <i
+							class="fa fa-remove"></i> 删除
+						</a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="row property-wrapper">
+						<div class="col-md-4">名称:<th:block th:text="${property.name}"></th:block></div>
+						<div class="col-md-4">列名:<th:block th:text="${property.columnName}"></th:block></div>
+						<div class="col-md-4">类型:<th:block th:text="${property.type}"></th:block></div>
+						<th:block th:if="${property.isId!=null}"><div class="col-md-4">主键:<th:block th:text="${property.isId}"></th:block></div></th:block>
+						<th:block th:if="${property.unique!=null}"><div class="col-md-4">唯一:<th:block th:text="${property.unique}"></th:block></div></th:block>
+						<th:block th:if="${property.nullable!=null}"><div class="col-md-4">空:<th:block th:text="${property.nullable}"></th:block></div></th:block>
+						<th:block th:if="${property.length!=null}"><div class="col-md-4">长度:<th:block th:text="${property.length}"></th:block></div></th:block>
+						<th:block th:if="${property.precision!=null}"><div class="col-md-4">位数:<th:block th:text="${property.precision}"></th:block></div></th:block>
+						<th:block th:if="${property.scale!=null}"><div class="col-md-4">小数位数:<th:block th:text="${property.scale}"></th:block></div></th:block>
+						<th:block th:if="${property.relation!=null}"><div class="col-md-4">关联关系:<th:block th:text="${property.relation}"></th:block></div></th:block>
+						<th:block th:if="${property.cascade!=null}"><div class="col-md-4">级联:<th:block th:text="${property.cascade}"></th:block></div></th:block>
+						<th:block th:if="${property.fetch!=null}"><div class="col-md-4">抓取策略:<th:block th:text="${property.fetch}"></th:block></div></th:block>
+						<th:block th:if="${property.joinColumns!=null}"><div class="col-md-12">关联的外键:<th:block th:text="${property.joinColumns}"></th:block></div></th:block>
+						<th:block th:if="${property.mappedBy!=null}"><div class="col-md-12">关联的属性名:<th:block th:text="${property.mappedBy}"></th:block></div></th:block>
+						<th:block th:if="${property.inverseJoinColumns!=null}"><div class="col-md-12">多对多关联的外键(被管理端):<th:block th:text="${property.inverseJoinColumns}"></th:block></div></th:block>
+						<div class="col-md-12">注释:<th:block th:text="${property.comment}"></th:block></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

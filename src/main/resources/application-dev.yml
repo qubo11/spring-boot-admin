@@ -18,6 +18,7 @@ spring:
     proxy-target-class: true
     
 custom:
+  projectName: spring-boot-admin
   root-path: C:\\spring-boot-admin
   avatar-path: C:\\spring-boot-admin\\avatar
   attachment-path: C:\\spring-boot-admin\\attachment

@@ -10,10 +10,19 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "custom")
 public class Settings {
 
+	private String projectName;
 	private String rootPath;
 	private String avatarPath;
 	private String attachmentPath;
 	private String ueditorPath;
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	public String getRootPath() {
 		return rootPath;

@@ -2,7 +2,7 @@ package com.expect.admin.data.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.expect.admin.data.dataobject.LogLogin;
+import com.expect.admin.data.dataobject.log.LogLogin;
 
 /**
  * 登录日志JPA

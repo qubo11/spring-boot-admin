@@ -8,8 +8,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import com.expect.admin.data.dataobject.LogDb;
-import com.expect.admin.data.dataobject.LogDbParam;
+import com.expect.admin.data.dataobject.log.LogDb;
+import com.expect.admin.data.dataobject.log.LogDbParam;
 import com.expect.admin.service.vo.LogDbVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
@@ -88,7 +88,7 @@ public class LogDbConvertor {
 		dtrv.addData(logDb.getExecuteTime() + "");
 		// 设置操作的button
 		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenButton("详情", "data-id='" + logDb.getId() + "'"));
+		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + logDb.getId() + "'"));
 		dtrv.addData(sb.toString());
 	}
 
@@ -113,7 +113,7 @@ public class LogDbConvertor {
 				dtsrv.addData(logDb.getExecuteTime() + "");
 				// 设置操作的button
 				StringBuilder sb = new StringBuilder();
-				sb.append(DataTableButtonFactory.getGreenButton("详情", "data-id='" + logDb.getId() + "'"));
+				sb.append(DataTableButtonFactory.getDetailButton("data-id='" + logDb.getId() + "'"));
 				dtsrv.addData(sb.toString());
 				dtsrv.setId(logDb.getId());
 			}

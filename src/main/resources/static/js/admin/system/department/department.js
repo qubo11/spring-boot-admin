@@ -1,8 +1,4 @@
 var Department = {
-	inputId : $("input[name='id']"),
-	inputName:$("input[name='name']"),
-	inputCode:$("input[name='code']"),
-	inputDescription:$("input[name='description']"),
 	init : function() {
 		var mTable=DatatableTool.initDatatable("department-table",{
 			"columnDefs":[ {
@@ -24,7 +20,7 @@ var Department = {
 	},
 	initModal:function(){
 		//初始化modal,增加/修改/删除/批量删除
-		DatatableTool.initModal(function(){
+		DatatableTool.initModal("department-wrapper",function(){
 			DatatableTool.modalShow("#department-modal", "#department-form");
 			Department.getFormPage(-1);
 			
@@ -37,20 +33,20 @@ var Department = {
 			$("#save").addClass("hidden");
 			$("#update").removeClass("hidden");
 		},function(id){
-			DatatableTool.deleteRow("department-table","department/delete",id);
+			DatatableTool.deleteRow("department-table","admin/department/delete",id);
 		},function(ids){
-			DatatableTool.deleteRows("department-table","department/deleteBatch",ids);
+			DatatableTool.deleteRows("department-table","admin/department/deleteBatch",ids);
 		});
 	},
 	initSaveUpdate:function(){
 		//绑定保存和修改按钮
-		DatatableTool.bindSaveAndUpdate(function(){
-			DatatableTool.saveRow("department/save",$("#department-form").serialize(),"department-table",function(rowNode,response){
+		DatatableTool.bindSaveAndUpdate("department-wrapper",function(){
+			DatatableTool.saveRow("admin/department/save",$("#department-form").serialize(),"department-table",function(rowNode,response){
 				$("#department-modal").modal('hide');
 				Department.initModal();
 			});
 		},function(){
-			DatatableTool.updateRow("department/update",$("#department-form").serialize(),"department-table",function(rowNode,response){
+			DatatableTool.updateRow("admin/department/update",$("#department-form").serialize(),"department-table",function(rowNode,response){
 				$("#department-modal").modal('hide');
 				//如果更新了父部门名称，就需要把所有子部门的父部门名称改掉
 				var data=response.addData;
@@ -64,7 +60,7 @@ var Department = {
 		});
 	},
 	getFormPage:function(id){
-		AjaxTool.html("department/departmentFormPage",{
+		AjaxTool.html("admin/department/departmentFormPage",{
 			id:id
 		},function(html){
 			$("#department-modal .modal-body").html(html);

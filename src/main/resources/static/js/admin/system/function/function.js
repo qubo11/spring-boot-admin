@@ -1,10 +1,4 @@
 var Function = {
-	inputId : $("input[name='id']"),
-	inputName:$("input[name='name']"),
-	inputUrl:$("input[name='url']"),
-	inputIcon:$("input[name='icon']"),
-	inputDescription:$("input[name='description']"),
-	inputSequence:$("input[name='sequenceStr']"),
 	init : function() {
 		var mTable=DatatableTool.initDatatable("function-table",{
 			"columnDefs":[ {
@@ -26,7 +20,7 @@ var Function = {
 	},
 	initModal:function(){
 		//初始化modal,增加/修改/删除/批量删除
-		DatatableTool.initModal(function(){
+		DatatableTool.initModal("function-wrapper",function(){
 			DatatableTool.modalShow("#function-modal", "#function-form");
 			Function.getFormPage(-1);
 			
@@ -39,20 +33,20 @@ var Function = {
 			$("#save").addClass("hidden");
 			$("#update").removeClass("hidden");
 		},function(id){
-			DatatableTool.deleteRow("function-table","function/delete",id);
+			DatatableTool.deleteRow("function-table","admin/function/delete",id);
 		},function(ids){
-			DatatableTool.deleteRows("function-table","function/deleteBatch",ids);
+			DatatableTool.deleteRows("function-table","admin/function/deleteBatch",ids);
 		});
 	},
 	initSaveUpdate:function(){
 		//绑定保存和修改按钮
-		DatatableTool.bindSaveAndUpdate(function(){
-			DatatableTool.saveRow("function/save",$("#function-form").serialize(),"function-table",function(rowNode,response){
+		DatatableTool.bindSaveAndUpdate("function-wrapper",function(){
+			DatatableTool.saveRow("admin/function/save",$("#function-form").serialize(),"function-table",function(rowNode,response){
 				$("#function-modal").modal('hide');
 				Function.initModal();
 			});
 		},function(){
-			DatatableTool.updateRow("function/update",$("#function-form").serialize(),"function-table",function(rowNode,response){
+			DatatableTool.updateRow("admin/function/update",$("#function-form").serialize(),"function-table",function(rowNode,response){
 				$("#function-modal").modal('hide');
 				Function.initModal();
 				//如果更新了父部门名称，就需要把所有子部门的父部门名称改掉
@@ -66,7 +60,7 @@ var Function = {
 		});
 	},
 	getFormPage : function(id){
-		AjaxTool.html("function/functionFormPage",{
+		AjaxTool.html("admin/function/functionFormPage",{
 			id:id
 		},function(html){
 			$("#function-modal .modal-body").html(html);

@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
-import com.expect.admin.service.UserService;
-import com.expect.admin.service.UserService.LoginSuccessHandler;
+import com.expect.admin.service.impl.UserService;
+import com.expect.admin.service.impl.UserService.LoginSuccessHandler;
 
 /**
  * 权限验证配置

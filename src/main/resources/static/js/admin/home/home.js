@@ -5,13 +5,16 @@ $(document).ready(function() {
 		clearNavStatus($current);
 	});
 	Pjax.refresh(".page-content", "admin/home","home1", function(functionUrl) {
-		functionUrl = Tools.replaceAll(functionUrl, "/", "");
+		functionUrl = Tools.replaceAll(functionUrl, "[a-zA-Z]", "");
+		functionUrl = Tools.replaceAll(functionUrl, "\\D", "");
 		clearNavStatus($("." + functionUrl));
 	});
 	Pjax.onpopstate(".page-content", "admin/home","home1", function(functionUrl) {
-		functionUrl = Tools.replaceAll(functionUrl, "/", "");
+		functionUrl = Tools.replaceAll(functionUrl, "[a-zA-Z]", "");
+		functionUrl = Tools.replaceAll(functionUrl, "\\D", "");
 		clearNavStatus($("." + functionUrl));
 	});
+	logout();
 });
 function clearNavStatus($current) {
 	$(".nav-item.active").removeClass("active");
@@ -24,11 +27,17 @@ function clearNavStatus($current) {
 //头像显示
 function showAvatar(){
 	var userId=$("input[name='userId']").val();
-	AjaxTool.get("user/checkAvatar",{
+	AjaxTool.get("admin/user/checkAvatar",{
 		userId:userId
 	},function(response){
 		if(response.result){
-			$(".user-avatar").attr("src","user/showAvatar?userId="+userId);
+			var ctx=$("input[name='ctx']").val()+"/";
+			$(".user-avatar").attr("src",ctx+"admin/user/showAvatar?userId="+userId);
 		}
+	});
+}
+function logout(){
+	$(".icon-logout").click(function(){
+		$(".logout").trigger();
 	});
 }

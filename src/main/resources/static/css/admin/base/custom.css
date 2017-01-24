@@ -1,3 +1,10 @@
+.top-menu .logout a{
+	padding:0px;
+	color:#9E9E9E;
+}
+.top-menu .logout a:hover{
+	background:none;
+}
 .sweet-alert {
 	z-index: 11000;
 	border: 1px solid rgb(238, 238, 238);

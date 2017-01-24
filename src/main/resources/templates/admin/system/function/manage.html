@@ -14,7 +14,7 @@
 		<li><a href="javascript:;">系统管理</a> <i class="fa fa-circle"></i></li>
 		<li><span class="active">功能管理</span></li>
 	</ul>
-	<div class="row">
+	<div id="function-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
 				<div class="portlet-title">
@@ -62,25 +62,23 @@
 				</div>
 			</div>
 		</div>
+		<div id="function-modal" class="modal fade" tabindex="-1"
+			data-width="760">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true"></button>
+				<h4 class="modal-title">功能管理</h4>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal"
+					class="btn btn-outline dark">关闭</button>
+				<button type="button" class="btn green" id="save">保存</button>
+				<button type="button" class="btn green hidden" id="update">修改</button>
+			</div>
+		</div>
 	</div>
 
-	<div id="function-modal" class="modal fade" tabindex="-1"
-		data-width="760">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true"></button>
-			<h4 class="modal-title">功能管理</h4>
-		</div>
-		<div class="modal-body">
-			
-		</div>
-		<div class="modal-footer">
-			<button type="button" data-dismiss="modal"
-				class="btn btn-outline dark">关闭</button>
-			<button type="button" class="btn green" id="save">保存</button>
-			<button type="button" class="btn green hidden" id="update">修改</button>
-		</div>
-	</div>
 	<script th:src="@{/js/admin/system/function/function.js}"
 		type="text/javascript"></script>
 </body>

@@ -1,7 +1,7 @@
 var LogDb = {
 	init : function() {
 		var mTable = DatatableTool.initDatatableServer("logDb-table", {
-			"url" : "logDb/getLogDbDatatable",
+			"url" : "admin/logDb/getLogDbDatatable",
 			"data" : function(){
 				var username=$("input[name='username']").val();
 				var operationType=$("select[name='operationType'] option:selected").val();
@@ -30,16 +30,16 @@ var LogDb = {
 		$(".query-button").click(function(){
 			mTable.ajax.reload();
 		});
-		DateTool.initHourDate("input[name='dateTime1']");
-		DateTool.initHourDate("input[name='dateTime2']");
+		Plugins.initHourDate("input[name='dateTime1']");
+		Plugins.initHourDate("input[name='dateTime2']");
 	},
 	initModal:function(){
-		DatatableTool.initAddModal(function(id){
-			DatatableTool.modalShow("#green-modal");
-			AjaxTool.html("logDb/logDbDetailPage",{
+		DatatableTool.initDetailModal("logDb-wrapper",function(id){
+			DatatableTool.modalShow("#detail-modal");
+			AjaxTool.html("admin/logDb/logDbDetailPage",{
 				id:id
 			},function(html){
-				$("#green-modal .modal-body").html(html);
+				$("#detail-modal .modal-body").html(html);
 			});
 		});
 	}

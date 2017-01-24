@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.expect.admin.data.dataobject.Memo;
+import com.expect.admin.data.dataobject.memo.Memo;
 
 /**
  * 备忘录JPA
