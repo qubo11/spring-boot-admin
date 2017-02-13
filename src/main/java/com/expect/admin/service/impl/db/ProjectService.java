@@ -165,4 +165,38 @@ public class ProjectService {
 		return rv;
 	}
 
+	/**
+	 * 保存或者更新项目
+	 * 
+	 * @param projectVo
+	 *            项目vo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(ProjectVo projectVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+		if (StringUtils.isBlank(projectVo.getName())) {
+			rv.setMessage("项目名称不能为空");
+			return rv;
+		}
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(projectVo.getId())) {
+			Project project = new Project();
+			ProjectConvertor.voToDo(projectVo, project);
+			projectRepository.save(project);
+		} else {
+			// 如果id存在，就更新
+			Project project = projectRepository.findOne(projectVo.getId());
+			if (project == null) {
+				return rv;
+			}
+			ProjectConvertor.voToDo(projectVo, project);
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
+		return rv;
+	}
+
 }

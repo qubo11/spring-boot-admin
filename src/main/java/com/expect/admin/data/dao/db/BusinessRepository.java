@@ -1,7 +1,5 @@
 package com.expect.admin.data.dao.db;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.expect.admin.data.dataobject.db.Business;
@@ -16,8 +14,8 @@ public interface BusinessRepository extends JpaRepository<Business, String> {
 	 * 
 	 * @param pojoId
 	 *            实体id
-	 * @return Business列表
+	 * @return Business
 	 */
-	public List<Business> findByPojoId(String pojoId);
+	public Business findByPojoId(String pojoId);
 
 }

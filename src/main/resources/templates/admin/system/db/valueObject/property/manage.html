@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:ex="http://thymeleafexamples">
 <head>
 <meta charset="utf-8" />
 </head>
 <body>
-	<div class="page-head">
-		<div class="page-title">
-			<h1>值对象管理</h1>
-		</div>
-	</div>
-	<ul class="page-breadcrumb breadcrumb">
-		<li><a href="javascript:;">主页</a> <i class="fa fa-circle"></i></li>
-		<li><a href="javascript:;">代码生成器</a> <i class="fa fa-circle"></i></li>
-		<li><a href="javascript:;">值对象管理</a> <i class="fa fa-circle"></i></li>
-		<li><span class="active">值对象属性管理</span></li>
-	</ul>
+	
+	<ex:pageHeader th:id="${functionId}" />
+	
 	<div id="valueObject-property-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
@@ -48,7 +40,6 @@
 								<th>类型</th>
 								<th>注释</th>
 								<th>关联实体属性</th>
-								<th>所属值对象</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -72,7 +63,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true"></button>
-				<h4 class="modal-title">设置值对象</h4>
+				<h4 class="modal-title">设置值对象属性</h4>
 			</div>
 			<div class="modal-body"></div>
 			<div class="modal-footer">

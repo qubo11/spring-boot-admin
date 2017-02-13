@@ -60,7 +60,7 @@ public class Function {
 		this.icon = icon;
 	}
 
-	@Column(name = "url", length = 63)
+	@Column(name = "url", length = 255)
 	public String getUrl() {
 		return url;
 	}

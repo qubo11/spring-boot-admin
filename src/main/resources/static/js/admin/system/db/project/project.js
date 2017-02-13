@@ -38,6 +38,8 @@ var Project = {
 		},function(id){
 			Project.getDetailPage(id);
 		});
+		//属性
+		Pjax.redirectAdd("#project-wrapper .yellow-button");
 	},
 	initSaveUpdate:function(){
 		//绑定保存和修改按钮

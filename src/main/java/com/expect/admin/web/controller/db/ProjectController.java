@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.ProjectService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ProjectVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 项目Controller
@@ -31,11 +32,13 @@ public class ProjectController {
 	/**
 	 * 项目-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage() {
+	public ModelAndView managePage(String functionId) {
 		List<DataTableRowVo> dtrvs = projectService.getProjectDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("projects", dtrvs);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -62,11 +65,22 @@ public class ProjectController {
 	}
 
 	/**
+	 * 项目-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String id) {
+		ProjectVo project = projectService.getProjectById(id);
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		modelAndView.addObject("project", project);
+		return modelAndView;
+	}
+
+	/**
 	 * 项目-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(ProjectVo projectVo) throws AjaxRequestException {
 		return projectService.save(projectVo);
 	}
@@ -76,7 +90,7 @@ public class ProjectController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(ProjectVo projectVo) throws AjaxRequestException {
 		return projectService.update(projectVo);
 	}
@@ -86,7 +100,7 @@ public class ProjectController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return projectService.delete(id);
 	}
@@ -96,9 +110,19 @@ public class ProjectController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return projectService.deleteBatch(ids);
+	}
+
+	/**
+	 * 项目-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(ProjectVo projectVo) throws AjaxRequestException {
+		return projectService.saveOrUpdate(projectVo);
 	}
 
 	/**
@@ -109,6 +133,6 @@ public class ProjectController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(String ids) {
-//		RequestUtil.downloadFile(buffer, fileName, response);
+		// RequestUtil.downloadFile(buffer, fileName, response);
 	}
 }

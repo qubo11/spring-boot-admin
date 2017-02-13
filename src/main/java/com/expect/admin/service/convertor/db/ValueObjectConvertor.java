@@ -101,14 +101,11 @@ public class ValueObjectConvertor {
 		} else {
 			dtrv.addData("");
 		}
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getYellowButton("属性",
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getYellowButton("属性",
 				"data-url='admin/db/valueObject/property/managePage?valueObjectId=" + valueObject.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + valueObject.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + valueObject.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + valueObject.getId() + "'"));
-		dtrv.addData(sb.toString());
+		buttonSb.append(DataTableButtonFactory.getBaseButton(valueObject.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

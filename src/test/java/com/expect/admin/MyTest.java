@@ -24,5 +24,5 @@ public class MyTest {
 		UserVo user = userService.getUserById("1");
 		assertThat(user.getUsername()).isEqualTo("qubo");
 	}
-
+	
 }

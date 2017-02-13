@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.BusinessService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.BusinessVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 业务 Controller
@@ -31,12 +32,13 @@ public class BusinessController {
 	/**
 	 * 业务-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String pojoId) {
-		List<DataTableRowVo> dtrvs = businessService.getBusinessDtrvs(pojoId);
+	public ModelAndView managePage(String functionId) {
+		List<DataTableRowVo> dtrvs = businessService.getBusinessDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("businesss", dtrvs);
-		modelAndView.addObject("pojoId", pojoId);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -44,11 +46,10 @@ public class BusinessController {
 	 * 业务-表单页面
 	 */
 	@RequestMapping(value = "/formPage", method = RequestMethod.GET)
-	public ModelAndView formPage(String id, String pojoId) {
+	public ModelAndView formPage(String id) {
 		BusinessVo business = businessService.getBusinessById(id);
 		ModelAndView modelAndView = new ModelAndView(viewName + "form");
 		modelAndView.addObject("business", business);
-		modelAndView.addObject("pojoId", pojoId);
 		return modelAndView;
 	}
 
@@ -64,11 +65,23 @@ public class BusinessController {
 	}
 
 	/**
+	 * 业务-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String pojoId) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		BusinessVo business = businessService.getBusinessByPojoId(pojoId);
+		modelAndView.addObject("business", business);
+		modelAndView.addObject("pojoId", pojoId);
+		return modelAndView;
+	}
+
+	/**
 	 * 业务-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(BusinessVo businessVo) throws AjaxRequestException {
 		return businessService.save(businessVo);
 	}
@@ -78,7 +91,7 @@ public class BusinessController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(BusinessVo businessVo) throws AjaxRequestException {
 		return businessService.update(businessVo);
 	}
@@ -88,7 +101,7 @@ public class BusinessController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return businessService.delete(id);
 	}
@@ -98,9 +111,19 @@ public class BusinessController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return businessService.deleteBatch(ids);
+	}
+
+	/**
+	 * 业务-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(BusinessVo businessVo) throws AjaxRequestException {
+		return businessService.saveOrUpdate(businessVo);
 	}
 
 }

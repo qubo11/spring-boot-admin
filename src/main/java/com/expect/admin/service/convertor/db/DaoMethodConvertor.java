@@ -115,12 +115,9 @@ public class DaoMethodConvertor {
 		dtrv.addData(daoMethod.getQuery());
 		dtrv.addData(daoMethod.getModifying());
 		dtrv.addData(daoMethod.getComment());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + daoMethod.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + daoMethod.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + daoMethod.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(daoMethod.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package com.expect.admin.data.dao.db;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.expect.admin.data.dataobject.db.Dao;
@@ -16,8 +14,8 @@ public interface DaoRepository extends JpaRepository<Dao, String> {
 	 * 
 	 * @param pojoId
 	 *            实体id
-	 * @return dao列表
+	 * @return dao
 	 */
-	public List<Dao> findByPojoId(String pojoId);
+	public Dao findByPojoId(String pojoId);
 
 }

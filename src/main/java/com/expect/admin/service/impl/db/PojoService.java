@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.expect.admin.data.dao.db.PojoRepository;
+import com.expect.admin.data.dao.db.ProjectRepository;
 import com.expect.admin.data.dataobject.db.Pojo;
+import com.expect.admin.data.dataobject.db.Project;
 import com.expect.admin.service.convertor.db.PojoConvertor;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
@@ -20,6 +22,8 @@ public class PojoService {
 
 	@Autowired
 	private PojoRepository pojoRepository;
+	@Autowired
+	private ProjectRepository projectRepository;
 
 	/**
 	 * 根据id获取实体
@@ -34,6 +38,18 @@ public class PojoService {
 			pojo = pojoRepository.findOne(id);
 		}
 		return PojoConvertor.doToVo(pojo);
+	}
+
+	/**
+	 * 根据项目id获取实体
+	 * 
+	 * @param projectId
+	 *            项目id
+	 * @return 实体vo 列表
+	 */
+	public List<PojoVo> getPojoByProjectId(String projectId) {
+		List<Pojo> pojos = pojoRepository.findByProjectId(projectId);
+		return PojoConvertor.dosToVos(pojos);
 	}
 
 	/**
@@ -74,6 +90,12 @@ public class PojoService {
 		}
 		Pojo pojo = new Pojo();
 		PojoConvertor.voToDo(pojoVo, pojo);
+		// 如果projectId存在，就设置Project
+		String projectId = pojoVo.getProjectId();
+		if (!StringUtils.isBlank(projectId)) {
+			Project project = projectRepository.findOne(projectId);
+			pojo.setProject(project);
+		}
 
 		Pojo result = pojoRepository.save(pojo);
 		if (result != null) {
@@ -108,6 +130,12 @@ public class PojoService {
 			return dtrv;
 		}
 		PojoConvertor.voToDo(pojoVo, check);
+		// 如果projectId存在，就设置Project
+		String projectId = pojoVo.getProjectId();
+		if (!StringUtils.isBlank(projectId)) {
+			Project project = projectRepository.findOne(projectId);
+			check.setProject(project);
+		}
 
 		dtrv.setMessage("更新成功");
 		dtrv.setResult(true);
@@ -163,14 +191,63 @@ public class PojoService {
 	}
 
 	/**
+	 * 保存或者更新实体
+	 * 
+	 * @param projectVo
+	 *            实体vo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(PojoVo pojoVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+		if (StringUtils.isBlank(pojoVo.getName())) {
+			rv.setMessage("实体名称不能为空");
+			return rv;
+		}
+		Pojo pojo = null;
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(pojoVo.getId())) {
+			pojo = new Pojo();
+		} else {
+			// 如果id存在，就更新
+			pojo = pojoRepository.findOne(pojoVo.getId());
+			if (pojo == null) {
+				return rv;
+			}
+		}
+		PojoConvertor.voToDo(pojoVo, pojo);
+		// 如果projectId存在，就设置Project
+		String projectId = pojoVo.getProjectId();
+		if (!StringUtils.isBlank(projectId)) {
+			Project project = projectRepository.findOne(projectId);
+			pojo.setProject(project);
+		}
+
+		if (StringUtils.isBlank(pojoVo.getId())) {
+			Pojo result = pojoRepository.save(pojo);
+			if (result == null) {
+				return rv;
+			}
+			rv.setObj(result.getId());
+		} else {
+			rv.setObj(pojo.getId());
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
+		return rv;
+	}
+
+	/**
 	 * 生成代码
 	 * 
 	 * @param ids
 	 *            实体id(用,分隔)
 	 * @return 代码压缩包的byte[]
 	 */
-//	public byte[] generate(String ids) {
-//		
-//	}
+	// public byte[] generate(String ids) {
+	//
+	// }
 
 }

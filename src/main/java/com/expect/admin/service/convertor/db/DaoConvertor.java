@@ -125,14 +125,11 @@ public class DaoConvertor {
 		} else {
 			dtrv.addData("");
 		}
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getYellowButton("方法",
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getYellowButton("方法",
 				"data-url='admin/db/daoMethod/managePage?daoId=" + dao.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + dao.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + dao.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + dao.getId() + "'"));
-		dtrv.addData(sb.toString());
+		buttonSb.append(DataTableButtonFactory.getBaseButton(dao.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

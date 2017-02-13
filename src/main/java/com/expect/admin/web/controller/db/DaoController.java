@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.DaoService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.DaoVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 @Controller
 @RequestMapping(value = "/admin/db/dao")
@@ -28,12 +29,13 @@ public class DaoController {
 	/**
 	 * Dao-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String pojoId) {
-		List<DataTableRowVo> dtrvs = daoService.getDaoDtrvs(pojoId);
+	public ModelAndView managePage(String functionId) {
+		List<DataTableRowVo> dtrvs = daoService.getDaoDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("daos", dtrvs);
-		modelAndView.addObject("pojoId", pojoId);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -61,11 +63,23 @@ public class DaoController {
 	}
 
 	/**
+	 * dao-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String pojoId) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		DaoVo dao = daoService.getDaoByPojoId(pojoId);
+		modelAndView.addObject("dao", dao);
+		modelAndView.addObject("pojoId", pojoId);
+		return modelAndView;
+	}
+
+	/**
 	 * Dao-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(DaoVo daoVo) throws AjaxRequestException {
 		return daoService.save(daoVo);
 	}
@@ -75,7 +89,7 @@ public class DaoController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(DaoVo daoVo) throws AjaxRequestException {
 		return daoService.update(daoVo);
 	}
@@ -85,7 +99,7 @@ public class DaoController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return daoService.delete(id);
 	}
@@ -95,9 +109,19 @@ public class DaoController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return daoService.deleteBatch(ids);
+	}
+
+	/**
+	 * Dao-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(DaoVo daoVo) throws AjaxRequestException {
+		return daoService.saveOrUpdate(daoVo);
 	}
 
 }

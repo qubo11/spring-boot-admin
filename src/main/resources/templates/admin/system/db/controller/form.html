@@ -43,16 +43,14 @@
 						th:value="${controller.comment}" />
 				</div>
 			</div>
-			<th:block th:if="${pojoId== null} or ${pojoId==''}">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="pojoId">所属实体</label> <select
-							class="form-control pojo-select" name="pojoId"
-							th:utext="${controller.pojoSov.html}">
-						</select>
-					</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="pojoId">所属实体</label> <select
+						class="form-control pojo-select" name="pojoId"
+						th:utext="${controller.pojoSov.html}">
+					</select>
 				</div>
-			</th:block>
+			</div>
 		</div>
 	</form>
 </body>

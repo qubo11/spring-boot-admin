@@ -45,6 +45,19 @@ public class BusinessService {
 	}
 
 	/**
+	 * 根据实体id获取业务
+	 * 
+	 * @param id
+	 *            实体 id
+	 * @return BusinessVo 业务vo
+	 */
+	public BusinessVo getBusinessByPojoId(String pojoId) {
+		Business business = businessRepository.findByPojoId(pojoId);
+		List<Pojo> pojos = pojoRepository.findAll();
+		return BusinessConvertor.doToVo(business, pojos);
+	}
+
+	/**
 	 * 获取所有的业务，封装成业务vos
 	 * 
 	 * @return 业务 list
@@ -65,24 +78,6 @@ public class BusinessService {
 	}
 
 	/**
-	 * 获取所有的业务，封装成DataTableVos
-	 * 
-	 * @param pojoId
-	 *            实体id
-	 * 
-	 * @return 业务DataTableVo list
-	 */
-	public List<DataTableRowVo> getBusinessDtrvs(String pojoId) {
-		List<Business> businesss = null;
-		if (StringUtils.isBlank(pojoId)) {
-			businesss = businessRepository.findAll();
-		} else {
-			businesss = businessRepository.findByPojoId(pojoId);
-		}
-		return BusinessConvertor.dosToDtrvs(businesss);
-	}
-
-	/**
 	 * 保存业务
 	 * 
 	 * @param businessVo
@@ -94,10 +89,6 @@ public class BusinessService {
 	public DataTableRowVo save(BusinessVo businessVo) {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
-		if (StringUtils.isBlank(businessVo.getName())) {
-			dtrv.setMessage("Business名称不能为空");
-			return dtrv;
-		}
 		Business business = new Business();
 		BusinessConvertor.voToDo(businessVo, business);
 		// 如果pojoId存在，就设置Pojo
@@ -127,12 +118,8 @@ public class BusinessService {
 	@Transactional
 	public DataTableRowVo update(BusinessVo businessVo) {
 		DataTableRowVo dtrv = new DataTableRowVo();
-		dtrv.setMessage("保存失败");
+		dtrv.setMessage("更新失败");
 		if (StringUtils.isBlank(businessVo.getId())) {
-			return dtrv;
-		}
-		if (StringUtils.isBlank(businessVo.getName())) {
-			dtrv.setMessage("Business名称不能为空");
 			return dtrv;
 		}
 		Business check = businessRepository.findOne(businessVo.getId());
@@ -197,6 +184,48 @@ public class BusinessService {
 		}
 		rv.setResult(true);
 		rv.setMessage("删除成功");
+		return rv;
+	}
+
+	/**
+	 * 保存或者更新实体
+	 * 
+	 * @param businessVo
+	 *            业务层vo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(BusinessVo businessVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+		Business business = null;
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(businessVo.getId())) {
+			business = new Business();
+		} else {
+			// 如果id存在，就更新
+			business = businessRepository.findOne(businessVo.getId());
+			if (business == null) {
+				return rv;
+			}
+		}
+		BusinessConvertor.voToDo(businessVo, business);
+		// 如果实体id存在，就设置实体
+		String pojoId = businessVo.getPojoId();
+		if (!StringUtils.isBlank(pojoId)) {
+			Pojo pojo = pojoRepository.findOne(pojoId);
+			business.setPojo(pojo);
+		}
+
+		if (StringUtils.isBlank(businessVo.getId())) {
+			Business result = businessRepository.save(business);
+			if (result == null) {
+				return rv;
+			}
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
 		return rv;
 	}
 

@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.expect.admin.data.dataobject.db.Pojo;
+import com.expect.admin.data.dataobject.db.Project;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PojoVo;
@@ -27,6 +28,12 @@ public class PojoConvertor {
 		PojoVo pojoVo = new PojoVo();
 		if (pojo != null) {
 			BeanUtils.copyProperties(pojo, pojoVo);
+			Project project = pojo.getProject();
+			if (project != null) {
+				pojoVo.setProjectId(project.getId());
+				pojoVo.setProjectName(project.getName());
+			}
+
 		}
 		return pojoVo;
 	}
@@ -78,23 +85,21 @@ public class PojoConvertor {
 		dtrv.addData(pojo.getTableName());
 		dtrv.addData(pojo.getComment());
 		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenJungleButton("页面",
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getGreenJungleButton("页面",
 				"data-url='admin/db/page/managePage?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getBlueSharpButton("控制层",
+		buttonSb.append(DataTableButtonFactory.getBlueSharpButton("控制层",
 				"data-url='admin/db/controller/managePage?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getPurpleSharpButton("VO",
+		buttonSb.append(DataTableButtonFactory.getPurpleSharpButton("VO",
 				"data-url='admin/db/valueObject?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getGreenSharpButton("业务层",
+		buttonSb.append(DataTableButtonFactory.getGreenSharpButton("业务层",
 				"data-url='admin/db/business/managePage?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getPurpleButton("Dao",
+		buttonSb.append(DataTableButtonFactory.getPurpleButton("Dao",
 				"data-url='admin/db/dao/managePage?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getYellowButton("属性",
+		buttonSb.append(DataTableButtonFactory.getYellowButton("属性",
 				"data-url='admin/db/property/managePage?pojoId=" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + pojo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + pojo.getId() + "'"));
-		dtrv.addData(sb.toString());
+		buttonSb.append(DataTableButtonFactory.getBaseButton(pojo.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

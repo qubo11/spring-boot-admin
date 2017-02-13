@@ -79,11 +79,9 @@ public class DepartmentConvertor {
 		dtrv.addData(departmentVo.getManagerName());
 		dtrv.addData(departmentVo.getParentName());
 		dtrv.addData(departmentVo.getDescription());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + departmentVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + departmentVo.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(departmentVo.getId(), false));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**
@@ -107,7 +105,7 @@ public class DepartmentConvertor {
 	public static void convertDtrv(DataTableRowVo dtrv, Department department, Department parentDepartment,
 			User manager) {
 		DepartmentVo departmentVo = convert(department);
-		dtrv.setObj(departmentVo);
+		dtrv.setObj(departmentVo.getId());
 		dtrv.setCheckbox(true);
 		dtrv.addData(department.getCode());
 		dtrv.addData(department.getName());
@@ -123,10 +121,9 @@ public class DepartmentConvertor {
 		}
 		dtrv.addData(department.getDescription());
 		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + department.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + department.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(departmentVo.getId(), false));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

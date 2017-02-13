@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
 <head>
 <meta charset="utf-8" />
 </head>
 <body>
-	<div class="page-head">
-		<div class="page-title">
-			<h1>项目管理</h1>
-		</div>
-	</div>
-	<ul class="page-breadcrumb breadcrumb">
-		<li><a href="javascript:;">主页</a> <i class="fa fa-circle"></i></li>
-		<li><a href="javascript:;">代码生成器</a> <i class="fa fa-circle"></i></li>
-		<li><span class="active">项目管理</span></li>
-	</ul>
+
+	<ex:pageHeader th:id="${functionId}" />
+
 	<div id="project-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
@@ -31,28 +25,6 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="mt-element-step">
-						<div class="row step-thin">
-							<div class="col-lg-4 bg-grey mt-step-col">
-								<div class="mt-step-number first bg-white font-grey">1</div>
-								<div class="mt-step-title uppercase font-grey-cascade">Purchase</div>
-								<div class="mt-step-content font-grey-cascade">Purchasing
-									the item</div>
-							</div>
-							<div class="col-lg-4 bg-grey mt-step-col active">
-								<div class="mt-step-number bg-white font-grey">2</div>
-								<div class="mt-step-title uppercase font-grey-cascade">Payment</div>
-								<div class="mt-step-content font-grey-cascade">Complete
-									your payment</div>
-							</div>
-							<div class="col-lg-4 bg-grey mt-step-col">
-								<div class="mt-step-number bg-white font-grey">3</div>
-								<div class="mt-step-title uppercase font-grey-cascade">Deploy</div>
-								<div class="mt-step-content font-grey-cascade">Receive
-									item integration</div>
-							</div>
-						</div>
-					</div>
 					<table id="project-table"
 						class="table table-striped table-bordered table-hover">
 						<thead>

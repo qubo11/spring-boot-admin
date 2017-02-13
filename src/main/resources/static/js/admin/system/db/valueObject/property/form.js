@@ -6,7 +6,7 @@ var ValueObjectForm = {
 			var $this = $(this).find("option:selected");
 			ValueObjectForm.setTypeSelectClick($this);
 		});
-		$("select[name='property']").change(function(){
+		$("select[name='propertyId']").change(function(){
 			var $this = $(this).find("option:selected");
 			ValueObjectForm.setPropertyClick($this);
 		});
@@ -18,13 +18,18 @@ var ValueObjectForm = {
 	},
 	setPropertyClick : function($this){
 		var name=$this.text();
-		var type=$this.val();
+		var idType=$this.val();
 		if(name=='无'){
 			$("input[name='name']").val("");
 		}else{
 			$("input[name='name']").val(name);
 		}
-		$("input[name='type']").val(type);
+		if(idType){
+			var type = idType.split(",");
+			$("input[name='type']").val(type[1]);
+		}else{
+			$("input[name='type']").val("");
+		}
 	},
 	setTypeSelectClick : function($this){
 		var value=$this.val();

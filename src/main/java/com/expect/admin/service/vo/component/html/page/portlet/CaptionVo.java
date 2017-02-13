@@ -5,9 +5,9 @@ package com.expect.admin.service.vo.component.html.page.portlet;
  */
 public class CaptionVo {
 
-	private String title;
-	private String subTitle;// light类型才行
-	private String icon;
+	private String title;// 标题
+	private String subTitle;// 子标题(标题描述)
+	private String icon;// 图片(fa/icon)
 
 	public String getTitle() {
 		return title;

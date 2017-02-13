@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.PropertyService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PropertyVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 属性Controller
@@ -23,7 +24,7 @@ import com.expect.admin.web.exception.AjaxRequestException;
 @RequestMapping(value = "/admin/db/property")
 public class PropertyController {
 
-	private final String viewName = "admin/system/db/property/";
+	private final String viewName = "admin/system/db/pojo/property/";
 
 	@Autowired
 	private PropertyService propertyService;
@@ -31,12 +32,14 @@ public class PropertyController {
 	/**
 	 * 属性-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String pojoId) {
+	public ModelAndView managePage(String pojoId, String functionId) {
 		List<DataTableRowVo> dtrvs = propertyService.getPropertyDtrvs(pojoId);
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("pojoId", pojoId);
-		modelAndView.addObject("propertys", dtrvs);
+		modelAndView.addObject("properties", dtrvs);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -64,11 +67,23 @@ public class PropertyController {
 	}
 
 	/**
+	 * 属性-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String pojoId) {
+		List<DataTableRowVo> dtrvs = propertyService.getPropertyDtrvs(pojoId);
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		modelAndView.addObject("pojoId", pojoId);
+		modelAndView.addObject("properties", dtrvs);
+		return modelAndView;
+	}
+
+	/**
 	 * 属性-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(PropertyVo propertyVo) throws AjaxRequestException {
 		return propertyService.save(propertyVo);
 	}
@@ -78,7 +93,7 @@ public class PropertyController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(PropertyVo propertyVo) throws AjaxRequestException {
 		return propertyService.update(propertyVo);
 	}
@@ -88,7 +103,7 @@ public class PropertyController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return propertyService.delete(id);
 	}
@@ -98,7 +113,7 @@ public class PropertyController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return propertyService.deleteBatch(ids);
 	}

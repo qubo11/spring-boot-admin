@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expect.admin.plugins.ueditor.define.ActionMap;
@@ -77,7 +78,7 @@ public final class ConfigManager {
 
 	}
 
-	public Map<String, Object> getConfig(int type) {
+	public Map<String, Object> getConfig(int type) throws JSONException {
 
 		Map<String, Object> conf = new HashMap<String, Object>();
 		String savePath = null;
@@ -161,7 +162,7 @@ public final class ConfigManager {
 		return this.originalPath + File.separator + ConfigManager.configFileName;
 	}
 
-	private String[] getArray(String key) {
+	private String[] getArray(String key) throws JSONException {
 
 		JSONArray jsonArray = this.jsonConfig.getJSONArray(key);
 		String[] result = new String[jsonArray.length()];

@@ -63,7 +63,7 @@ public class LogDbConvertor {
 	 * vo to do
 	 */
 	public static LogDb convert(LogDbVo logDbVo) {
-		LogDb logDb=new LogDb();
+		LogDb logDb = new LogDb();
 		BeanUtils.copyProperties(logDbVo, logDb);
 		if (!StringUtils.isBlank(logDbVo.getDateTimeStr())) {
 			logDb.setDateTime(DateUtil.parse(logDbVo.getDateTimeStr(), DateUtil.noSecondFormat));
@@ -86,10 +86,9 @@ public class LogDbConvertor {
 		dtrv.addData(logDb.getOperationType());
 		dtrv.addData(logDb.getDescription());
 		dtrv.addData(logDb.getExecuteTime() + "");
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + logDb.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(logDb.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**
@@ -111,10 +110,9 @@ public class LogDbConvertor {
 				dtsrv.addData(logDb.getOperationType());
 				dtsrv.addData(logDb.getDescription());
 				dtsrv.addData(logDb.getExecuteTime() + "");
-				// 设置操作的button
-				StringBuilder sb = new StringBuilder();
-				sb.append(DataTableButtonFactory.getDetailButton("data-id='" + logDb.getId() + "'"));
-				dtsrv.addData(sb.toString());
+				StringBuilder buttonSb = new StringBuilder();
+				buttonSb.append(DataTableButtonFactory.getBaseButton(logDb.getId()));
+				dtsrv.addData(buttonSb.toString());
 				dtsrv.setId(logDb.getId());
 			}
 		}

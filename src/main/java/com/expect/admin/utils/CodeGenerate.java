@@ -138,7 +138,7 @@ public class CodeGenerate {
 	 * @param filePath
 	 *            输出的文件路径
 	 */
-	public static void valueObjectProperty(List<ValueObjectPropertyVo> valueObjectPropertys, String filePath) {
+	public static void valueObject(List<ValueObjectPropertyVo> valueObjectPropertys, String filePath) {
 		if (!CollectionUtils.isEmpty(valueObjectPropertys)) {
 			for (ValueObjectPropertyVo valueObjectProperty : valueObjectPropertys) {
 				Map<String, Object> dataMap = new HashMap<>();

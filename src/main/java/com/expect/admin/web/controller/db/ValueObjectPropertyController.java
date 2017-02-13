@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.ValueObjectPropertyService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ValueObjectPropertyVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 值对象属性 Controller
@@ -31,12 +32,14 @@ public class ValueObjectPropertyController {
 	/**
 	 * 值对象属性-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String valueObjectId) {
+	public ModelAndView managePage(String valueObjectId, String functionId) {
 		List<DataTableRowVo> dtrvs = valueObjectPropertyService.getValueObjectPropertyDtrvs(valueObjectId);
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("valueObjectPropertys", dtrvs);
 		modelAndView.addObject("valueObjectId", valueObjectId);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -45,7 +48,8 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/formPage", method = RequestMethod.GET)
 	public ModelAndView formPage(String id, String valueObjectId) {
-		ValueObjectPropertyVo valueObjectProperty = valueObjectPropertyService.getValueObjectPropertyById(id);
+		ValueObjectPropertyVo valueObjectProperty = valueObjectPropertyService.getValueObjectPropertyById(id,
+				valueObjectId);
 		ModelAndView modelAndView = new ModelAndView(viewName + "form");
 		modelAndView.addObject("valueObjectProperty", valueObjectProperty);
 		modelAndView.addObject("valueObjectId", valueObjectId);
@@ -57,9 +61,21 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/detailPage", method = RequestMethod.GET)
 	public ModelAndView detailPage(String id) {
-		ValueObjectPropertyVo valueObjectProperty = valueObjectPropertyService.getValueObjectPropertyById(id);
+		ValueObjectPropertyVo valueObjectProperty = valueObjectPropertyService.getValueObjectPropertyById(id, null);
 		ModelAndView modelAndView = new ModelAndView(viewName + "detail");
 		modelAndView.addObject("valueObjectProperty", valueObjectProperty);
+		return modelAndView;
+	}
+
+	/**
+	 * 值对象属性-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String valueObjectId) {
+		List<DataTableRowVo> dtrvs = valueObjectPropertyService.getValueObjectPropertyDtrvs(valueObjectId);
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		modelAndView.addObject("valueObjectId", valueObjectId);
+		modelAndView.addObject("valueObjectProperties", dtrvs);
 		return modelAndView;
 	}
 
@@ -68,7 +84,7 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(ValueObjectPropertyVo valueObjectPropertyVo) throws AjaxRequestException {
 		return valueObjectPropertyService.save(valueObjectPropertyVo);
 	}
@@ -78,7 +94,7 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(ValueObjectPropertyVo valueObjectPropertyVo) throws AjaxRequestException {
 		return valueObjectPropertyService.update(valueObjectPropertyVo);
 	}
@@ -88,7 +104,7 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return valueObjectPropertyService.delete(id);
 	}
@@ -98,7 +114,7 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return valueObjectPropertyService.deleteBatch(ids);
 	}
@@ -108,7 +124,7 @@ public class ValueObjectPropertyController {
 	 */
 	@RequestMapping(value = "/sync", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo sync(String valueObjectId) throws AjaxRequestException {
 		return valueObjectPropertyService.sync(valueObjectId);
 	}

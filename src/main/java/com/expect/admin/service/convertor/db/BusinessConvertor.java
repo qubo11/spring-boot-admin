@@ -106,12 +106,9 @@ public class BusinessConvertor {
 		} else {
 			dtrv.addData("");
 		}
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + business.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + business.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + business.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(business.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

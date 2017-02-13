@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="portlet box blue">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-cogs"></i>值对象配置
+			</div>
+			<div class="actions">
+				<a href="javascript:;"
+					class="btn btn-default btn-sm guide-next-button"> <i
+					class="fa fa-arrow-circle-right"></i> 下一步
+				</a> <a href="javascript:;"
+					class="btn btn-default btn-sm guide-save-button"> <i
+					class="fa fa-edit"></i> 保存
+				</a>
+			</div>
+		</div>
+		<div class="portlet-body">
+			<form id="valueObject-form">
+				<input type="hidden" name="id" th:value="${valueObject.id}" /> <input
+					type="hidden" name="pojoId" th:value="${valueObject.pojoId}" />
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="packageName">包名</label>
+							<div class="input-group col-md-12">
+								<input id="packageName" type="text" class="form-control"
+									name="packageName" placeholder="请输入包名"
+									th:value="${valueObject.packageName}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">名称</label>
+							<div class="input-group col-md-12">
+								<input id="name" type="text" class="form-control" name="name"
+									placeholder="请输入名称" th:value="${valueObject.name}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>注释</label> <input id="comment" type="text"
+								class="form-control" name="comment" placeholder="请输入注释"
+								th:value="${valueObject.comment}" />
+						</div>
+					</div>
+				</div>
+			</form>
+			<div id="valueObject-property-wrapper"></div>
+		</div>
+	</div>
+
+</body>
+</html>

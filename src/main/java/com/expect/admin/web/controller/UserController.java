@@ -28,8 +28,9 @@ import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.utils.IOUtil;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 @Controller
 @RequestMapping("/admin/user")
@@ -47,12 +48,14 @@ public class UserController {
 	/**
 	 * 用户管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/userManagePage", method = RequestMethod.GET)
-	public ModelAndView userManagePage() {
+	public ModelAndView managePage(String functionId) {
 		List<UserVo> users = userService.getAllUsers();
 		List<DataTableRowVo> dtrvs = UserConvertor.convertDtrvs(users);
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("users", dtrvs);
+		modelAndView.addObject("functionId",functionId);
 		return modelAndView;
 	}
 
@@ -94,7 +97,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(UserVo userVo) throws AjaxRequestException {
 		return userService.save(userVo);
 	}
@@ -104,7 +107,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(UserVo userVo) throws AjaxRequestException {
 		return userService.update(userVo);
 	}
@@ -114,7 +117,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return userService.delete(id);
 	}
@@ -124,7 +127,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return userService.deleteBatch(ids);
 	}
@@ -134,7 +137,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserRole", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo updateUserRole(String userId, String roleId) throws AjaxRequestException {
 		ResultVo resultVo = userService.updateUserRole(userId, roleId);
 		return resultVo;
@@ -145,7 +148,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserDepartment", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo updateUserDepartment(String userId, String departmentId) throws AjaxRequestException {
 		ResultVo resultVo = userService.updateUserDepartment(userId, departmentId);
 		return resultVo;
@@ -156,7 +159,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/checkAvatar", method = RequestMethod.GET)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo checkAvatar(String userId) throws AjaxRequestException {
 		UserVo user = userService.getUserById(userId);
 		if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
@@ -176,7 +179,7 @@ public class UserController {
 	 * 显示头像
 	 */
 	@RequestMapping(value = "/showAvatar", method = RequestMethod.GET)
-	@AjaxException
+	@AjaxRequest
 	public void showAvatar(String userId, HttpServletResponse response) throws AjaxRequestException {
 		UserVo user = userService.getUserById(userId);
 		if (user != null && !StringUtils.isBlank(user.getAvatarId())) {
@@ -202,7 +205,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo uploadAvatar(MultipartFile files, String userAvatarId, HttpServletRequest request)
 			throws AjaxRequestException {
 		String avatarPath = settings.getAvatarPath();
@@ -231,7 +234,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo modifyPassword(String id, String oldPassword, String newPassword, String newPasswordRepeat)
 			throws AjaxRequestException {
 		ResultVo rv = userService.updatePassword(id, oldPassword, newPassword, newPasswordRepeat);

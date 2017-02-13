@@ -12,6 +12,8 @@ public class PojoVo {
 	private String packageName;// 包名
 	private String tableName;// 对应的表名
 	private String comment;// 注释
+	private String projectId;// 项目id
+	private String projectName;// 项目名
 	private List<PropertyVo> propertyVos;
 
 	public String getId() {
@@ -52,6 +54,22 @@ public class PojoVo {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	public List<PropertyVo> getPropertyVos() {

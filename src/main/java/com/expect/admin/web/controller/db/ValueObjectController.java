@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.ValueObjectService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ValueObjectVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 值对象 Controller
@@ -31,11 +32,13 @@ public class ValueObjectController {
 	/**
 	 * 值对象-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage() {
+	public ModelAndView managePage(String functionId) {
 		List<DataTableRowVo> dtrvs = valueObjectService.getValueObjectDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("valueObjects", dtrvs);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -62,11 +65,23 @@ public class ValueObjectController {
 	}
 
 	/**
+	 * 值对象-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String pojoId) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		ValueObjectVo ValueObject = valueObjectService.getValueObjectByPojoId(pojoId);
+		modelAndView.addObject("valueObject", ValueObject);
+		modelAndView.addObject("pojoId", pojoId);
+		return modelAndView;
+	}
+
+	/**
 	 * 值对象-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(ValueObjectVo valueObjectVo) throws AjaxRequestException {
 		return valueObjectService.save(valueObjectVo);
 	}
@@ -76,7 +91,7 @@ public class ValueObjectController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(ValueObjectVo valueObjectVo) throws AjaxRequestException {
 		return valueObjectService.update(valueObjectVo);
 	}
@@ -86,7 +101,7 @@ public class ValueObjectController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return valueObjectService.delete(id);
 	}
@@ -96,9 +111,19 @@ public class ValueObjectController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return valueObjectService.deleteBatch(ids);
+	}
+
+	/**
+	 * 值对象-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(ValueObjectVo valueObjectVo) throws AjaxRequestException {
+		return valueObjectService.saveOrUpdate(valueObjectVo);
 	}
 
 }

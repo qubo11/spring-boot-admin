@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 </head>
 <body>
-	<form id="valueObjectProperty-form">
+	<form id="valueObject-property-form">
 		<input type="hidden" name="id" th:value="${valueObjectProperty.id}" />
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="property">关联属性</label> <select
-						class="form-control property-select" name="property"
+						class="form-control property-select" name="propertyId"
 						th:utext="${valueObjectProperty.propertySov.html}">
 					</select>
 				</div>
@@ -160,7 +160,7 @@
 			</div>
 		</div>
 	</form>
-	<script th:src="@{/js/admin/system/db/valueObjectProperty/form.js}"
+	<script th:src="@{/js/admin/system/db/valueObject/property/form.js}"
 		type="text/javascript"></script>
 </body>
 </html>

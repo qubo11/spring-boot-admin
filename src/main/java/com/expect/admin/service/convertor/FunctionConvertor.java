@@ -32,8 +32,8 @@ public class FunctionConvertor {
 				url = handleUrl(function.getId(), url);
 				functionVo.setUrl(url);
 			}
-			url = url.replaceAll("[a-zA-Z]","");
-			url = url.replaceAll("\\D","");
+			url = url.replaceAll("[a-zA-Z]", "");
+			url = url.replaceAll("\\D", "");
 			functionVo.setEncodeUrl(url);
 		}
 		// 设置父功能
@@ -43,7 +43,7 @@ public class FunctionConvertor {
 		}
 		return functionVo;
 	}
-	
+
 	private static String handleUrl(String functionId, String url) {
 		if (url.indexOf("?") >= 0) {
 			return url + "&functionId=" + functionId;
@@ -101,11 +101,9 @@ public class FunctionConvertor {
 		dtrv.addData(functionVo.getParentName());
 		dtrv.addData(functionVo.getSequence() + "");
 		dtrv.addData(functionVo.getDescription());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + functionVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + functionVo.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(functionVo.getId(), false));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**
@@ -140,11 +138,9 @@ public class FunctionConvertor {
 		}
 		dtrv.addData(function.getSequence() + "");
 		dtrv.addData(function.getDescription());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + function.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + function.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(functionVo.getId(), false));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

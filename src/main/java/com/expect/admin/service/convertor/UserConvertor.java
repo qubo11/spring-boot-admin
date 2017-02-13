@@ -8,6 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.expect.admin.contants.RoleLocal;
 import com.expect.admin.data.dataobject.Department;
 import com.expect.admin.data.dataobject.Role;
 import com.expect.admin.data.dataobject.User;
@@ -127,15 +128,15 @@ public class UserConvertor {
 		dtrv.addData(userVo.getSex());
 		dtrv.addData(userVo.getPhone());
 		dtrv.addData(userVo.getEmail());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenSharpButton("头像", "data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getYellowButton("部门", "data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + userVo.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		Boolean otherRole = RoleLocal.getOther();
+		if (otherRole) {
+			buttonSb.append(DataTableButtonFactory.getGreenSharpButton("头像", "data-id='" + userVo.getId() + "'"));
+			buttonSb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + userVo.getId() + "'"));
+			buttonSb.append(DataTableButtonFactory.getYellowButton("部门", "data-id='" + userVo.getId() + "'"));
+		}
+		buttonSb.append(DataTableButtonFactory.getBaseButton(userVo.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**
@@ -151,15 +152,15 @@ public class UserConvertor {
 		dtrv.addData(user.getSex());
 		dtrv.addData(user.getPhone());
 		dtrv.addData(user.getEmail());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + user.getId() + "'"));
-		sb.append(DataTableButtonFactory.getYellowButton("头像", "data-id='" + user.getId() + "'"));
-		sb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + user.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + userVo.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + user.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + user.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		Boolean otherRole = RoleLocal.getOther();
+		if (otherRole) {
+			buttonSb.append(DataTableButtonFactory.getGreenSharpButton("头像", "data-id='" + userVo.getId() + "'"));
+			buttonSb.append(DataTableButtonFactory.getPurpleButton("角色", "data-id='" + userVo.getId() + "'"));
+			buttonSb.append(DataTableButtonFactory.getYellowButton("部门", "data-id='" + userVo.getId() + "'"));
+		}
+		buttonSb.append(DataTableButtonFactory.getBaseButton(userVo.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

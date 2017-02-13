@@ -1,5 +1,6 @@
 package com.expect.admin.data.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,5 +30,16 @@ public interface RoleFunctionRepository extends JpaRepository<RoleFunction, Stri
 	 * @return 角色功能列表
 	 */
 	public Set<RoleFunction> findByRoleId(String roleId);
+
+	/**
+	 * 根据多个角色id和功能id获取角色功能
+	 * 
+	 * @param roleIds
+	 *            角色id list
+	 * @param functionId
+	 *            功能id
+	 * @return 角色功能
+	 */
+	public Set<RoleFunction> findByRoleIdInAndFunctionId(List<String> roleIds, String functionId);
 
 }

@@ -15,7 +15,7 @@ import com.expect.admin.service.convertor.LogDbConvertor;
 import com.expect.admin.service.impl.LogDbService;
 import com.expect.admin.service.vo.LogDbVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableServerArrayVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
 
 /**
@@ -34,8 +34,9 @@ public class LogDbController {
 	 * 日志记录-管理页面
 	 */
 	@RequestMapping(value = "/logDbManagePage", method = RequestMethod.GET)
-	public ModelAndView logDbManage() {
+	public ModelAndView managePage(String functionId) {
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -55,7 +56,7 @@ public class LogDbController {
 	 */
 	@RequestMapping(value = "/getLogDbDatatable", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableServerArrayVo getLogDbDatatable(LogDbVo logDbVo, String start, String length)
 			throws AjaxRequestException {
 		Page<LogDb> logDbPage = logDbService.getLogs(logDbVo, start, length);

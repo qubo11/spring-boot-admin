@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<input type="hidden" th:value="${project.id}" name="projectId" />
+	<div class="portlet box blue">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-cogs"></i>项目配置
+			</div>
+			<div class="actions">
+				<a href="javascript:;" class="btn btn-default btn-sm guide-next-button">
+					<i class="fa fa-arrow-circle-right"></i> 下一步
+				</a> <a href="javascript:;" class="btn btn-default btn-sm guide-save-button">
+					<i class="fa fa-edit"></i> 保存
+				</a>
+			</div>
+		</div>
+		<div class="portlet-body">
+			<form id="project-form">
+				<input type="hidden" name="id" th:value="${project.id}" />
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="packageName">包名</label>
+							<div class="input-group col-md-12">
+								<input id="packageName" type="text" class="form-control"
+									name="packageName" placeholder="请输入包名"
+									th:value="${project.packageName}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">项目名</label>
+							<div class="input-group col-md-12">
+								<input id="name" type="text" class="form-control" name="name"
+									placeholder="请输入项目名" th:value="${project.name}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="remark">备注</label>
+							<div class="input-group col-md-12">
+								<input id="remark" type="text" class="form-control"
+									name="remark" placeholder="请输入备注" th:value="${project.remark}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

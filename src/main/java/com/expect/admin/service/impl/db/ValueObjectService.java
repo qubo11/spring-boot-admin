@@ -45,6 +45,18 @@ public class ValueObjectService {
 	}
 
 	/**
+	 * 根据实体id获取值对象
+	 * 
+	 * @param pojoId
+	 *            实体id
+	 * @return 值对象vo
+	 */
+	public ValueObjectVo getValueObjectByPojoId(String pojoId) {
+		ValueObject valueObject = valueObjectRepository.findByPojoId(pojoId);
+		return ValueObjectConvertor.doToVo(valueObject, null);
+	}
+
+	/**
 	 * 获取所有的值对象，封装成值对象vos
 	 * 
 	 * @return 值对象 list
@@ -65,18 +77,6 @@ public class ValueObjectService {
 	}
 
 	/**
-	 * 根据实体id获取值对象
-	 * 
-	 * @param pojoId
-	 *            实体id
-	 * @return 值对象vo
-	 */
-	public ValueObjectVo getValueObjectByPojoId(String pojoId) {
-		ValueObject valueObject = valueObjectRepository.findByPojoId(pojoId);
-		return ValueObjectConvertor.doToVo(valueObject, null);
-	}
-
-	/**
 	 * 保存值对象
 	 * 
 	 * @param valueObjectVo
@@ -88,10 +88,6 @@ public class ValueObjectService {
 	public DataTableRowVo save(ValueObjectVo valueObjectVo) {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
-		if (StringUtils.isBlank(valueObjectVo.getName())) {
-			dtrv.setMessage("值对象名称不能为空");
-			return dtrv;
-		}
 		ValueObject valueObject = new ValueObject();
 		ValueObjectConvertor.voToDo(valueObjectVo, valueObject);
 		// 设置所属实体
@@ -122,10 +118,6 @@ public class ValueObjectService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
 		if (StringUtils.isBlank(valueObjectVo.getId())) {
-			return dtrv;
-		}
-		if (StringUtils.isBlank(valueObjectVo.getName())) {
-			dtrv.setMessage("值对象名称不能为空");
 			return dtrv;
 		}
 		ValueObject check = valueObjectRepository.findOne(valueObjectVo.getId());
@@ -190,6 +182,49 @@ public class ValueObjectService {
 		}
 		rv.setResult(true);
 		rv.setMessage("删除成功");
+		return rv;
+	}
+
+	/**
+	 * 保存或者更新实体
+	 * 
+	 * @param valueObjectVo
+	 *            值对象vo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(ValueObjectVo valueObjectVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+
+		ValueObject valueObject = null;
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(valueObjectVo.getId())) {
+			valueObject = new ValueObject();
+		} else {
+			// 如果id存在，就更新
+			valueObject = valueObjectRepository.findOne(valueObjectVo.getId());
+			if (valueObject == null) {
+				return rv;
+			}
+		}
+		ValueObjectConvertor.voToDo(valueObjectVo, valueObject);
+		// 如果实体id存在，就设置实体
+		String pojoId = valueObjectVo.getPojoId();
+		if (!StringUtils.isBlank(pojoId)) {
+			Pojo pojo = pojoRepository.findOne(pojoId);
+			valueObject.setPojo(pojo);
+		}
+
+		if (StringUtils.isBlank(valueObjectVo.getId())) {
+			ValueObject result = valueObjectRepository.save(valueObject);
+			if (result == null) {
+				return rv;
+			}
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
 		return rv;
 	}
 

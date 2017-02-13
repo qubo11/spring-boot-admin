@@ -48,9 +48,14 @@ public class AdminBaseController {
 		}
 		return "redirect:/admin/login";
 	}
-	
+
 	@RequestMapping("/404")
-	public String page404(){
+	public String page404() {
 		return "admin/404";
+	}
+
+	@RequestMapping("/notAuth")
+	public String pageNotAuth() {
+		return "admin/notAuth";
 	}
 }

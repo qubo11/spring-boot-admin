@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.ControllerService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ControllerVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 控制层 Controller
@@ -31,12 +32,14 @@ public class ControllerController {
 	/**
 	 * 控制层-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String pojoId) {
-		List<DataTableRowVo> dtrvs = controllerService.getControllerDtrvs(pojoId);
+	public ModelAndView managePage(String pojoId, String functionId) {
+		List<DataTableRowVo> dtrvs = controllerService.getControllerDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("controllers", dtrvs);
 		modelAndView.addObject("pojoId", pojoId);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -64,11 +67,23 @@ public class ControllerController {
 	}
 
 	/**
+	 * 业务-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String pojoId) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		ControllerVo controller = controllerService.getControllerByPojoId(pojoId);
+		modelAndView.addObject("controller", controller);
+		modelAndView.addObject("pojoId", pojoId);
+		return modelAndView;
+	}
+
+	/**
 	 * 控制层-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(ControllerVo controllerVo) throws AjaxRequestException {
 		return controllerService.save(controllerVo);
 	}
@@ -78,7 +93,7 @@ public class ControllerController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(ControllerVo controllerVo) throws AjaxRequestException {
 		return controllerService.update(controllerVo);
 	}
@@ -88,7 +103,7 @@ public class ControllerController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return controllerService.delete(id);
 	}
@@ -98,9 +113,19 @@ public class ControllerController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return controllerService.deleteBatch(ids);
+	}
+
+	/**
+	 * 控制层-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(ControllerVo controllerVo) throws AjaxRequestException {
+		return controllerService.saveOrUpdate(controllerVo);
 	}
 
 }

@@ -7,9 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import com.expect.admin.data.dataobject.db.PojoConstants;
+import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.data.dataobject.db.Property;
-import com.expect.admin.data.dataobject.db.ValueObject;
 import com.expect.admin.data.dataobject.db.ValueObjectProperty;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
@@ -54,12 +53,12 @@ public class ValueObjectPropertyConvertor {
 				}
 				if (valueObjectProperty != null && valueObjectProperty.getProperty() != null) {
 					if (valueObjectProperty.getProperty().getId().equals(property.getId())) {
-						propertySov.addOption(property.getType(), property.getName(), true);
+						propertySov.addOption(property.getId() + "," + property.getType(), property.getName(), true);
 					} else {
-						propertySov.addOption(property.getType(), property.getName());
+						propertySov.addOption(property.getId() + "," + property.getType(), property.getName());
 					}
 				} else {
-					propertySov.addOption(property.getType(), property.getName());
+					propertySov.addOption(property.getId() + "," + property.getType(), property.getName());
 				}
 			}
 		}
@@ -154,18 +153,9 @@ public class ValueObjectPropertyConvertor {
 		} else {
 			dtrv.addData("");
 		}
-		ValueObject valueObject = valueObjectProperty.getValueObject();
-		if (valueObject != null) {
-			dtrv.addData(valueObject.getName());
-		} else {
-			dtrv.addData("");
-		}
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + valueObjectProperty.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + valueObjectProperty.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + valueObjectProperty.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(valueObjectProperty.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

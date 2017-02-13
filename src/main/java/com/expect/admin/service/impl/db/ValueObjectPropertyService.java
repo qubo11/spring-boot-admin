@@ -9,11 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.data.dao.db.PropertyRepository;
 import com.expect.admin.data.dao.db.ValueObjectPropertyRepository;
 import com.expect.admin.data.dao.db.ValueObjectRepository;
 import com.expect.admin.data.dataobject.db.Pojo;
-import com.expect.admin.data.dataobject.db.PojoConstants;
 import com.expect.admin.data.dataobject.db.Property;
 import com.expect.admin.data.dataobject.db.ValueObject;
 import com.expect.admin.data.dataobject.db.ValueObjectProperty;
@@ -42,18 +42,18 @@ public class ValueObjectPropertyService {
 	 *            值对象属性 id
 	 * @return ValueObjectPropertyVo 值对象属性vo
 	 */
-	public ValueObjectPropertyVo getValueObjectPropertyById(String id) {
+	public ValueObjectPropertyVo getValueObjectPropertyById(String id, String valueObjectId) {
 		ValueObjectProperty valueObjectProperty = null;
 		List<Property> properties = null;
 		if (!StringUtils.isBlank(id)) {
 			valueObjectProperty = valueObjectPropertyRepository.findOne(id);
-			if(valueObjectProperty!=null){
-				ValueObject valueObject = valueObjectProperty.getValueObject();
-				if (valueObject != null) {
-					Pojo pojo = valueObject.getPojo();
-					if (pojo != null) {
-						properties = pojo.getProperties();
-					}
+		}
+		if (!StringUtils.isBlank(valueObjectId)) {
+			ValueObject valueObject = valueObjectRepository.findOne(valueObjectId);
+			if (valueObject != null) {
+				Pojo pojo = valueObject.getPojo();
+				if (pojo != null) {
+					properties = pojo.getProperties();
 				}
 			}
 		}
@@ -108,7 +108,7 @@ public class ValueObjectPropertyService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
 		if (StringUtils.isBlank(valueObjectPropertyVo.getName())) {
-			dtrv.setMessage("ValueObjectProperty名称不能为空");
+			dtrv.setMessage("值对象属性名称不能为空");
 			return dtrv;
 		}
 		ValueObjectProperty valueObjectProperty = new ValueObjectProperty();
@@ -116,8 +116,17 @@ public class ValueObjectPropertyService {
 		// 如果propertyId存在，就设置对应的属性
 		String propertyId = valueObjectPropertyVo.getPropertyId();
 		if (!StringUtils.isBlank(propertyId)) {
-			Property property = propertyRepository.findOne(propertyId);
-			valueObjectProperty.setProperty(property);
+			String[] propertyIdArr = propertyId.split(",");
+			if (propertyIdArr.length > 0) {
+				Property property = propertyRepository.findOne(propertyIdArr[0]);
+				valueObjectProperty.setProperty(property);
+			}
+		}
+		// 如果valueObjectId存在，就设置对应的值对象
+		String valueObjectId = valueObjectPropertyVo.getValueObjectId();
+		if (!StringUtils.isBlank(valueObjectId)) {
+			ValueObject valueObject = valueObjectRepository.findOne(valueObjectId);
+			valueObjectProperty.setValueObject(valueObject);
 		}
 
 		ValueObjectProperty result = valueObjectPropertyRepository.save(valueObjectProperty);
@@ -145,7 +154,7 @@ public class ValueObjectPropertyService {
 			return dtrv;
 		}
 		if (StringUtils.isBlank(valueObjectPropertyVo.getName())) {
-			dtrv.setMessage("ValueObjectProperty名称不能为空");
+			dtrv.setMessage("值对象属性名称不能为空");
 			return dtrv;
 		}
 		ValueObjectProperty check = valueObjectPropertyRepository.findOne(valueObjectPropertyVo.getId());
@@ -156,8 +165,17 @@ public class ValueObjectPropertyService {
 		// 如果propertyId存在，就设置对应的属性
 		String propertyId = valueObjectPropertyVo.getPropertyId();
 		if (!StringUtils.isBlank(propertyId)) {
-			Property property = propertyRepository.findOne(propertyId);
-			check.setProperty(property);
+			String[] propertyIdArr = propertyId.split(",");
+			if (propertyIdArr.length > 0) {
+				Property property = propertyRepository.findOne(propertyIdArr[0]);
+				check.setProperty(property);
+			}
+		}
+		// 如果valueObjectId存在，就设置对应的值对象
+		String valueObjectId = valueObjectPropertyVo.getValueObjectId();
+		if (!StringUtils.isBlank(valueObjectId)) {
+			ValueObject valueObject = valueObjectRepository.findOne(valueObjectId);
+			check.setValueObject(valueObject);
 		}
 
 		dtrv.setMessage("更新成功");

@@ -19,65 +19,46 @@ public class PortletVo {
 	public static final int STYLE_SOLID = 3;// solid样式
 
 	private CaptionVo caption = new CaptionVo();// 标题
-	private List<ActionVo> actions;// actions按钮
+	private List<ActionVo> actions=new ArrayList<>();// actions按钮
 	private int style = 1;// 样式,1:box;2:light;3.solid
-	private StringBuilder classAttrs = new StringBuilder();// 其他class属性
+	private StringBuilder classAttrs = new StringBuilder();// class属性
 	private StringBuilder type = new StringBuilder();// portlet类型,1:普通;2:tab
 	private StringBuilder templateName = new StringBuilder();// 模版名称
+	private int width = 12;// 宽度
 
 	public PortletVo() {
 		classAttrs.append("portlet");
 	}
 
-	public CaptionVo getCaption() {
-		return caption;
-	}
-
-	public void setCaption(CaptionVo caption) {
-		this.caption = caption;
-	}
-
-	public List<ActionVo> getActions() {
-		return actions;
-	}
-
-	public void setActions(List<ActionVo> actions) {
-		this.actions = actions;
-	}
-
-	public void addAction(ActionVo action) {
-		if (this.actions == null) {
-			this.actions = new ArrayList<>();
-		}
+	private void addAction(ActionVo action) {
 		this.actions.add(action);
 	}
 
-	public void addClassAttr(String classAttr) {
+	private void addClassAttr(String classAttr) {
 		classAttrs.append(classAttr);
 	}
 
-	public String getClassAttrs() {
-		return classAttrs.toString();
-	}
-
-	public String getType() {
-		return type.toString();
-	}
-
-	public void setTemplateName(String templateName) {
+	private void setTemplateName(String templateName) {
 		this.templateName.append(templateName);
-	}
-
-	public String getTemplateName() {
-		return templateName.toString();
-	}
-
-	public int getStyle() {
-		return style;
 	}
 
 	public void setStyle(int style) {
 		this.style = style;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public String getCaptionHtml() {
+		String html = "<div class='caption'><i class='" + caption.getIcon()
+				+ "'></i><span class='caption-subject bold uppercase'>" + caption.getTitle()
+				+ "</span><span class='caption-helper'>" + caption.getSubTitle() + "</span></div>";
+		return html;
+	}
+
+	public void getActionsHtml() {
+		String html = "<div class='actions'></div>";
 	}
 
 	public static class Builder {
@@ -95,7 +76,7 @@ public class PortletVo {
 		 *            标题
 		 */
 		public Builder setTitle(String title) {
-			portlet.getCaption().setTitle(title);
+			portlet.caption.setTitle(title);
 			return this;
 		}
 
@@ -106,7 +87,7 @@ public class PortletVo {
 		 *            子标题
 		 */
 		public Builder setSubTitle(String subTitle) {
-			portlet.getCaption().setSubTitle(subTitle);
+			portlet.caption.setSubTitle(subTitle);
 			return this;
 		}
 
@@ -117,7 +98,7 @@ public class PortletVo {
 		 *            图标样式
 		 */
 		public Builder setIcon(String icon) {
-			portlet.getCaption().setIcon(icon);
+			portlet.caption.setIcon(icon);
 			return this;
 		}
 
@@ -208,7 +189,7 @@ public class PortletVo {
 		 *            宽度(1-12)
 		 */
 		public Builder setWidth(int width) {
-			portlet.addClassAttr("col-md-" + width);
+			portlet.setWidth(width);
 			return this;
 		}
 

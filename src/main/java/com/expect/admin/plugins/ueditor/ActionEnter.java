@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +46,7 @@ public class ActionEnter {
 		this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, ueditorPath);
 	}
 
-	public String exec(MultipartFile upfile) {
+	public String exec(MultipartFile upfile) throws JSONException {
 
 		String callbackName = this.request.getParameter("callback");
 
@@ -63,7 +64,7 @@ public class ActionEnter {
 
 	}
 
-	public String invoke(MultipartFile upfile) {
+	public String invoke(MultipartFile upfile) throws JSONException {
 
 		if (actionType == null || !ActionMap.mapping.containsKey(actionType)) {
 			return new BaseState(false, AppInfo.INVALID_ACTION).toJSONString();

@@ -30,8 +30,8 @@
 				<div class="form-group">
 					<label for="paginate">是否分页</label> <select
 						class="form-control paginate-select" name="paginate">
-						<option value="是">是</option>
-						<option value="否">否</option>
+						<option value="是" th:selected="${business.paginate=='是'}">是</option>
+						<option value="否" th:selected="${business.paginate=='否'}">否</option>
 					</select>
 				</div>
 			</div>
@@ -42,16 +42,14 @@
 						th:value="${business.comment}" />
 				</div>
 			</div>
-			<th:block th:if="${pojoId== null} or ${pojoId==''}">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="pojoId">所属实体</label> <select
-							class="form-control pojo-select" name="pojoId"
-							th:utext="${business.pojoSov.html}">
-						</select>
-					</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="pojoId">所属实体</label> <select
+						class="form-control pojo-select" name="pojoId"
+						th:utext="${business.pojoSov.html}">
+					</select>
 				</div>
-			</th:block>
+			</div>
 		</div>
 	</form>
 </body>

@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
 <head>
 <meta charset="utf-8" />
 </head>
-<body>
-	<div class="page-head">
-		<div class="page-title">
-			<h1>用户管理</h1>
-		</div>
-	</div>
-	<ul class="page-breadcrumb breadcrumb">
-		<li><a href="javascript:;">主页</a> <i class="fa fa-circle"></i></li>
-		<li><a href="javascript:;">系统管理</a> <i class="fa fa-circle"></i></li>
-		<li><span class="active">用户管理</span></li>
-	</ul>
-	<div id="user-wrapper" class="row">
+<body id="user-wrapper">
+
+	<ex:pageHeader th:id="${functionId}" />
+	
+	<div class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">
 				<div class="portlet-title">

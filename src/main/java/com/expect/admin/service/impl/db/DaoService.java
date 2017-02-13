@@ -42,6 +42,18 @@ public class DaoService {
 	}
 
 	/**
+	 * 根据实体id获取Dao
+	 * 
+	 * @param id
+	 *            实体id
+	 * @return DaoVo
+	 */
+	public DaoVo getDaoByPojoId(String pojoId) {
+		Dao dao = daoRepository.findByPojoId(pojoId);
+		return DaoConvertor.doToVo(dao, Dao.getInherits(), null);
+	}
+
+	/**
 	 * 获取所有的Dao，封装成Daovos
 	 * 
 	 * @return Dao list
@@ -62,21 +74,6 @@ public class DaoService {
 	}
 
 	/**
-	 * 获取所有的Dao，封装成DataTableVos
-	 * 
-	 * @return 属性DataTableVo list
-	 */
-	public List<DataTableRowVo> getDaoDtrvs(String pojoId) {
-		List<Dao> daos = null;
-		if (StringUtils.isBlank(pojoId)) {
-			daos = daoRepository.findAll();
-		} else {
-			daos = daoRepository.findByPojoId(pojoId);
-		}
-		return DaoConvertor.dosToDtrvs(daos);
-	}
-
-	/**
 	 * 保存Dao
 	 * 
 	 * @param daoVo
@@ -88,10 +85,6 @@ public class DaoService {
 	public DataTableRowVo save(DaoVo daoVo) {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
-		if (StringUtils.isBlank(daoVo.getName())) {
-			dtrv.setMessage("Dao名称不能为空");
-			return dtrv;
-		}
 		Dao dao = new Dao();
 		DaoConvertor.voToDo(daoVo, dao);
 		// 如果pojoId存在，就设置Pojo
@@ -123,10 +116,6 @@ public class DaoService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
 		if (StringUtils.isBlank(daoVo.getId())) {
-			return dtrv;
-		}
-		if (StringUtils.isBlank(daoVo.getName())) {
-			dtrv.setMessage("Dao名称不能为空");
 			return dtrv;
 		}
 		Dao check = daoRepository.findOne(daoVo.getId());
@@ -191,6 +180,48 @@ public class DaoService {
 		}
 		rv.setResult(true);
 		rv.setMessage("删除成功");
+		return rv;
+	}
+
+	/**
+	 * 保存或者更新实体
+	 * 
+	 * @param daoVo
+	 *            Daovo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(DaoVo daoVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+		Dao dao = null;
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(daoVo.getId())) {
+			dao = new Dao();
+		} else {
+			// 如果id存在，就更新
+			dao = daoRepository.findOne(daoVo.getId());
+			if (dao == null) {
+				return rv;
+			}
+		}
+		DaoConvertor.voToDo(daoVo, dao);
+		// 如果实体id存在，就设置实体
+		String pojoId = daoVo.getPojoId();
+		if (!StringUtils.isBlank(pojoId)) {
+			Pojo pojo = pojoRepository.findOne(pojoId);
+			dao.setPojo(pojo);
+		}
+
+		if (StringUtils.isBlank(daoVo.getId())) {
+			Dao result = daoRepository.save(dao);
+			if (result == null) {
+				return rv;
+			}
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
 		return rv;
 	}
 

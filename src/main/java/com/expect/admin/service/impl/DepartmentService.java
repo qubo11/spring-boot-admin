@@ -21,6 +21,7 @@ import com.expect.admin.service.vo.UserVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
+import com.expect.admin.service.vo.component.html.datatable.DataTableRowsVo;
 
 /**
  * 部门Service
@@ -34,6 +35,18 @@ public class DepartmentService {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+
+	/**
+	 * 获取所有的部门信息，封装成dtrsv
+	 */
+	public DataTableRowsVo getDepartmentDtrsv() {
+		List<Department> departments = departmentRepository.findAll();
+		List<DepartmentVo> departmentVos = DepartmentConvertor.convert(departments);
+		List<DataTableRowVo> dtrvs = DepartmentConvertor.convertDtrv(departmentVos);
+		DataTableRowsVo dataTableRowsVo = new DataTableRowsVo();
+		dataTableRowsVo.setDtrvs(dtrvs);
+		return dataTableRowsVo;
+	}
 
 	/**
 	 * 获取所有的部门信息

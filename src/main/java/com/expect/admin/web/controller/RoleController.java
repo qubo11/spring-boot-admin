@@ -17,7 +17,7 @@ import com.expect.admin.service.vo.RoleVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.CheckboxsVo;
 import com.expect.admin.service.vo.component.html.JsTreeVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
 
 /**
@@ -36,10 +36,11 @@ public class RoleController {
 	 * 角色-管理页面
 	 */
 	@RequestMapping("/roleManagePage")
-	public ModelAndView userManagePage() {
+	public ModelAndView managePage(String functionId) {
 		List<RoleVo> roles = roleService.getRoles();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("roles", roles);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -48,7 +49,7 @@ public class RoleController {
 	 */
 	@RequestMapping("/getFunctionTree")
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public List<JsTreeVo> getFunctionTree(String roleId) throws AjaxRequestException {
 		return roleService.getFunctionTreeByRoleId(roleId);
 	}
@@ -58,7 +59,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo save(String name) throws AjaxRequestException {
 		return roleService.save(name);
 	}
@@ -68,7 +69,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo update(String id, String name) throws AjaxRequestException {
 		return roleService.update(id, name);
 	}
@@ -78,7 +79,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return roleService.delete(id);
 	}
@@ -88,7 +89,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "/updateRoleFunctions", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo updateRoleFunctions(String roleId, String functionIds) throws AjaxRequestException {
 		return roleService.updateRoleFunctions(roleId, functionIds);
 	}
@@ -98,7 +99,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "/getRoleCheckboxHtml", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public CheckboxsVo getRoleCheckboxHtml(String userId) throws AjaxRequestException {
 		List<RoleVo> roles = roleService.getRoles();
 		List<RoleVo> userRoles = roleService.getRolesByUserId(userId);

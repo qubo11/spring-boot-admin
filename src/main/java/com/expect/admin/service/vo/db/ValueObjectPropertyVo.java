@@ -19,10 +19,9 @@ public class ValueObjectPropertyVo {
 	private String propertyId;// 对应的属性id
 	private String propertyName;// 对应属性名称
 	private String propertyType;// 对应属性类型
-	private String businessId;// 业务id
-	private String businessName;// 业务名称
+	private String valueObjectId;// 业务id
+	private String valueObjectName;// 业务名称
 	private SelectOptionVo propertySov;// 属性sov
-	private SelectOptionVo businessSov;// 业务sov
 	private List<String> types;// 类型list
 	private List<String> dateFormats;// 日期格式化类型
 	/**
@@ -104,28 +103,20 @@ public class ValueObjectPropertyVo {
 		this.propertyType = propertyType;
 	}
 
-	public String getBusinessId() {
-		return businessId;
+	public String getValueObjectId() {
+		return valueObjectId;
 	}
 
-	public void setBusinessId(String businessId) {
-		this.businessId = businessId;
+	public void setValueObjectId(String valueObjectId) {
+		this.valueObjectId = valueObjectId;
 	}
 
-	public String getBusinessName() {
-		return businessName;
+	public String getValueObjectName() {
+		return valueObjectName;
 	}
 
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
-
-	public SelectOptionVo getBusinessSov() {
-		return businessSov;
-	}
-
-	public void setBusinessSov(SelectOptionVo businessSov) {
-		this.businessSov = businessSov;
+	public void setValueObjectName(String valueObjectName) {
+		this.valueObjectName = valueObjectName;
 	}
 
 	public SelectOptionVo getPropertySov() {

@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.data.dao.db.PojoRepository;
 import com.expect.admin.data.dao.db.PropertyRepository;
 import com.expect.admin.data.dataobject.db.Pojo;
-import com.expect.admin.data.dataobject.db.PojoConstants;
 import com.expect.admin.data.dataobject.db.Property;
 import com.expect.admin.service.convertor.db.PropertyConvertor;
 import com.expect.admin.service.vo.component.ResultVo;

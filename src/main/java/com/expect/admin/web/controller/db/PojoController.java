@@ -13,8 +13,9 @@ import com.expect.admin.service.impl.db.PojoService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PojoVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 实体Controller
@@ -31,11 +32,13 @@ public class PojoController {
 	/**
 	 * 实体-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage() {
+	public ModelAndView managePage(String functionId) {
 		List<DataTableRowVo> dtrvs = pojoService.getPojoDtrvs();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("pojos", dtrvs);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -62,11 +65,34 @@ public class PojoController {
 	}
 
 	/**
+	 * 实体-选择实体页面
+	 */
+	@RequestMapping(value = "/selectPojoPage", method = RequestMethod.GET)
+	public ModelAndView selectPojoPage(String projectId) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "selectPojo");
+		List<PojoVo> pojos = pojoService.getPojoByProjectId(projectId);
+		modelAndView.addObject("pojos", pojos);
+		return modelAndView;
+	}
+
+	/**
+	 * 实体-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String projectId, String id) {
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		PojoVo pojo = pojoService.getPojoById(id);
+		modelAndView.addObject("pojo", pojo);
+		modelAndView.addObject("projectId", projectId);
+		return modelAndView;
+	}
+
+	/**
 	 * 实体-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(PojoVo pojoVo) throws AjaxRequestException {
 		return pojoService.save(pojoVo);
 	}
@@ -76,7 +102,7 @@ public class PojoController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(PojoVo pojoVo) throws AjaxRequestException {
 		return pojoService.update(pojoVo);
 	}
@@ -86,7 +112,7 @@ public class PojoController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return pojoService.delete(id);
 	}
@@ -96,9 +122,19 @@ public class PojoController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return pojoService.deleteBatch(ids);
+	}
+
+	/**
+	 * 实体-保存或者更新
+	 */
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	@AjaxRequest
+	public ResultVo saveOrUpdate(PojoVo pojoVo) throws AjaxRequestException {
+		return pojoService.saveOrUpdate(pojoVo);
 	}
 
 	/**
@@ -109,6 +145,6 @@ public class PojoController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(String ids) {
-//		RequestUtil.downloadFile(buffer, fileName, response);
+		// RequestUtil.downloadFile(buffer, fileName, response);
 	}
 }

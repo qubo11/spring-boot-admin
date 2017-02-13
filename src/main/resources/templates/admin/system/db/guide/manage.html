@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:ex="http://thymeleafexamples">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	
+	<ex:pageHeader th:id="${functionId}" />
+	
+	<div id="guide-wrapper" class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-cogs"></i>配置向导
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="mt-element-step">
+						<div class="row step-no-background">
+							<div class="col-lg-2 mt-step-col active">
+								<div class="mt-step-number first bg-white font-grey">1</div>
+								<div class="mt-step-title uppercase font-grey-cascade">项目配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置项目</div>
+							</div>
+							<div class="col-lg-2 mt-step-col">
+								<div class="mt-step-number bg-white font-grey">2</div>
+								<div class="mt-step-title uppercase font-grey-cascade">实体/属性配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置实体和属性</div>
+							</div>
+							<div class="col-lg-2 mt-step-col">
+								<div class="mt-step-number bg-white font-grey">3</div>
+								<div class="mt-step-title uppercase font-grey-cascade">Dao配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置Dao</div>
+							</div>
+							<div class="col-lg-2 mt-step-col">
+								<div class="mt-step-number bg-white font-grey">4</div>
+								<div class="mt-step-title uppercase font-grey-cascade">值对象/属性配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置值对象和属性</div>
+							</div>
+							<div class="col-lg-2 mt-step-col">
+								<div class="mt-step-number bg-white font-grey">5</div>
+								<div class="mt-step-title uppercase font-grey-cascade">业务层配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置业务层</div>
+							</div>
+							<div class="col-lg-2 mt-step-col">
+								<div class="mt-step-number bg-white font-grey">6</div>
+								<div class="mt-step-title uppercase font-grey-cascade">控制层配置</div>
+								<div class="mt-step-content font-grey-cascade">用于配置控制层</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="guide-content"></div>
+					<input type="hidden" th:value="${projectId}" name="projectId" /> <input
+						type="hidden" name="globalPojoId" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/admin/system/db/guide/guide.js}"
+		type="text/javascript"></script>
+</body>
+</html>

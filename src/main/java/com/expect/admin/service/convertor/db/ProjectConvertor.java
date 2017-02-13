@@ -76,18 +76,15 @@ public class ProjectConvertor {
 		dtrv.addData(project.getPackageName());
 		dtrv.addData(project.getName());
 		dtrv.addData(project.getRemark());
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getBlueSharpButton("生成代码",
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getPurpleButton("生成代码",
 				"data-url='admin/db/project/generate?projectId=" + project.getId() + "'"));
-		sb.append(DataTableButtonFactory.getPurpleButton("配置向导",
-				"data-url='admin/db/config/managePage?projectId=" + project.getId() + "'"));
-		sb.append(DataTableButtonFactory.getYellowButton("项目管理",
-				"data-url='admin/db/pojo/managePage?projectId=" + project.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDetailButton("data-id='" + project.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + project.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + project.getId() + "'"));
-		dtrv.addData(sb.toString());
+		buttonSb.append(DataTableButtonFactory.getYellowButton("配置向导",
+				"data-url='admin/db/guide/managePage?projectId=" + project.getId() + "'"));
+		buttonSb.append(DataTableButtonFactory.getYellowButton("方法",
+				"data-url='admin/db/daoMethod/managePage?daoId=" + project.getId() + "'"));
+		buttonSb.append(DataTableButtonFactory.getBaseButton(project.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**

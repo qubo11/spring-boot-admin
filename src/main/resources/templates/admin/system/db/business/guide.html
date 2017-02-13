@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="portlet box blue">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-cogs"></i>业务层配置
+			</div>
+			<div class="actions">
+				<a href="javascript:;"
+					class="btn btn-default btn-sm guide-next-button"> <i
+					class="fa fa-arrow-circle-right"></i> 下一步
+				</a> <a href="javascript:;"
+					class="btn btn-default btn-sm guide-save-button"> <i
+					class="fa fa-edit"></i> 保存
+				</a>
+			</div>
+		</div>
+		<div class="portlet-body">
+			<form id="business-form">
+				<input type="hidden" name="id" th:value="${business.id}" /> <input
+					type="hidden" name="pojoId" th:value="${business.pojoId}" />
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="packageName">包名</label>
+							<div class="input-group col-md-12">
+								<input id="packageName" type="text" class="form-control"
+									name="packageName" placeholder="请输入包名"
+									th:value="${business.packageName}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">名称</label>
+							<div class="input-group col-md-12">
+								<input id="name" type="text" class="form-control" name="name"
+									placeholder="请输入业务类名称" th:value="${business.name}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="paginate">是否分页</label> <select
+								class="form-control paginate-select" name="paginate">
+								<option value="是" th:selected="${business.paginate=='是'}">是</option>
+								<option value="否" th:selected="${business.paginate=='否'}">否</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>注释</label> <input id="comment" type="text"
+								class="form-control" name="comment" placeholder="请输入注释"
+								th:value="${business.comment}" />
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

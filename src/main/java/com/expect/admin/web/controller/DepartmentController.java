@@ -17,8 +17,10 @@ import com.expect.admin.service.vo.DepartmentVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.CheckboxsVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.service.vo.component.html.datatable.DataTableRowsVo;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 部门管理Controller
@@ -35,12 +37,13 @@ public class DepartmentController {
 	/**
 	 * 部门-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/departmentManagePage", method = RequestMethod.GET)
-	public ModelAndView userManagePage() {
-		List<DepartmentVo> departments = departmentService.getDepartments();
-		List<DataTableRowVo> dtrvs = DepartmentConvertor.convertDtrv(departments);
+	public ModelAndView managePage(String functionId) {
+		DataTableRowsVo dtrsv = departmentService.getDepartmentDtrsv();
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
-		modelAndView.addObject("departments", dtrvs);
+		modelAndView.addObject("departments", dtrsv.getJson());
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -60,7 +63,7 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(DepartmentVo departmentVo) throws AjaxRequestException {
 		return departmentService.save(departmentVo);
 	}
@@ -70,7 +73,7 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(DepartmentVo departmentVo) throws AjaxRequestException {
 		return departmentService.update(departmentVo);
 	}
@@ -80,7 +83,7 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return departmentService.delete(id);
 	}
@@ -90,7 +93,7 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return departmentService.deleteBatch(ids);
 	}
@@ -100,7 +103,7 @@ public class DepartmentController {
 	 */
 	@RequestMapping(value = "/getDepartmentCheckboxHtml", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public CheckboxsVo getDepartmentCheckboxHtml(String userId) throws AjaxRequestException {
 		List<DepartmentVo> departments = departmentService.getAllBottomDepartments();
 		List<String> ids = new ArrayList<>();

@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.expect.admin.data.dataobject.db.PojoConstants;
+import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.service.impl.db.DaoMethodService;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.DaoMethodVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 @Controller
 @RequestMapping(value = "/admin/db/daoMethod")
@@ -29,12 +30,14 @@ public class DaoMethodController {
 	/**
 	 * DaoMethod-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
-	public ModelAndView managePage(String daoId) {
+	public ModelAndView managePage(String daoId, String functionId) {
 		List<DataTableRowVo> dtrvs = daoMethodService.getDaoMethodDtrvs(daoId);
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("daoMethods", dtrvs);
 		modelAndView.addObject("daoId", daoId);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -63,11 +66,23 @@ public class DaoMethodController {
 	}
 
 	/**
+	 * DaoMethod-配置向导页面
+	 */
+	@RequestMapping(value = "/guidePage", method = RequestMethod.GET)
+	public ModelAndView guidePage(String daoId) {
+		List<DataTableRowVo> dtrvs = daoMethodService.getDaoMethodDtrvs(daoId);
+		ModelAndView modelAndView = new ModelAndView(viewName + "guide");
+		modelAndView.addObject("daoMethods", dtrvs);
+		modelAndView.addObject("daoId", daoId);
+		return modelAndView;
+	}
+
+	/**
 	 * DaoMethod-保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo save(DaoMethodVo daoMethodVo) throws AjaxRequestException {
 		return daoMethodService.save(daoMethodVo);
 	}
@@ -77,7 +92,7 @@ public class DaoMethodController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public DataTableRowVo update(DaoMethodVo daoMethodVo) throws AjaxRequestException {
 		return daoMethodService.update(daoMethodVo);
 	}
@@ -87,7 +102,7 @@ public class DaoMethodController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo delete(String id) throws AjaxRequestException {
 		return daoMethodService.delete(id);
 	}
@@ -97,7 +112,7 @@ public class DaoMethodController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
+	@AjaxRequest
 	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return daoMethodService.deleteBatch(ids);
 	}

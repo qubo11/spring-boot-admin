@@ -14,8 +14,9 @@ import com.expect.admin.service.impl.FunctionService;
 import com.expect.admin.service.vo.FunctionVo;
 import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
-import com.expect.admin.web.exception.AjaxException;
+import com.expect.admin.web.exception.AjaxRequest;
 import com.expect.admin.web.exception.AjaxRequestException;
+import com.expect.admin.web.interceptor.role.RoleValidate;
 
 /**
  * 功能Controller
@@ -32,12 +33,14 @@ public class FunctionController {
 	/**
 	 * 功能-管理页面
 	 */
+	@RoleValidate
 	@RequestMapping(value = "/functionManagePage", method = RequestMethod.GET)
-	public ModelAndView userManagePage() {
+	public ModelAndView managePage(String functionId) {
 		List<FunctionVo> functions = functionService.getFunctions();
 		List<DataTableRowVo> dtrvs = FunctionConvertor.convertDtrv(functions);
 		ModelAndView modelAndView = new ModelAndView(viewName + "manage");
 		modelAndView.addObject("functions", dtrvs);
+		modelAndView.addObject("functionId", functionId);
 		return modelAndView;
 	}
 
@@ -57,8 +60,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
-	public DataTableRowVo save(FunctionVo functionVo) throws AjaxRequestException{
+	@AjaxRequest
+	public DataTableRowVo save(FunctionVo functionVo) throws AjaxRequestException {
 		return functionService.save(functionVo);
 	}
 
@@ -67,8 +70,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
-	public DataTableRowVo update(FunctionVo functionVo) throws AjaxRequestException{
+	@AjaxRequest
+	public DataTableRowVo update(FunctionVo functionVo) throws AjaxRequestException {
 		return functionService.update(functionVo);
 	}
 
@@ -77,8 +80,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
-	public ResultVo delete(String id) throws AjaxRequestException{
+	@AjaxRequest
+	public ResultVo delete(String id) throws AjaxRequestException {
 		return functionService.delete(id);
 	}
 
@@ -87,8 +90,8 @@ public class FunctionController {
 	 */
 	@RequestMapping(value = "/deleteBatch", method = RequestMethod.POST)
 	@ResponseBody
-	@AjaxException
-	public ResultVo deleteBatch(String ids) throws AjaxRequestException{
+	@AjaxRequest
+	public ResultVo deleteBatch(String ids) throws AjaxRequestException {
 		return functionService.deleteBatch(ids);
 	}
 }

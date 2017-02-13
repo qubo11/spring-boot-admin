@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:ex="http://thymeleafexamples">
 <head>
 <meta charset="utf-8" />
 </head>
 <body>
-	<div class="page-head">
-		<div class="page-title">
-			<h1>Dao管理</h1>
-		</div>
-	</div>
-	<ul class="page-breadcrumb breadcrumb">
-		<li><a href="javascript:;">主页</a> <i class="fa fa-circle"></i></li>
-		<li><a href="javascript:;">代码生成器</a> <i class="fa fa-circle"></i></li>
-		<li><span class="active">Dao管理</span></li>
-	</ul>
+	
+	<ex:pageHeader th:id="${functionId}" />
+	
 	<div id="dao-wrapper" class="row">
 		<div class="col-md-12">
 			<div class="portlet box blue">

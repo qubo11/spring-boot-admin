@@ -45,6 +45,19 @@ public class ControllerService {
 	}
 
 	/**
+	 * 根据实体id获取控制层
+	 * 
+	 * @param id
+	 *            实体 id
+	 * @return ControllerVo 控制层vo
+	 */
+	public ControllerVo getControllerByPojoId(String pojoId) {
+		Controller controller = controllerRepository.findByPojoId(pojoId);
+		List<Pojo> pojos = pojoRepository.findAll();
+		return ControllerConvertor.doToVo(controller, pojos);
+	}
+
+	/**
 	 * 获取所有的控制层，封装成控制层vos
 	 * 
 	 * @return 控制层 list
@@ -65,24 +78,6 @@ public class ControllerService {
 	}
 
 	/**
-	 * 获取所有的控制层，封装成DataTableVos
-	 * 
-	 * @param pojoId
-	 *            实体id
-	 * 
-	 * @return 控制层DataTableVo list
-	 */
-	public List<DataTableRowVo> getControllerDtrvs(String pojoId) {
-		List<Controller> controllers = null;
-		if (StringUtils.isBlank(pojoId)) {
-			controllers = controllerRepository.findAll();
-		} else {
-			controllers = controllerRepository.findByPojoId(pojoId);
-		}
-		return ControllerConvertor.dosToDtrvs(controllers);
-	}
-
-	/**
 	 * 保存控制层
 	 * 
 	 * @param controllerVo
@@ -94,10 +89,6 @@ public class ControllerService {
 	public DataTableRowVo save(ControllerVo controllerVo) {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
-		if (StringUtils.isBlank(controllerVo.getName())) {
-			dtrv.setMessage("Controller名称不能为空");
-			return dtrv;
-		}
 		Controller controller = new Controller();
 		ControllerConvertor.voToDo(controllerVo, controller);
 		// 如果pojoId存在，就设置Pojo
@@ -129,10 +120,6 @@ public class ControllerService {
 		DataTableRowVo dtrv = new DataTableRowVo();
 		dtrv.setMessage("保存失败");
 		if (StringUtils.isBlank(controllerVo.getId())) {
-			return dtrv;
-		}
-		if (StringUtils.isBlank(controllerVo.getName())) {
-			dtrv.setMessage("Controller名称不能为空");
 			return dtrv;
 		}
 		Controller check = controllerRepository.findOne(controllerVo.getId());
@@ -197,6 +184,49 @@ public class ControllerService {
 		}
 		rv.setResult(true);
 		rv.setMessage("删除成功");
+		return rv;
+	}
+
+	/**
+	 * 保存或者更新实体
+	 * 
+	 * @param controllerVo
+	 *            控制层vo
+	 * 
+	 * @return ResultVo
+	 */
+	@Transactional
+	public ResultVo saveOrUpdate(ControllerVo controllerVo) {
+		ResultVo rv = new ResultVo();
+		rv.setMessage("保存失败");
+
+		Controller controller = null;
+		// 如果id不存在，就保存
+		if (StringUtils.isBlank(controllerVo.getId())) {
+			controller = new Controller();
+		} else {
+			// 如果id存在，就更新
+			controller = controllerRepository.findOne(controllerVo.getId());
+			if (controller == null) {
+				return rv;
+			}
+		}
+		ControllerConvertor.voToDo(controllerVo, controller);
+		// 如果实体id存在，就设置实体
+		String pojoId = controllerVo.getPojoId();
+		if (!StringUtils.isBlank(pojoId)) {
+			Pojo pojo = pojoRepository.findOne(pojoId);
+			controller.setPojo(pojo);
+		}
+
+		if (StringUtils.isBlank(controllerVo.getId())) {
+			Controller result = controllerRepository.save(controller);
+			if (result == null) {
+				return rv;
+			}
+		}
+		rv.setMessage("保存成功");
+		rv.setResult(true);
 		return rv;
 	}
 

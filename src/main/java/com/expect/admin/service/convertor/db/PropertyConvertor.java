@@ -7,8 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.data.dataobject.db.Pojo;
-import com.expect.admin.data.dataobject.db.PojoConstants;
 import com.expect.admin.data.dataobject.db.Property;
 import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
@@ -127,18 +127,9 @@ public class PropertyConvertor {
 		dtrv.addData(HtmlUtil.escapeCharacter(property.getType()));
 		dtrv.addData(property.getColumnName());
 		dtrv.addData(property.getComment());
-		Pojo pojo = property.getPojo();
-		if (pojo != null) {
-			dtrv.addData(pojo.getName());
-		} else {
-			dtrv.addData("");
-		}
-		// 设置操作的button
-		StringBuilder sb = new StringBuilder();
-		sb.append(DataTableButtonFactory.getGreenSharpButton("详情", "data-id='" + property.getId() + "'"));
-		sb.append(DataTableButtonFactory.getUpdateButton("data-id='" + property.getId() + "'"));
-		sb.append(DataTableButtonFactory.getDeleteButton("data-id='" + property.getId() + "'"));
-		dtrv.addData(sb.toString());
+		StringBuilder buttonSb = new StringBuilder();
+		buttonSb.append(DataTableButtonFactory.getBaseButton(property.getId()));
+		dtrv.addData(buttonSb.toString());
 	}
 
 	/**
