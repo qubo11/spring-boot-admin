@@ -1,6 +1,10 @@
 package com.expect.admin.service.vo.component.html.datatable;
 
-import com.expect.admin.contants.RoleLocal;
+import java.util.Collections;
+import java.util.List;
+
+import com.expect.admin.data.dataobject.custom.Authority;
+import com.expect.admin.data.dataobject.custom.User;
 import com.expect.admin.service.vo.component.html.ButtonVo;
 
 /**
@@ -19,20 +23,28 @@ public class DataTableButtonFactory {
 	 * @param id
 	 *            对象id
 	 */
-	public static String getBaseButton(String id) {
+	public static String getDefaultButton(String id) {
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(getDetailButton("data-id='" + id + "'"));
-		Boolean[] roles = RoleLocal.get();
-		if (roles == null || roles.length == 0) {
-			return buttonSb.toString();
-		}
-		// 修改
-		if (roles[1]) {
-			buttonSb.append(getUpdateButton("data-id='" + id + "'"));
-		}
-		// 删除
-		if (roles[2]) {
-			buttonSb.append(getDeleteButton("data-id='" + id + "'"));
+		User user = User.getUser();
+		if (user != null) {
+			List<Authority> authorities = user.getUserAuthorities();
+			if (authorities == null || authorities.size() == 0) {
+				return buttonSb.toString();
+			}
+			Collections.sort(authorities);
+			for (Authority authority : authorities) {
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_DETAIL)) {
+					buttonSb.append(getDetailButton(authority.getName(), "data-id='" + id + "'"));
+				}
+				// 修改
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_UPDATE)) {
+					buttonSb.append(getUpdateButton(authority.getName(), "data-id='" + id + "'"));
+				}
+				// 删除
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_DELETE)) {
+					buttonSb.append(getDeleteButton(authority.getName(), "data-id='" + id + "'"));
+				}
+			}
 		}
 		return buttonSb.toString();
 	}
@@ -42,39 +54,43 @@ public class DataTableButtonFactory {
 	 * 
 	 * @param id
 	 *            对象id
-	 * @param isDetailButton
-	 *            是否需要详情按钮
 	 */
-	public static String getBaseButton(String id, boolean isDetailButton) {
+	public static String getDefaultButton(String id, String updateAttr, String deleteAttr, String detailAttr) {
 		StringBuilder buttonSb = new StringBuilder();
-		if (isDetailButton) {
-			buttonSb.append(getDetailButton("data-id='" + id + "'"));
-		}
-		Boolean[] roles = RoleLocal.get();
-		if (roles == null || roles.length == 0) {
-			return buttonSb.toString();
-		}
-		// 修改
-		if (roles[1]) {
-			buttonSb.append(getUpdateButton("data-id='" + id + "'"));
-		}
-		// 删除
-		if (roles[2]) {
-			buttonSb.append(getDeleteButton("data-id='" + id + "'"));
+		User user = User.getUser();
+		if (user != null) {
+			List<Authority> authorities = user.getUserAuthorities();
+			if (authorities == null || authorities.size() == 0) {
+				return buttonSb.toString();
+			}
+			Collections.sort(authorities);
+			for (Authority authority : authorities) {
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_DETAIL)) {
+					buttonSb.append(getDetailButton(authority.getName(), "data-id='" + id + "' " + detailAttr));
+				}
+				// 修改
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_UPDATE)) {
+					buttonSb.append(getUpdateButton(authority.getName(), "data-id='" + id + "' " + updateAttr));
+				}
+				// 删除
+				if (authority.getCode().equalsIgnoreCase(Authority.AUTHORITY_DELETE)) {
+					buttonSb.append(getDeleteButton(authority.getName(), "data-id='" + id + "' " + deleteAttr));
+				}
+			}
 		}
 		return buttonSb.toString();
 	}
 
-	private static String getUpdateButton(String otherAttr) {
-		return setButton(true, "修改", "blue update-button", otherAttr);
+	private static String getUpdateButton(String name, String otherAttr) {
+		return setButton(true, name, "blue update-button", otherAttr);
 	}
 
-	private static String getDeleteButton(String otherAttr) {
-		return setButton(true, "删除", "red delete-button", otherAttr);
+	private static String getDeleteButton(String name, String otherAttr) {
+		return setButton(true, name, "red delete-button", otherAttr);
 	}
 
-	private static String getDetailButton(String otherAttr) {
-		return setButton(true, "详情", "green detail-button", otherAttr);
+	private static String getDetailButton(String name, String otherAttr) {
+		return setButton(true, name, "green detail-button", otherAttr);
 	}
 
 	public static String getYellowButton(String text, String otherAttr) {

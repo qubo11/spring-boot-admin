@@ -116,7 +116,7 @@ public class DaoMethodConvertor {
 		dtrv.addData(daoMethod.getModifying());
 		dtrv.addData(daoMethod.getComment());
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getBaseButton(daoMethod.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(daoMethod.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

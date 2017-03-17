@@ -11,12 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.expect.admin.contants.PojoConstants;
 import com.expect.admin.service.impl.db.DaoMethodService;
-import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.DaoMethodVo;
-import com.expect.admin.web.exception.AjaxRequest;
-import com.expect.admin.web.exception.AjaxRequestException;
-import com.expect.admin.web.interceptor.role.RoleValidate;
+import com.expect.admin.web.interceptor.PageEnter;
+import com.expect.custom.service.vo.component.ResultVo;
+import com.expect.custom.web.exception.AjaxRequest;
+import com.expect.custom.web.exception.AjaxRequestException;
 
 @Controller
 @RequestMapping(value = "/admin/db/daoMethod")
@@ -30,7 +30,7 @@ public class DaoMethodController {
 	/**
 	 * DaoMethod-管理页面
 	 */
-	@RoleValidate
+	@PageEnter
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
 	public ModelAndView managePage(String daoId, String functionId) {
 		List<DataTableRowVo> dtrvs = daoMethodService.getDaoMethodDtrvs(daoId);

@@ -1,24 +1,19 @@
 package com.expect.admin.web.dialect.processor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationContext;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.model.IProcessableElementTag;
 import org.thymeleaf.processor.element.AbstractElementTagProcessor;
 import org.thymeleaf.processor.element.IElementTagStructureHandler;
-import org.thymeleaf.spring4.context.SpringContextUtils;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import com.expect.admin.data.dao.FunctionRepository;
-import com.expect.admin.data.dataobject.Function;
-
+import com.expect.admin.data.dataobject.custom.Function;
+import com.expect.admin.data.dataobject.custom.User;
 
 /**
- * 页面头部标签
- * 
- * 需要设置id属性(id属性为FunctionId)
+ * 页面头部标签：<ex:pageHeader/>
  */
 public class PageHeaderElementTagProcessor extends AbstractElementTagProcessor {
 
@@ -29,12 +24,9 @@ public class PageHeaderElementTagProcessor extends AbstractElementTagProcessor {
 	@Override
 	protected void doProcess(ITemplateContext context, IProcessableElementTag tag,
 			IElementTagStructureHandler structureHandler) {
-		final ApplicationContext appCtx = SpringContextUtils.getApplicationContext(context);
-		final FunctionRepository functionRepository = appCtx.getBean(FunctionRepository.class);
-
-		final String id = tag.getAttributeValue("id");
-		if (!StringUtils.isBlank(id)) {
-			Function function = functionRepository.findOne(id);
+		User user = User.getUser();
+		if (user != null) {
+			Function function = user.getCurrentFunction();
 			if (function != null) {
 				final IModelFactory modelFactory = context.getModelFactory();
 				final IModel model = modelFactory.createModel();

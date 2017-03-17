@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+
+	<div id="function-wrapper">
+		<ex:pageHeader/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="portlet box blue">
+				
+					<ex:portlet-title title="功能列表" icon="fa fa-cogs" />
+					
+					<div class="portlet-body">
+
+						<ex:dt id="function-table" ths="checkbox,功能名称,图标,URL,父功能,次序,描述,操作"
+							th:data="${functions}">
+						</ex:dt>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<ex:modal id="function-modal" width="760" title="功能管理">
+			<ex:body />
+			<ex:footer close="true">
+				<button type="button" class="btn green" id="save">保存</button>
+					<button type="button" class="btn green hidden" id="update">修改</button>
+			</ex:footer>
+		</ex:modal>
+		
+	</div>
+	
+	<script th:src="@{/js/admin/system/custom/function/function.js}"
+		type="text/javascript"></script>
+</body>
+</html>

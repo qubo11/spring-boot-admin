@@ -107,7 +107,7 @@ public class BusinessConvertor {
 			dtrv.addData("");
 		}
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getBaseButton(business.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(business.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

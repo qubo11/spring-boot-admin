@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.expect.admin.service.impl.db.PropertyService;
-import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PropertyVo;
-import com.expect.admin.web.exception.AjaxRequest;
-import com.expect.admin.web.exception.AjaxRequestException;
-import com.expect.admin.web.interceptor.role.RoleValidate;
+import com.expect.admin.web.interceptor.PageEnter;
+import com.expect.custom.service.vo.component.ResultVo;
+import com.expect.custom.web.exception.AjaxRequest;
+import com.expect.custom.web.exception.AjaxRequestException;
 
 /**
  * 属性Controller
@@ -32,7 +32,7 @@ public class PropertyController {
 	/**
 	 * 属性-管理页面
 	 */
-	@RoleValidate
+	@PageEnter
 	@RequestMapping(value = "/managePage", method = RequestMethod.GET)
 	public ModelAndView managePage(String pojoId, String functionId) {
 		List<DataTableRowVo> dtrvs = propertyService.getPropertyDtrvs(pojoId);

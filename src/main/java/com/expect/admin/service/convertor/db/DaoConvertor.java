@@ -128,7 +128,7 @@ public class DaoConvertor {
 		StringBuilder buttonSb = new StringBuilder();
 		buttonSb.append(DataTableButtonFactory.getYellowButton("方法",
 				"data-url='admin/db/daoMethod/managePage?daoId=" + dao.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getBaseButton(dao.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(dao.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

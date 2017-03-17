@@ -114,6 +114,12 @@
 			<version>3.15</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.expect.custom</groupId>
+			<artifactId>spring-boot-custom</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

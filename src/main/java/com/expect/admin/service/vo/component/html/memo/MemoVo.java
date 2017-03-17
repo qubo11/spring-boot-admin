@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.expect.admin.service.vo.component.ResultVo;
+import com.expect.custom.service.vo.component.ResultVo;
 
 /**
  * 备忘录vo

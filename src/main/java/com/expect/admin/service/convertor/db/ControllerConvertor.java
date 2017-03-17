@@ -107,7 +107,7 @@ public class ControllerConvertor {
 			dtrv.addData("");
 		}
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getBaseButton(controller.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(controller.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

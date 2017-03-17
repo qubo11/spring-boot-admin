@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<form id="authority-form">
+		<input type="hidden" name="id" th:value="${authority.id}" />
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="code">权限代码</label>
+					<div class="input-group col-md-12">
+						<input id="code" type="text" class="form-control" name="code"
+							placeholder="请输入权限代码" th:value="${authority.code}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="sequence">顺序</label>
+					<div class="input-group col-md-12">
+						<input id="sequence" type="number" class="form-control"
+							name="sequence" placeholder="请输入顺序"
+							th:value="${authority.sequence}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="description">备注</label>
+					<div class="input-group col-md-12">
+						<input id="description" type="text" class="form-control"
+							name="description" placeholder="请输入备注"
+							th:value="${authority.description}" />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="name">权限名称</label>
+					<div class="input-group col-md-12">
+						<input id="name" type="text" class="form-control" name="name"
+							placeholder="请输入权限名称" th:value="${authority.name}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="icon">图标</label>
+					<div class="input-group col-md-12">
+						<input id="icon" type="text" class="form-control" name="icon"
+							placeholder="请输入图标" th:value="${authority.icon}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

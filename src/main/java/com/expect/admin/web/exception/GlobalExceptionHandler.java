@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.expect.admin.service.vo.component.ResultVo;
+import com.expect.custom.service.vo.component.ResultVo;
+import com.expect.custom.web.exception.AjaxRequestException;
 
 /**
  * 全局错误处理

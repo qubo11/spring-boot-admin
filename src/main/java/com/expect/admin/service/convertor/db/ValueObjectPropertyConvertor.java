@@ -14,7 +14,7 @@ import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ValueObjectPropertyVo;
-import com.expect.admin.utils.RegexUtil;
+import com.expect.custom.utils.RegexUtil;
 
 /**
  * 值对象 转换器
@@ -154,7 +154,7 @@ public class ValueObjectPropertyConvertor {
 			dtrv.addData("");
 		}
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getBaseButton(valueObjectProperty.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(valueObjectProperty.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

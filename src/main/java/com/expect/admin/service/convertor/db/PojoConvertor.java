@@ -98,7 +98,7 @@ public class PojoConvertor {
 				"data-url='admin/db/dao/managePage?pojoId=" + pojo.getId() + "'"));
 		buttonSb.append(DataTableButtonFactory.getYellowButton("属性",
 				"data-url='admin/db/property/managePage?pojoId=" + pojo.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getBaseButton(pojo.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(pojo.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

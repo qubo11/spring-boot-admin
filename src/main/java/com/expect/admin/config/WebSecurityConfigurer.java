@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
-import com.expect.admin.service.impl.UserService;
-import com.expect.admin.service.impl.UserService.LoginSuccessHandler;
+import com.expect.admin.service.impl.custom.UserService;
+import com.expect.admin.service.impl.custom.UserService.LoginSuccessHandler;
 
 /**
  * 权限验证配置
@@ -32,12 +32,22 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		// 配置session
+//		http.sessionManagement().invalidSessionUrl("/admin/sessionTimeout");
+
+		// 头部配置
 		http.headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable();
+		// csrf关闭
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/", "/plugins/**").permitAll().anyRequest().authenticated().and()
-				.formLogin().loginPage("/admin/login").failureUrl("/admin/login?error")
-				.successHandler(loginSuccessHandler()).permitAll().and().logout().invalidateHttpSession(true)
-				.permitAll().and().rememberMe().tokenValiditySeconds(1209600).tokenRepository(tokenRepository());
+		// 登录配置
+		http.formLogin().loginPage("/admin/login").failureUrl("/admin/login?error").successHandler(loginSuccessHandler()).permitAll()
+				.and().logout().logoutUrl("/admin/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+				.permitAll().and().rememberMe();
+//		.tokenValiditySeconds(1209600).tokenRepository(tokenRepository())
+
+		// 请求配置，只有/admin开头的url才需要验证
+		http.authorizeRequests().antMatchers("/admin/**").authenticated();
 	}
 
 	@Bean

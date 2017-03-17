@@ -12,6 +12,11 @@ import org.thymeleaf.processor.element.AbstractElementModelProcessor;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import org.thymeleaf.templatemode.TemplateMode;
 
+/**
+ * modal封装的标题：<ex:modal><ex:body/><ex:footer/></ex:modal>
+ * 
+ * 具体属性详见以下ModalAttribute
+ */
 public class ModalElementModelProcessor extends AbstractElementModelProcessor {
 
 	public ModalElementModelProcessor(String dialectPrefix) {
@@ -28,13 +33,14 @@ public class ModalElementModelProcessor extends AbstractElementModelProcessor {
 			final ITemplateEvent event = model.get(n);
 			// 处理body/footer内容
 			boolean isFlag = false;
-			if (event.toString().trim().contains("<ex:footer/>") || event.toString().trim().contains("<ex:body/>")) {
+			String eventStr = event.toString().replace(" ", "");
+			if (eventStr.contains("<ex:footer/>") || eventStr.contains("<ex:body/>")) {
 				modalAttribute.content.delete(0, modalAttribute.content.length());
 			}
-			if (event.toString().trim().contains("<ex:footer") || event.toString().trim().contains("<ex:body")) {
+			if (eventStr.contains("<ex:footer") || eventStr.contains("<ex:body")) {
 				modalAttribute.isStart = false;
 			}
-			if (event.toString().trim().equals("</ex:footer>") || event.toString().trim().contains("</ex:body>")) {
+			if (eventStr.equals("</ex:footer>") || eventStr.contains("</ex:body>")) {
 				modalAttribute.isStart = true;
 				isFlag = true;
 				modalAttribute.content.delete(0, modalAttribute.content.length());
@@ -155,13 +161,14 @@ public class ModalElementModelProcessor extends AbstractElementModelProcessor {
 	}
 
 	private class ModalAttribute {
-		public String id;
-		public String title;
-		public String width;
-		public String height;
-		public String animation;
-		public String footerCloseButton;
-		public StringBuilder content = new StringBuilder();
-		public boolean isStart;
+		public String id;// modal的id属性
+		public String title;// modal的标题
+		public String width;// 宽度
+		public String height;// 高度
+		public String animation;// 动画，默认fade
+		public String footerCloseButton;// footer中是否需要close按钮
+
+		public StringBuilder content = new StringBuilder();// 非属性
+		public boolean isStart;// 非属性
 	}
 }

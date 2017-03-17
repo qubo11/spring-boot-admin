@@ -18,9 +18,9 @@ import com.expect.admin.data.dataobject.db.Property;
 import com.expect.admin.data.dataobject.db.ValueObject;
 import com.expect.admin.data.dataobject.db.ValueObjectProperty;
 import com.expect.admin.service.convertor.db.ValueObjectPropertyConvertor;
-import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.ValueObjectPropertyVo;
+import com.expect.custom.service.vo.component.ResultVo;
 
 /**
  * 值对象属性Service

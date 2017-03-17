@@ -104,7 +104,7 @@ public class ValueObjectConvertor {
 		StringBuilder buttonSb = new StringBuilder();
 		buttonSb.append(DataTableButtonFactory.getYellowButton("属性",
 				"data-url='admin/db/valueObject/property/managePage?valueObjectId=" + valueObject.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getBaseButton(valueObject.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(valueObject.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

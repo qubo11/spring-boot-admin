@@ -1,6 +1,6 @@
 package com.expect.admin.service.vo.component.html;
 
-import com.expect.admin.service.vo.component.BaseVo;
+import com.expect.custom.service.vo.component.BaseVo;
 
 public class ButtonVo extends BaseVo {
 
@@ -40,7 +40,8 @@ public class ButtonVo extends BaseVo {
 		if (isButton) {
 			return getButton();
 		} else {
-			String button = "<a href='javascript:;' class='btn " + className + "' " + otherAttr + "> " + icon + text + "</a>";
+			String button = "<a href='javascript:;' class='btn " + className + "' " + otherAttr + "> " + icon + text
+					+ "</a>";
 			return button;
 		}
 	}

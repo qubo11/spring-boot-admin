@@ -17,7 +17,10 @@ spring:
   aop:
     proxy-target-class: true
 
-custom: 
-  root-path: C:\\spring-boot-admin
-  avatar-path: C:\\spring-boot-admin\\avatar
-  attachment-path: C:\\spring-boot-admin\\attachment
+custom:
+  projectName: spring-boot-admin
+  root-path: C:\\${projectName}
+  avatar-path: ${rootPath}\\avatar
+  attachment-path: ${rootPath}\\attachment
+  ueditor-path: ${attachmentPath}\\ueditor
+  icon-path: ${attachmentPath}\\icon

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.expect.admin.data.dataobject.User;
+import com.expect.admin.data.dataobject.custom.User;
 
 /**
  * 备忘录

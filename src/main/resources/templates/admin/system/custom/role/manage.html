@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+
+	<div id="role-wrapper">
+		<ex:pageHeader />
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="portlet box blue">
+					<ex:portlet-title title="角色列表" icon="fa fa-cogs" />
+					<div class="portlet-body">
+						<ex:dt id="role-table" ths="checkbox,角色代码,角色名称,角色描述,操作">
+						</ex:dt>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<ex:modal id="role-modal" width="760" title="角色修改">
+			<ex:body />
+			<ex:footer close="true">
+				<button type="button" class="btn green" id="save">保存</button>
+				<button type="button" class="btn green hidden" id="update">修改</button>
+			</ex:footer>
+		</ex:modal>
+	</div>
+
+	<script th:src="@{/js/admin/system/custom/role/role.js}"
+		type="text/javascript"></script>
+</body>
+</html>

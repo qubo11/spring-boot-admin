@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div id="user-wrapper">
+		<ex:pageHeader />
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="portlet box blue">
+				
+					<ex:portlet-title title="用户列表" icon="fa fa-cogs" />
+
+					<div class="portlet-body">
+						<ex:dt id="user-table" ths="checkbox,用户名,密码,姓名,性别,电话,电子邮件,操作"
+							th:data="${users}">
+						</ex:dt>
+					</div>
+				</div>
+			</div>
+
+			<input type="hidden" name="userId" />
+
+			<ex:modal id="user-modal" width="760" title="用户管理">
+				<ex:body />
+				<ex:footer close="true">
+					<button type="button" class="btn green" id="save">保存</button>
+					<button type="button" class="btn green hidden" id="update">修改</button>
+				</ex:footer>
+			</ex:modal>
+
+			<ex:modal id="detail-modal" width="60%" height="80%" title="用户详情">
+				<ex:body />
+			</ex:modal>
+	
+			<ex:modal id="purple-modal" width="760" title="设置角色">
+				<ex:body>
+					<div class="row">
+						<div class="col-md-12">
+							<form id="user-role-form">
+								<div class="form-group form-md-checkboxes">
+									<div class="md-checkbox-inline" id="role-checkbox"></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</ex:body>
+				<ex:footer close="true">
+					<button type="button" class="btn green" id="role-save">保存</button>
+				</ex:footer>
+			</ex:modal>
+
+			<ex:modal id="yellow-modal" width="760" title="设置部门">
+				<ex:body>
+					<div class="row">
+						<div class="col-md-12">
+							<form id="user-department-form">
+								<div class="form-group form-md-checkboxes">
+									<div class="md-checkbox-inline" id="department-checkbox"></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</ex:body>
+				<ex:footer close="true">
+					<button type="button" class="btn green" id="department-save">保存</button>
+				</ex:footer>
+			</ex:modal>
+
+			<ex:modal id="green-sharp-modal" width="760" title="设置头像">
+				<ex:body>
+										
+				</ex:body>
+				<ex:footer close="true">
+				</ex:footer>
+			</ex:modal>
+
+		</div>
+	</div>
+	<script th:src="@{/js/admin/system/custom/user/user.js}"
+		type="text/javascript"></script>
+</body>
+</html>

@@ -14,7 +14,7 @@ import com.expect.admin.service.vo.component.html.SelectOptionVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableButtonFactory;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PropertyVo;
-import com.expect.admin.utils.HtmlUtil;
+import com.expect.custom.utils.HtmlUtil;
 
 /**
  * 属性转换器
@@ -128,7 +128,7 @@ public class PropertyConvertor {
 		dtrv.addData(property.getColumnName());
 		dtrv.addData(property.getComment());
 		StringBuilder buttonSb = new StringBuilder();
-		buttonSb.append(DataTableButtonFactory.getBaseButton(property.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(property.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

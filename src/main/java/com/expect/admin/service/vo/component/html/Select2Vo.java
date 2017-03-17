@@ -1,6 +1,6 @@
 package com.expect.admin.service.vo.component.html;
 
-import com.expect.admin.service.vo.component.BaseVo;
+import com.expect.custom.service.vo.component.BaseVo;
 
 /**
  * 该model为select2的model，[{"id":"","text:""},{}],

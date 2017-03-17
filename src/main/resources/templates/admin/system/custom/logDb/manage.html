@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:ex="http://thymeleafexamples">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+
+	<ex:pageHeader th:id="${functionId}" />
+
+	<div id="logDb-wrapper" class="row">
+		<div class="col-md-12">
+			<div class="portlet box blue">
+				
+				<ex:portlet-title title="日志记录" icon="fa fa-cogs" />
+				
+				<div class="portlet-body">
+					<form id="query-form">
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label>操作人</label>
+								<div class="input-group col-md-12">
+									<input class="form-control username-query" type="text"
+										name="username" />
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>操作类型</label> <select class="form-control"
+									name="operationType">
+									<option value="Insert">Insert</option>
+									<option value="Update">Update</option>
+									<option value="Delete">Delete</option>
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<label>描述</label>
+								<div class="input-group col-md-12">
+									<input class="form-control description-query" type="text"
+										name="description" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label>执行时间</label>
+								<div class="input-group col-md-12">
+									<input class="form-control executeTime1-query" type="text"
+										name="executeTime1" />
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>执行时间</label>
+								<div class="input-group col-md-12">
+									<input class="form-control executeTime2-query" type="text"
+										name="executeTime2" />
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>方法名</label>
+								<div class="input-group col-md-12">
+									<input class="form-control methodName-query" type="text"
+										name="methodName" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label>操作开始时间</label>
+								<div class="input-group col-md-12">
+									<input class="form-control dateTime1-query" type="text"
+										name="dateTime1" /> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-th"></i></span>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>操作结束时间</label>
+								<div class="input-group col-md-12">
+									<input class="form-control dateTime2-query" type="text"
+										name="dateTime2" /> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-th"></i></span>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>返回结果</label>
+								<div class="input-group col-md-12">
+									<input class="form-control result-query" type="text"
+										name="result" />
+								</div>
+							</div>
+						</div>
+					</form>
+					
+					<ex:dt id="logDb-table"
+						ths="方法名,时间,操作人,操作类型,方法描述,执行时间,操作">
+					</ex:dt>
+					
+				</div>
+			</div>
+		</div>
+		
+		<ex:modal id="detail-modal" width="50%" title="日志记录详情" height="80%">
+			<ex:body />
+		</ex:modal>
+		
+	</div>
+
+	<script th:src="@{/js/admin/system/custom/logDb/logDb.js}"
+		type="text/javascript"></script>
+</body>
+</html>

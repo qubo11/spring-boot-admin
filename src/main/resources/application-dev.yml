@@ -1,6 +1,8 @@
 server:
   port: 80
   context-path: /spring-boot-admin
+  session:
+    timeout: 1800
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -16,9 +18,14 @@ spring:
       indent-output: true
   aop:
     proxy-target-class: true
-    
+  http:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100MB
 custom:
   projectName: spring-boot-admin
-  root-path: C:\\spring-boot-admin
-  avatar-path: C:\\spring-boot-admin\\avatar
-  attachment-path: C:\\spring-boot-admin\\attachment
+  root-path: C:\\${custom.projectName}
+  avatar-path: ${custom.root-path}\\avatar
+  attachment-path: ${custom.root-path}\\attachment
+  ueditor-path: ${custom.attachment-path}\\ueditor
+  icon-path: ${custom.attachment-path}\\icon

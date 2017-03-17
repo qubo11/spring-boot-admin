@@ -14,9 +14,9 @@ import com.expect.admin.data.dao.db.PropertyRepository;
 import com.expect.admin.data.dataobject.db.Pojo;
 import com.expect.admin.data.dataobject.db.Property;
 import com.expect.admin.service.convertor.db.PropertyConvertor;
-import com.expect.admin.service.vo.component.ResultVo;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
 import com.expect.admin.service.vo.db.PropertyVo;
+import com.expect.custom.service.vo.component.ResultVo;
 
 @Service
 public class PropertyService {

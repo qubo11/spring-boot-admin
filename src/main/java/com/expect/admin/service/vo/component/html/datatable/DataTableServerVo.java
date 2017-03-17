@@ -3,7 +3,7 @@ package com.expect.admin.service.vo.component.html.datatable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expect.admin.service.vo.component.BaseVo;
+import com.expect.custom.service.vo.component.BaseVo;
 
 public class DataTableServerVo<T> extends BaseVo {
 

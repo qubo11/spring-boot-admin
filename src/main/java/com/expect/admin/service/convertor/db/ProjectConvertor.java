@@ -83,7 +83,7 @@ public class ProjectConvertor {
 				"data-url='admin/db/guide/managePage?projectId=" + project.getId() + "'"));
 		buttonSb.append(DataTableButtonFactory.getYellowButton("方法",
 				"data-url='admin/db/daoMethod/managePage?daoId=" + project.getId() + "'"));
-		buttonSb.append(DataTableButtonFactory.getBaseButton(project.getId()));
+		buttonSb.append(DataTableButtonFactory.getDefaultButton(project.getId()));
 		dtrv.addData(buttonSb.toString());
 	}
 

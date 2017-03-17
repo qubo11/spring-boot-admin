@@ -3,7 +3,7 @@ package com.expect.admin.service.vo.component.html;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expect.admin.service.vo.component.BaseVo;
+import com.expect.custom.service.vo.component.BaseVo;
 
 public class SelectOptionVo extends BaseVo{
 

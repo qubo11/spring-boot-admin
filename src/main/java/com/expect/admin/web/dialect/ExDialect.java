@@ -11,6 +11,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import com.expect.admin.web.dialect.processor.DataTableElementModelProcessor;
 import com.expect.admin.web.dialect.processor.ModalElementModelProcessor;
 import com.expect.admin.web.dialect.processor.PageHeaderElementTagProcessor;
+import com.expect.admin.web.dialect.processor.PortletTitleElementTagProcessor;
 
 /**
  * 定义所有的标签处理器
@@ -29,7 +30,8 @@ public class ExDialect extends AbstractProcessorDialect {
 		processors.add(new PageHeaderElementTagProcessor(dialectPrefix));
 		processors.add(new DataTableElementModelProcessor(dialectPrefix));
 		processors.add(new ModalElementModelProcessor(dialectPrefix));
-		
+		processors.add(new PortletTitleElementTagProcessor(dialectPrefix));
+
 		processors.add(new StandardXmlNsTagProcessor(TemplateMode.HTML, dialectPrefix));
 		return processors;
 	}

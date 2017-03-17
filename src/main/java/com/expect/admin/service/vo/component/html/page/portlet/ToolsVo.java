@@ -1,5 +1,7 @@
 package com.expect.admin.service.vo.component.html.page.portlet;
 
+import com.expect.custom.utils.DocumentGenernate;
+
 /**
  * portlet头部工具栏
  * 
@@ -25,8 +27,24 @@ public class ToolsVo {
 		htmlSb.append(removeHtml);
 	}
 
+	public void set(boolean isCollpase, boolean isFullscreen, boolean isRemove) {
+		if (isCollpase) {
+			setCollapse();
+		}
+		if (isFullscreen) {
+			setFullscreen();
+		}
+		if (isRemove) {
+			setRemove();
+		}
+	}
+
 	public String getHtml() {
-		return htmlSb.toString();
+		DocumentGenernate dg = new DocumentGenernate();
+		dg.createOpenElementTag("div", "class", "tools");
+		dg.createText(htmlSb.toString());
+		dg.createCloseElementTag("div");
+		return dg.getHtml();
 	}
 
 	public String getHtml(boolean isCollpase, boolean isFullscreen, boolean isRemove) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<form id="icon-form">
+		<input type="hidden" name="id" th:value="${icon.id}" />
+		<input type="hidden" name="attachmentId" th:value="${icon.attachmentId}" />
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="name">图标名称</label>
+					<div class="input-group col-md-12">
+						<input id="name" type="text" class="form-control" name="name"
+							placeholder="请输入图标名称" th:value="${icon.name}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="description">备注</label>
+					<div class="input-group col-md-12">
+						<input id="description" type="text" class="form-control"
+							name="description" placeholder="请输入备注"
+							th:value="${icon.description}" />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="icon-select">图标类型</label> <select class="form-control"
+						name="type" id="icon-select">
+						<option value="1" th:selected="${icon.type == 1}">字体图标</option>
+						<option value="2" th:selected="${icon.type == 2}">上传图标</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="iconClass">图标Class</label>
+					<div class="input-group col-md-12">
+						<input id="iconClass" type="text" class="form-control"
+							name="iconClass" placeholder="请输入图标类"
+							th:value="${icon.iconClass}" />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="files-template-wrapper" data-path="${path}"></div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

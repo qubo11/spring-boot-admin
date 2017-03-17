@@ -1,6 +1,6 @@
 package com.expect.admin.service.vo.component.html.memo;
 
-import com.expect.admin.service.vo.component.ResultVo;
+import com.expect.custom.service.vo.component.ResultVo;
 
 /**
  * 备忘录Item vo

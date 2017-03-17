@@ -308,10 +308,14 @@ var DatatableTool = function() {
 
 	var modalShow = function(modalId, formId) {
 		$(modalId).modal('show');
-		modalClose(modalId, formId);
+		modalHideListener(modalId, formId);
+	}
+	
+	var modalHide = function(modalId, formId) {
+		$(modalId).modal('hide');
 	}
 
-	var modalClose = function(modalId, formId) {
+	var modalHideListener = function(modalId, formId) {
 		$(modalId).on('hide.bs.modal', function(e) {
 			resetForm(formId);
 			formStatus(formId, false);
@@ -350,7 +354,7 @@ var DatatableTool = function() {
 		resetCheckbox(formId);
 		
 		//如果是file上传，需要清空已经上传信息
-		$(formId).FileUpload().destory();
+		$(formId).FileUploadDestory();
 	}
 
 	function resetRadio(formId) {
@@ -362,10 +366,10 @@ var DatatableTool = function() {
 	}
 	
 	//初始化modal:增加,修改,删除,批量删除modal
-	var initModal = function(id,saveFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction){
-		initSaveModal(id,saveFunction);
+	var initModal = function(id,insertFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction){
+		initInsertModal(id,insertFunction);
 		initUpdateModal(id,updateFunction);
-		initDeleteModal(id,deleteFunction);
+		initDeleteModal(id,deleteFunction,deleteBatchFunction);
 		initDetailModal(id,detailFunction);
 	}
 	
@@ -385,11 +389,11 @@ var DatatableTool = function() {
 		initPurpleSharpModal(id,purpleSharpFunction);
 	}
 	
-	var initSaveModal = function(id,saveFunction){
-		$("#"+id+" .save-button").unbind("click");
-		$("#"+id+" .save-button").bind("click",function() {
-			if(saveFunction){
-				saveFunction();
+	var initInsertModal = function(id,insertFunction){
+		$("#"+id+" .insert-button").unbind("click");
+		$("#"+id+" .insert-button").bind("click",function() {
+			if(insertFunction){
+				insertFunction();
 			}
 		});
 	}
@@ -404,7 +408,7 @@ var DatatableTool = function() {
 		});
 	}
 	
-	var initDeleteModal = function(id,deleteFunction){
+	var deleteModal = function(id,deleteFunction){
 		$("#"+id+" .delete-button").unbind("click");
 		$("#"+id+" .delete-button").bind("click",function(){
 			if(deleteFunction){
@@ -414,9 +418,9 @@ var DatatableTool = function() {
 		});
 	}
 	
-	var initDeleteBatchModal = function(id,deleteBatchFunction){
-		$("#"+id+" .batch-delete-button").unbind("click");
-		$("#"+id+" .batch-delete-button").bind("click",function(){
+	var deleteBatchModal = function(id,deleteBatchFunction){
+		$("#"+id+" .batchDelete-button").unbind("click");
+		$("#"+id+" .batchDelete-button").bind("click",function(){
 			var ids="";
 			$(".checkboxes:checked").each(function(index){
 				var id=$(this).parent().parent().parent().attr("id");
@@ -551,26 +555,17 @@ var DatatableTool = function() {
 		clear : function(tableId){
 			clear(tableId);
 		},
-		initModal : function(id,saveFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction){
-			initModal(id,saveFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction);
-		},
-		initDeleteModal : function(id,deleteFunction,deleteBatchFunction){
-			initDeleteModal(id,deleteFunction,deleteBatchFunction);
+		initModal : function(id,insertFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction){
+			initModal(id,insertFunction,updateFunction,deleteFunction,deleteBatchFunction,detailFunction);
 		},
 		initAddModal : function(id,yellowFunction,purpleFunction,greenSharpFunction,blueSharpFunction,greenJungleFunction,purpleSharpFunction){
-			initAddModal(id,yellowFunction,purpleFunction,greenSharpFunction,blueSharpFunction,greenJungleFunction,purpleSharpFunction);
-		},
-		initCustomModal : function(buttonId,buttonFunction){
-			initCustomModal(buttonId,buttonFunction);
-		},
-		initSaveModal : function(id,saveFunction){
-			initSaveModal(id,saveFunction);
-		},
-		initUpdateModal : function(id,updateFunction){
-			initUpdateModal(id,updateFunction);
+			initAddModal(id,yellowFunction,purpleFunction,greenSharpFunction,blueSharpFunction,greenJungleFunction,purpleSharpFunction)
 		},
 		initDetailModal : function(id,detailFunction){
 			initDetailModal(id,detailFunction);
+		},
+		initDeleteModal : function(id,deleteFunction,deleteBatchFunction){
+			initDeleteModal(id,deleteFunction,deleteBatchFunction);
 		},
 		bindSaveAndUpdate : function(id,saveFunction,updateFunction){
 			bindSave(id,saveFunction);
@@ -582,8 +577,8 @@ var DatatableTool = function() {
 		updateRow : function(url, data, tableId, successFunction,completeFunction) {
 			updateRow(url, data, tableId, successFunction,completeFunction);
 		},
-		modalClose : function(modalId, formId) {
-			modalClose(modalId, formId);
+		modalHide : function(modalId, formId) {
+			modalHide(modalId, formId);
 		},
 		modalShow : function(modalId, formId) {
 			modalShow(modalId, formId);

@@ -13,10 +13,16 @@ import org.thymeleaf.processor.element.AbstractElementModelProcessor;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import com.expect.admin.contants.DataTableLocal;
 import com.expect.admin.service.vo.component.html.datatable.DataTableRowVo;
-import com.expect.admin.utils.Base64Util;
-import com.expect.admin.utils.JacksonJsonUtil;
 
+/**
+ * DataTable标签：<ex:dt/>
+ * 
+ * id：dt的id标签
+ * 
+ * ths：表头数据(使用,分隔)，第一栏如果是cb或者checkbox代表引入多选框，以供批量删除
+ */
 public class DataTableElementModelProcessor extends AbstractElementModelProcessor {
 
 	public DataTableElementModelProcessor(String dialectPrefix) {
@@ -37,10 +43,8 @@ public class DataTableElementModelProcessor extends AbstractElementModelProcesso
 				if ("ex:dt".equals(tagName)) {
 					String id = tag.getAttributeValue("id");
 					String ths = tag.getAttributeValue("ths");
-					String data = tag.getAttributeValue("data");
 					dtAttribute.id = id;
 					dtAttribute.ths = ths;
-					dtAttribute.data = data;
 					dtModel = createDtModel(modelFactory, dtModel, dtAttribute);
 				}
 			}
@@ -56,14 +60,11 @@ public class DataTableElementModelProcessor extends AbstractElementModelProcesso
 		if (dtAttribute.id != null) {
 			dtAttrs.put("id", dtAttribute.id);
 		}
-		if (dtAttribute.ths != null) {
-
-		}
 		dtModel.add(modelFactory.createOpenElementTag("table", dtAttrs, null, false));
 		// 创建表头
 		createDtThead(modelFactory, dtModel, dtAttribute);
 		// 创建表体
-		createDtTbody(modelFactory, dtModel, dtAttribute);
+		createDtTbody(modelFactory, dtModel);
 		dtModel.add(modelFactory.createCloseElementTag("table"));
 		return dtModel;
 	}
@@ -104,25 +105,20 @@ public class DataTableElementModelProcessor extends AbstractElementModelProcesso
 	}
 
 	// 创建表体
-	@SuppressWarnings("unchecked")
-	private void createDtTbody(IModelFactory modelFactory, IModel dtModel, DtAttribute dtAttribute) {
+	private void createDtTbody(IModelFactory modelFactory, IModel dtModel) {
 		dtModel.add(modelFactory.createOpenElementTag("tbody", "class", "mt-td-checkbox"));
-		String data = dtAttribute.data;
-		if (data != null) {
-			data = Base64Util.decode(data);
-			List<DataTableRowVo> dtrvs = JacksonJsonUtil.getInstance().readList(data, DataTableRowVo.class);
+		List<DataTableRowVo> dtrvs = DataTableLocal.get();
+		if (dtrvs != null) {
 			for (DataTableRowVo dtrv : dtrvs) {
 				String id = "";
 				if (dtrv.getObj() != null) {
 					id = dtrv.getObj() + "";
 				}
-				System.out.println("id:" + id);
 				dtModel.add(modelFactory.createOpenElementTag("tr", "id", id));
 				List<String> tdData = dtrv.getData();
 				for (String td : tdData) {
-					System.out.println("td:" + td);
 					dtModel.add(modelFactory.createOpenElementTag("td"));
-					if(td!=null){
+					if (td != null) {
 						dtModel.add(modelFactory.createText(td));
 					}
 					dtModel.add(modelFactory.createCloseElementTag("td"));
@@ -130,13 +126,12 @@ public class DataTableElementModelProcessor extends AbstractElementModelProcesso
 				dtModel.add(modelFactory.createCloseElementTag("tr"));
 			}
 		}
+		DataTableLocal.remove();
 		dtModel.add(modelFactory.createCloseElementTag("tbody"));
-		System.out.println(dtModel);
 	}
 
 	private class DtAttribute {
 		public String id;
 		public String ths;// 表头(,号隔开)
-		public String data;// 表格的具体数据
 	}
 }

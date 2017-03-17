@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.expect.admin.data.dao.MemoRepository;
-import com.expect.admin.data.dao.UserRepository;
-import com.expect.admin.data.dataobject.User;
+import com.expect.admin.data.dao.custom.UserRepository;
+import com.expect.admin.data.dataobject.custom.User;
 import com.expect.admin.data.dataobject.memo.Memo;
 import com.expect.admin.service.vo.component.html.memo.MemoItemVo;
 import com.expect.admin.service.vo.component.html.memo.MemoVo;

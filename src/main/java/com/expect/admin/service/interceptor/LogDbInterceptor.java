@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.expect.admin.data.dao.LogDbParamRepository;
-import com.expect.admin.data.dao.LogDbRepository;
-import com.expect.admin.data.dataobject.User;
+import com.expect.admin.data.dao.custom.LogDbParamRepository;
+import com.expect.admin.data.dao.custom.LogDbRepository;
+import com.expect.admin.data.dataobject.custom.User;
 import com.expect.admin.data.dataobject.log.LogDb;
 import com.expect.admin.data.dataobject.log.LogDbParam;
 import com.expect.admin.service.utils.log.LogDescriptor;
